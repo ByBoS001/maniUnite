@@ -72,3 +72,6 @@ La implementación mostrada usa la nueva API tree-shakable de AngularFire. Si ne
 Wiki pages you might want to explore:
 - [Core Architecture (angular/angularfire)](/wiki/angular/angularfire#2)
 - [Cloud Functions (angular/angularfire)](/wiki/angular/angularfire#7.2)    
+
+
+

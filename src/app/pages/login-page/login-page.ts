@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthStore } from '../../core/services/auth-store';
 
 @Component({
   selector: 'app-login-page',
@@ -11,14 +12,22 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./login-page.scss'],
 })
 export class LoginPage {
+  private authStore = inject(AuthStore);
+  private router = inject(Router);
+
   email = '';
   password = '';
   remember = false;
   showPassword = false;
 
-  login() {
-    console.log('Iniciar sesión con:', this.email, this.password);
-    
+  async login() {
+    try {
+      await this.authStore.login(this.email, this.password);
+      this.router.navigate(['/']); // Redirect to home page after successful login
+    } catch (error) {
+      console.error('Error logging in:', error);
+      // Handle error (e.g., show an error message to the user)
+    }
   }
 
   togglePasswordVisibility(): void {

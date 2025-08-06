@@ -10,12 +10,14 @@ import {
 } from '@angular/common/http';
 
 import { routes } from './app.routes';
+import { firebaseProviders } from './core/firebase/firebase.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptorsFromDi()), 
+    provideHttpClient(withInterceptorsFromDi()),
+    firebaseProviders,
   ],
 };
