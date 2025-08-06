@@ -1,0 +1,30 @@
+<section class="py-16 px-4 bg-background text-center">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-2xl sm:text-3xl font-semibold text-text mb-8">
+      Lo que estás logrando con tu participación
+    </h2>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        *ngFor="let story of stories"
+        class="bg-white rounded-xl shadow p-6 text-left"
+      >
+        <span class="text-xl text-primary">❝</span>
+        <p class="text-text mb-4">{{ story.quote }}</p>
+
+        <div class="bg-muted p-3 rounded-lg text-sm mb-4">
+          <span class="text-accent font-medium">Impacto:</span>
+          {{ story.impact }}
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="text-xl">{{ story.emoji }}</span>
+          <div>
+            <p class="font-semibold text-sm text-text">{{ story.name }}</p>
+            <p class="text-xs text-textSecondary">{{ story.role }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,26 @@
+[
+  {
+    "label": "Informe Mensual",
+    "labelColor": "#facc15",
+    "date": "5 Feb 2025",
+    "title": "Informe mensual: $45,000 destinados a equipos médicos",
+    "description": "Conoce cómo se utilizaron los fondos recaudados en enero para adquirir equipos médicos especializados.",
+    "image": "/assets/img/informe.jpg"
+  },
+  {
+    "label": "Historia de Éxito",
+    "labelColor": "#f59e0b",
+    "date": "28 Ene 2025",
+    "title": "Historia de éxito: 50 niños reciben becas escolares",
+    "description": "Gracias a la participación en nuestros bingos, 50 niños de comunidades rurales ahora tienen acceso a educación.",
+    "image": "/assets/img/historia.jpg"
+  },
+  {
+    "label": "Auditoría",
+    "labelColor": "#f97316",
+    "date": "20 Ene 2025",
+    "title": "Auditoría independiente certifica transparencia total",
+    "description": "Una firma auditora externa valida que el 100% de los fondos llegan a las causas benéficas.",
+    "image": "/assets/img/auditoria.jpg"
+  }
+]

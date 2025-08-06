@@ -1,0 +1,33 @@
+<section class="py-16 px-4 text-center bg-white">
+  <h2 class="text-2xl sm:text-3xl font-semibold mb-2">
+    ¿Te avisamos del próximo bingo?
+  </h2>
+  <p class="text-textSecondary mb-6">
+    Sé el primero en enterarte de nuevos eventos y oportunidades para ayudar
+  </p>
+
+  <form
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto"
+  >
+    <input
+      type="email"
+      [(ngModel)]="email"
+      name="email"
+      required
+      placeholder="tu@email.com"
+      class="border border-gray-300 rounded px-4 py-2 w-full sm:w-auto"
+    />
+    <button
+      type="submit"
+      class="bg-teal-500 hover:bg-teal-600 text-white font-medium px-6 py-2 rounded"
+    >
+      Notificarme
+    </button>
+  </form>
+
+  <p class="text-sm text-gray-500 mt-4">
+    No spam. Solo notificaciones de bingos benéficos y actualizaciones
+    importantes.
+  </p>
+</section>

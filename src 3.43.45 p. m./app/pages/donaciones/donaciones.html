@@ -1,0 +1,676 @@
+<div
+  class="relative bg-text text-white min-h-screen flex items-center justify-center px-6 py-16"
+>
+  <div
+    class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+  >
+    <!-- Columna izquierda: texto + botón -->
+    <div class="space-y-6">
+      <!-- Iconos superiores -->
+      <div class="flex items-center gap-4">
+        <div
+          class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center text-pink-400"
+        >
+          ❤️
+        </div>
+        <div
+          class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center text-blue-400"
+        >
+          👥
+        </div>
+        <div
+          class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center text-green-400"
+        >
+          🔗
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h1 class="text-4xl font-bold leading-tight">
+          Dona.<br />
+          Regala.<br />
+          <span class="text-emerald-400">Transforma vidas.</span>
+        </h1>
+        <p class="text-gray-300 text-base max-w-md">
+          Ayuda con dinero o premios para que nuestros bingos sigan impactando
+          vidas reales.
+        </p>
+      </div>
+
+      <!-- Botón + input -->
+      <div class="flex flex-col sm:flex-row gap-4">
+        <button
+          class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2"
+        >
+          💚 Quiero donar
+        </button>
+        <input
+          type="text"
+          placeholder="Tu monto"
+          class="bg-white text-black px-4 py-3 rounded-lg text-sm w-full sm:w-40"
+        />
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-4 text-center mt-6">
+        <div class="bg-white/5 rounded-lg py-4">
+          <div class="text-xl font-bold">$24,586</div>
+          <div class="text-xs text-gray-400">Recaudado este mes</div>
+        </div>
+        <div class="bg-white/5 rounded-lg py-4">
+          <div class="text-xl font-bold">1,249</div>
+          <div class="text-xs text-gray-400">Donantes activos</div>
+        </div>
+        <div class="bg-white/5 rounded-lg py-4">
+          <div class="text-xl font-bold">15</div>
+          <div class="text-xs text-gray-400">Causas apoyadas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna derecha: tarjetas informativas -->
+    <div class="bg-white/5 rounded-2xl p-6 lg:p-8 space-y-6">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-blue-700/60 rounded-xl p-4 text-center">
+          <div class="text-2xl mb-1">👥</div>
+          <div class="text-sm text-white font-semibold">Comunidad</div>
+          <div class="text-xs text-gray-200">1,249 miembros</div>
+        </div>
+        <div class="bg-rose-600/60 rounded-xl p-4 text-center">
+          <div class="text-2xl mb-1">❤️</div>
+          <div class="text-sm text-white font-semibold">Impacto</div>
+          <div class="text-xs text-gray-200">Miles de vidas</div>
+        </div>
+        <div class="col-span-2 bg-emerald-700/60 rounded-xl p-6 text-center">
+          <div class="text-3xl mb-2">🤲</div>
+          <div class="text-sm text-white font-semibold">
+            Generosidad en acción
+          </div>
+          <div class="text-xs text-gray-200">Cada donación cuenta</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="absolute bottom-0 left-0 right-0 leading-[0]">
+    <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M0,120L60,110C120,100,240,80,360,75C480,70,600,80,720,85C840,90,960,90,1080,80C1200,70,1320,50,1380,40L1440,30V120H1380C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120H0Z"
+        fill="#F7F9FC"
+      />
+    </svg>
+  </div>
+</div>
+<!-- Nueva sección: Cómo donar -->
+<section class="bg-gray-50 text-gray-900 py-16 px-4 sm:px-8">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl sm:text-3xl font-semibold text-center mb-2">
+      ¿Cómo donar?
+    </h2>
+    <p class="text-center text-gray-500 mb-6">
+      Tenemos dos formas de contribuir a nuestras causas benéficas. Elige la que
+      mejor se adapte a tu forma de ayudar.
+    </p>
+
+    <!-- Toggle de opciones -->
+    <div class="flex justify-center gap-2 mb-10">
+      <button
+        (click)="setTipo('dinero')"
+        [class.bg-white]="tipo() === 'dinero'"
+        [class.bg-gray-100]="tipo() !== 'dinero'"
+        class="flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium"
+      >
+        💵 Donar dinero
+      </button>
+      <button
+        (click)="setTipo('premios')"
+        [class.bg-white]="tipo() === 'premios'"
+        [class.bg-gray-100]="tipo() !== 'premios'"
+        class="flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium"
+      >
+        🎁 Donar premios
+      </button>
+    </div>
+
+    <!-- Sección DONAR DINERO -->
+    <div
+      *ngIf="tipo() === 'dinero'"
+      class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start"
+    >
+      <!-- Paso a paso -->
+      <div class="space-y-6">
+        <h3 class="text-xl font-bold">Proceso paso a paso</h3>
+
+        <div class="flex items-start gap-4">
+          <div
+            class="bg-blue-600 text-white rounded-full w-9 h-9 flex items-center justify-center"
+          >
+            👤
+          </div>
+          <div>
+            <p class="font-semibold">Regístrate</p>
+            <p class="text-sm text-gray-600">
+              Crea tu cuenta o inicia sesión para continuar
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4">
+          <div
+            class="bg-blue-600 text-white rounded-full w-9 h-9 flex items-center justify-center"
+          >
+            🎯
+          </div>
+          <div>
+            <p class="font-semibold">Elige una causa</p>
+            <p class="text-sm text-gray-600">
+              Selecciona el bingo o causa que quieres apoyar
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4">
+          <div
+            class="bg-blue-600 text-white rounded-full w-9 h-9 flex items-center justify-center"
+          >
+            ✍️
+          </div>
+          <div>
+            <p class="font-semibold">Escribe el monto</p>
+            <p class="text-sm text-gray-600">
+              Decide cuánto quieres donar, cualquier cantidad ayuda
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4">
+          <div
+            class="bg-blue-600 text-white rounded-full w-9 h-9 flex items-center justify-center"
+          >
+            💳
+          </div>
+          <div>
+            <p class="font-semibold">Paga seguro</p>
+            <p class="text-sm text-gray-600">
+              Usa tarjeta de crédito o transferencia bancaria
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta de inicio de sesión -->
+      <div class="bg-white rounded-xl shadow p-8 text-center">
+        <div class="flex justify-center mb-4">
+          <div
+            class="bg-teal-500 text-white rounded-full w-14 h-14 flex items-center justify-center text-2xl"
+          >
+            👥
+          </div>
+        </div>
+        <h4 class="text-lg font-semibold mb-2">Inicia sesión para donar</h4>
+        <p class="text-sm text-gray-600 mb-6">
+          Necesitas una cuenta para procesar tu donación de forma segura
+        </p>
+        <button
+          class="bg-emerald-500 text-white w-full py-2 rounded-lg text-sm font-medium"
+        >
+          Crear cuenta gratis
+        </button>
+        <button class="w-full mt-2 py-2 rounded-lg text-sm border">
+          Ya tengo cuenta
+        </button>
+      </div>
+    </div>
+
+    <!-- Sección DONAR PREMIOS -->
+    <div
+      *ngIf="tipo() === 'premios'"
+      class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start"
+    >
+      <!-- Descripción -->
+      <div class="space-y-6">
+        <h3 class="text-xl font-bold">Dona premios para nuestros bingos</h3>
+        <p class="text-sm text-gray-600">
+          ¿Tienes productos, servicios o experiencias que te gustaría donar?
+          Ayúdanos a hacer nuestros bingos más emocionantes.
+        </p>
+
+        <ul class="space-y-4 text-sm text-gray-700">
+          <li>
+            ✅ <strong>Productos nuevos o usados en buen estado</strong><br />
+            Electrónicos, ropa, accesorios, artículos para el hogar
+          </li>
+          <li>
+            ✅ <strong>Servicios profesionales</strong><br />
+            Consultas, sesiones de spa, clases, asesorías
+          </li>
+          <li>
+            ✅ <strong>Experiencias únicas</strong><br />
+            Cenas, viajes, eventos especiales, cursos
+          </li>
+        </ul>
+      </div>
+
+      <!-- Formulario de donación de premios -->
+      <div class="bg-white rounded-xl shadow p-8">
+        <h4 class="text-lg font-semibold mb-4">Describe tu donación</h4>
+        <div class="space-y-4">
+          <input
+            type="text"
+            placeholder="Tipo de premio (Ej: Smartphone, Cena para dos...)"
+            class="w-full border rounded-lg px-4 py-2 text-sm"
+          />
+          <textarea
+            placeholder="Descripción detallada del premio"
+            class="w-full border rounded-lg px-4 py-2 text-sm h-28"
+          ></textarea>
+          <div
+            class="border-dashed border-2 rounded-lg p-4 text-center text-sm text-gray-500"
+          >
+            <div class="text-2xl mb-1">⬆️</div>
+            Arrastra fotos aquí o haz clic para seleccionar<br />
+            <span class="text-xs text-gray-400">Máximo 5 fotos, JPG o PNG</span>
+          </div>
+          <button
+            class="bg-emerald-500 text-white w-full py-2 rounded-lg text-sm font-medium"
+          >
+            Enviar donación de premio
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-4">
+      Comparación de métodos de donación
+    </h2>
+    <p class="text-center text-gray-600 mb-10">
+      Ambas formas de donación son valiosas. Compara las características para
+      elegir la opción que mejor se adapte a ti.
+    </p>
+
+    <!-- Tabla -->
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white rounded-lg shadow">
+        <thead>
+          <tr class="text-left text-gray-600 border-b">
+            <th class="p-4 font-medium text-sm">Característica</th>
+            <th class="p-4 font-semibold text-center">
+              <div class="flex flex-col items-center">
+                <div class="text-teal-600 text-2xl">$</div>
+                <span class="text-black font-bold">Donación Monetaria</span>
+                <span class="text-sm text-gray-500">Dinero directo</span>
+              </div>
+            </th>
+            <th class="p-4 font-semibold text-center">
+              <div class="flex flex-col items-center">
+                <div class="text-yellow-500 text-2xl">🎁</div>
+                <span class="text-black font-bold">Donación de Premio</span>
+                <span class="text-sm text-gray-500">Productos y servicios</span>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="text-sm">
+          <tr class="border-t">
+            <td class="p-4">Agradecimiento público</td>
+            <td class="text-center">✅</td>
+            <td class="text-center">✅</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-4">Aparece en transparencia</td>
+            <td class="text-center">✅</td>
+            <td class="text-center">✅</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-4">Selección de bingo específico</td>
+            <td class="text-center">✅</td>
+            <td class="text-center">✅</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-4">Tiempo de aprobación</td>
+            <td class="text-center">
+              <span
+                class="bg-teal-100 text-teal-700 text-xs px-2 py-1 rounded-full"
+                >Instantáneo</span
+              >
+            </td>
+            <td class="text-center">
+              <span
+                class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full"
+                >24–48h</span
+              >
+            </td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-4">Certificado fiscal</td>
+            <td class="text-center">✅</td>
+            <td class="text-center">❌</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-4">Impacto inmediato</td>
+            <td class="text-center">✅</td>
+            <td class="text-center">❌</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-4">Visibilidad en bingo</td>
+            <td class="text-center">❌</td>
+            <td class="text-center">✅</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Botones -->
+    <div
+      class="flex flex-col md:flex-row justify-around items-center gap-4 mt-8"
+    >
+      <div class="text-center">
+        <p class="font-medium mb-2">¿Prefieres donar dinero?</p>
+        <button
+          class="bg-teal-500 text-white font-semibold px-6 py-2 rounded hover:bg-teal-600"
+        >
+          💲 Donar dinero
+        </button>
+        <p class="text-sm text-gray-500 mt-1">
+          Impacto inmediato y certificado fiscal
+        </p>
+      </div>
+      <div class="text-center">
+        <p class="font-medium mb-2">¿Quieres donar un premio?</p>
+        <button
+          class="border border-yellow-400 text-yellow-600 font-semibold px-6 py-2 rounded hover:bg-yellow-50"
+        >
+          🎁 Donar premio
+        </button>
+        <p class="text-sm text-gray-500 mt-1">
+          Visibilidad en transmisión en vivo
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="bg-gray-50 py-12">
+  <div
+    class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center"
+  >
+    <!-- 1 -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <div class="flex justify-center mb-2">
+        <div class="bg-teal-500 text-white p-3 rounded-full text-xl">⚡</div>
+      </div>
+      <h3 class="text-2xl font-bold">98%</h3>
+      <p class="text-sm text-gray-600 mt-1">
+        Donaciones procesadas al instante
+      </p>
+    </div>
+
+    <!-- 2 -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <div class="flex justify-center mb-2">
+        <div class="bg-blue-600 text-white p-3 rounded-full text-xl">👁️</div>
+      </div>
+      <h3 class="text-2xl font-bold">100%</h3>
+      <p class="text-sm text-gray-600 mt-1">
+        Transparencia en el uso de fondos
+      </p>
+    </div>
+
+    <!-- 3 -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <div class="flex justify-center mb-2">
+        <div class="bg-yellow-400 text-white p-3 rounded-full text-xl">👥</div>
+      </div>
+      <h3 class="text-2xl font-bold">1,249</h3>
+      <p class="text-sm text-gray-600 mt-1">Donantes activos este mes</p>
+    </div>
+
+    <!-- 4 -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <div class="flex justify-center mb-2">
+        <div class="bg-rose-500 text-white p-3 rounded-full text-xl">⏰</div>
+      </div>
+      <h3 class="text-2xl font-bold">24h</h3>
+      <p class="text-sm text-gray-600 mt-1">Tiempo promedio de aprobación</p>
+    </div>
+  </div>
+</section>
+<div class="w-full flex flex-col items-center space-y-8">
+  <h2 class="text-3xl font-bold text-center">Lo que logramos gracias a ti</h2>
+  <p class="text-center text-gray-500 max-w-3xl">
+    Cada donación, sin importar su tamaño, crea un impacto real en la vida de
+    las personas. Estas son algunas de las historias que hemos construido
+    juntos.
+  </p>
+
+  <!-- Slider -->
+  <div class="relative w-full max-w-6xl overflow-hidden">
+    <div
+      class="flex transition-transform duration-500 ease-in-out"
+      [style.transform]="'translateX(-' + currentSlide * 100 + '%)'"
+    >
+      <div
+        *ngFor="let testimonial of testimonios"
+        class="w-full flex-shrink-0 px-4"
+      >
+        <app-testimonial-card
+          [quote]="testimonial.quote"
+          [author]="testimonial.author"
+          [role]="testimonial.role"
+          [impact]="testimonial.impact"
+          [image]="testimonial.image"
+          [color]="testimonial.color"
+        ></app-testimonial-card>
+      </div>
+    </div>
+
+    <!-- Controles -->
+    <button
+      (click)="prevSlide()"
+      class="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-gray-100"
+    >
+      ‹
+    </button>
+    <button
+      (click)="nextSlide()"
+      class="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-gray-100"
+    >
+      ›
+    </button>
+
+    <!-- Indicadores -->
+    <div class="flex justify-center mt-4 space-x-2">
+      <div
+        *ngFor="let testimonial of testimonios; let i = index"
+        class="w-3 h-3 rounded-full"
+        [ngClass]="{
+          'bg-teal-500': i === currentSlide,
+          'bg-gray-300': i !== currentSlide
+        }"
+      ></div>
+    </div>
+  </div>
+</div>
+
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+  <div class="bg-white shadow rounded-lg p-6 text-center">
+    <p class="text-3xl font-bold text-teal-500">$84,592</p>
+    <p class="mt-2 text-gray-600">Total recaudado este año</p>
+  </div>
+  <div class="bg-white shadow rounded-lg p-6 text-center">
+    <p class="text-3xl font-bold text-blue-600">1,249</p>
+    <p class="mt-2 text-gray-600">Donantes activos</p>
+  </div>
+  <div class="bg-white shadow rounded-lg p-6 text-center">
+    <p class="text-3xl font-bold text-yellow-500">15</p>
+    <p class="mt-2 text-gray-600">Organizaciones beneficiadas</p>
+  </div>
+</section>
+
+<section
+  class="relative py-20 lg:py-32 overflow-hidden text-white text-center bg-text mt-16"
+>
+  <!-- Fondo degradado -->
+  <div
+    class="absolute inset-0 z-[-1]"
+    style="
+      background: linear-gradient(
+        135deg,
+        #0f0f23 0%,
+        #1a1a2e 50%,
+        #16213e 100%
+      );
+    "
+  ></div>
+
+  <!-- Elementos decorativos -->
+  <div class="absolute inset-0 z-[-1]">
+    <div
+      class="absolute top-20 left-10 w-4 h-4 bg-white/10 rounded-full animate-pulse"
+    ></div>
+    <div
+      class="absolute top-40 right-20 w-6 h-6 bg-white/5 rounded-full animate-pulse delay-1000"
+    ></div>
+    <div
+      class="absolute bottom-32 left-1/4 w-3 h-3 bg-white/15 rounded-full animate-pulse delay-500"
+    ></div>
+    <div
+      class="absolute bottom-20 right-10 w-5 h-5 bg-white/8 rounded-full animate-pulse delay-1500"
+    ></div>
+
+    <div
+      class="absolute -top-32 -left-32 w-64 h-64 border border-white/5 rounded-full"
+    ></div>
+    <div
+      class="absolute -bottom-32 -right-32 w-96 h-96 border border-white/3 rounded-full"
+    ></div>
+    <div
+      class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 border border-white/5 rounded-full"
+    ></div>
+  </div>
+
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-4xl lg:text-6xl mb-8 font-bold leading-tight">
+      Cada donación cuenta.<br />
+      <span class="text-[#00BFA6]">Sé parte del cambio.</span>
+    </h2>
+
+    <p
+      class="text-xl lg:text-2xl text-white/80 mb-12 max-w-4xl mx-auto leading-relaxed"
+    >
+      Tu generosidad no solo cambia vidas, crea esperanza y construye un futuro
+      mejor para quienes más lo necesitan. Únete a nuestra comunidad de personas
+      extraordinarias.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+      <button
+        class="bg-[#00BFA6] hover:bg-[#00a894] px-8 py-4 text-lg font-semibold text-white flex items-center gap-2 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+      >
+        💚 Iniciar sesión para donar →
+      </button>
+      <button
+        class="border border-white/30 px-8 py-4 text-lg text-white rounded-lg hover:bg-white/10 transition-all duration-300"
+      >
+        👁️ Ver impacto transparente
+      </button>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-8 mb-16">
+      <div
+        class="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+      >
+        <div
+          class="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center bg-[#00BFA6]"
+        >
+          💚
+        </div>
+        <div class="text-2xl lg:text-3xl text-white mb-2">$84,592</div>
+        <div class="text-sm text-white/70">Total recaudado</div>
+      </div>
+
+      <div
+        class="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+      >
+        <div
+          class="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center bg-[#3366CC]"
+        >
+          👤
+        </div>
+        <div class="text-2xl lg:text-3xl text-white mb-2">1,249</div>
+        <div class="text-sm text-white/70">Donantes unidos</div>
+      </div>
+
+      <div
+        class="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+      >
+        <div
+          class="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center bg-[#FFCC00]"
+        >
+          ⚡
+        </div>
+        <div class="text-2xl lg:text-3xl text-white mb-2">15</div>
+        <div class="text-sm text-white/70">Organizaciones apoyadas</div>
+      </div>
+
+      <div
+        class="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+      >
+        <div
+          class="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center bg-[#FF6B6B]"
+        >
+          👁️
+        </div>
+        <div class="text-2xl lg:text-3xl text-white mb-2">100%</div>
+        <div class="text-sm text-white/70">Transparencia total</div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-center gap-8 text-white/60">
+      <div class="flex items-center gap-2">
+        <div
+          class="w-8 h-8 rounded-full flex items-center justify-center bg-[#00BFA6]"
+        >
+          ✓
+        </div>
+        <span class="text-sm">Certificados fiscales</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <div
+          class="w-8 h-8 rounded-full flex items-center justify-center bg-[#3366CC]"
+        >
+          🔒
+        </div>
+        <span class="text-sm">Pagos seguros</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <div
+          class="w-8 h-8 rounded-full flex items-center justify-center bg-[#FFCC00]"
+        >
+          📊
+        </div>
+        <span class="text-sm">Reportes públicos</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <div
+          class="w-8 h-8 rounded-full flex items-center justify-center bg-[#FF6B6B]"
+        >
+          💚
+        </div>
+        <span class="text-sm">Impacto real</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SVG de onda inferior -->
+  <div class="absolute bottom-0 left-0 right-0 leading-[0]">
+    <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M0,120L60,110C120,100,240,80,360,75C480,70,600,80,720,85C840,90,960,90,1080,80C1200,70,1320,50,1380,40L1440,30V120H1380C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120H0Z"
+        fill="#F7F9FC"
+      />
+    </svg>
+  </div>
+</section>

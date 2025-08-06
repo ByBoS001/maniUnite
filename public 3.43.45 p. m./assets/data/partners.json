@@ -1,0 +1,8 @@
+[
+  { "name": "Cruz Roja", "logo": "/assets/images/partners/cruz-roja.png" },
+  { "name": "UNICEF", "logo": "/assets/images/partners/unicef.png" },
+  { "name": "Fundación Educación", "logo": "/assets/images/partners/educacion.png" },
+  { "name": "Hogar de Niños", "logo": "/assets/images/partners/hogar-ninos.png" },
+  { "name": "Médicos Sin Fronteras", "logo": "/assets/images/partners/medicos.png" },
+  { "name": "Banco de Alimentos", "logo": "/assets/images/partners/banco.png" }
+]

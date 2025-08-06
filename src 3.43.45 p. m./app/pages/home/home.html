@@ -1,0 +1,101 @@
+<section class="py-16 bg-background">
+  <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 items-center gap-10">
+    <!-- 🎥 Imagen con etiquetas -->
+    <div class="relative rounded-xl overflow-hidden shadow-md">
+      <img
+        src="../../../../public/assets/image/bingo.jpg"
+        alt="Bingo en vivo"
+        class="w-full h-auto object-cover"
+      />
+
+      <!-- En vivo -->
+      <span
+        class="absolute top-3 left-3 bg-white text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow"
+      >
+        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> En
+        vivo
+      </span>
+
+      <div
+        class="absolute bottom-3 right-3 bg-white rounded-lg px-3 py-2 shadow text-right text-sm"
+      >
+        <div class="text-primary font-semibold">$2,450</div>
+        <div class="text-textSecondary text-xs">Recaudado hoy</div>
+      </div>
+    </div>
+
+    <!-- 📢 Texto y botones -->
+    <div>
+      <p class="text-textSecondary mb-3">
+        Participa en nuestros bingos virtuales y ayuda a ONGs verificadas a
+        cumplir sus proyectos sociales. Tu diversión puede cambiar vidas.
+      </p>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-text">
+        Juega. Apoya. <span class="text-primary">Transforma.</span>
+      </h1>
+
+      <div class="flex gap-4 flex-wrap">
+        <a
+          routerLink="/comprar"
+          class="bg-accent text-white px-5 py-2 rounded-full font-medium shadow hover:bg-opacity-90 transition"
+        >
+          Comprar mi tabla
+        </a>
+        <a
+          routerLink="/como-funciona"
+          class="border border-primary text-primary px-5 py-2 rounded-full font-medium hover:bg-primary hover:text-white transition"
+        >
+          ¿Cómo funciona?
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-partners-logos />
+<app-ong-benefits />
+
+<app-bingo-steps />
+<app-upcoming-bingos />
+<app-impact-cards />
+<app-impact-stories />
+<section class="py-16 px-4 text-white bg-[#2761d4] text-center">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-2xl sm:text-3xl font-semibold mb-1">
+      Nuestro Impacto Colectivo
+    </h2>
+    <p class="text-sm text-blue-100 mb-10">
+      Cada partida cuenta, cada tabla importa
+    </p>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-8">
+      <div>
+        <div class="text-2xl sm:text-3xl font-semibold mb-1">💰 $125,000</div>
+        <p class="text-sm text-blue-100">Total recaudado</p>
+      </div>
+      <div>
+        <div class="text-2xl sm:text-3xl font-semibold mb-1">👨‍👩‍👧‍👦 342</div>
+        <p class="text-sm text-blue-100">Familias ayudadas</p>
+      </div>
+      <div>
+        <div class="text-2xl sm:text-3xl font-semibold mb-1">🎯 89</div>
+        <p class="text-sm text-blue-100">Bingos realizados</p>
+      </div>
+      <div>
+        <div class="text-2xl sm:text-3xl font-semibold mb-1">🤝 23</div>
+        <p class="text-sm text-blue-100">ONGs participantes</p>
+      </div>
+    </div>
+
+    <div class="max-w-md mx-auto">
+      <div class="w-full bg-blue-300 rounded-full h-2 overflow-hidden mb-2">
+        <div class="bg-yellow-400 h-full rounded-full" style="width: 67%"></div>
+      </div>
+      <p class="text-sm text-blue-100">
+        67% hacia nuestra meta anual de $200,000
+      </p>
+    </div>
+  </div>
+</section>
+<app-notify-subscription />
+<app-faq-accordion />

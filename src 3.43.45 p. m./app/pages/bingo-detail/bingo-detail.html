@@ -1,0 +1,151 @@
+<section class="py-10 px-4 lg:py-16 max-w-7xl mx-auto">
+  <!-- Volver -->
+  <button class="mb-6 flex items-center text-sm text-blue-600 hover:underline">
+    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+    Volver a bingos disponibles
+  </button>
+
+  <div class="grid lg:grid-cols-3 gap-8">
+    <!-- Info principal -->
+    <div class="lg:col-span-2 space-y-8">
+      <!-- Imagen y estado -->
+      <div class="relative">
+        <img src="/assets/bingo-cover.jpg" class="w-full h-72 object-cover rounded-xl" alt="Bingo" />
+        <div class="absolute top-4 left-4">
+          <span class="bg-red-600 text-white px-3 py-1 text-xs rounded-full animate-pulse">🔴 En vivo</span>
+        </div>
+      </div>
+
+      <!-- Descripción -->
+      <div>
+        <h1 class="text-3xl font-bold mb-2">Bingo por la Educación</h1>
+        <div class="flex items-center gap-3 mb-4">
+          <img src="/assets/logo-ong.png" alt="ONG" class="w-8 h-8 rounded-full" />
+          <div>
+            <p class="font-medium">Fundación Educa Más</p>
+            <a href="#" class="text-sm text-blue-600 hover:underline">Ver perfil de la ONG</a>
+          </div>
+        </div>
+        <p class="text-gray-600 mb-6">Ayúdanos a construir aulas digitales para 200 niños en comunidades rurales.</p>
+
+        <!-- Fechas -->
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="p-4 bg-white rounded-lg shadow">
+            <p class="text-gray-500 text-sm mb-1">📅 Fecha</p>
+            <p>jueves, 14 de agosto de 2025</p>
+          </div>
+          <div class="p-4 bg-white rounded-lg shadow">
+            <p class="text-gray-500 text-sm mb-1">⏰ Hora</p>
+            <p>19:00</p>
+          </div>
+          <div class="p-4 bg-white rounded-lg shadow">
+            <p class="text-gray-500 text-sm mb-1">🎟️ Precio por tabla</p>
+            <p class="text-xl font-semibold">$25</p>
+          </div>
+          <div class="p-4 bg-white rounded-lg shadow">
+            <p class="text-gray-500 text-sm mb-1">👥 Tablas disponibles</p>
+            <p>180 de 500</p>
+          </div>
+        </div>
+
+        <!-- Meta de recaudación -->
+        <div class="bg-white p-6 rounded-xl shadow">
+          <div class="flex items-center mb-4 gap-2">
+            <span>🎯</span>
+            <h3 class="text-lg font-semibold">Meta de recaudación</h3>
+          </div>
+          <div class="mb-2 flex justify-between text-sm text-gray-500">
+            <span>Progreso</span>
+            <span>$32,450 / $50,000</span>
+          </div>
+          <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
+            <div class="h-3 bg-green-500 w-[65%]"></div>
+          </div>
+          <p class="text-sm mt-2 text-gray-500">65% completado</p>
+        </div>
+
+        <!-- Premios destacados -->
+        <div class="bg-white p-6 rounded-xl shadow">
+          <div class="flex items-center mb-4 gap-2">
+            <span>🎁</span>
+            <h3 class="text-lg font-semibold">Premios destacados</h3>
+          </div>
+          <div class="grid md:grid-cols-3 gap-4 text-center">
+            <div class="border p-4 rounded-xl">🎁 iPhone 15</div>
+            <div class="border p-4 rounded-xl">🎁 Tablet Samsung</div>
+            <div class="border p-4 rounded-xl">🎁 Auriculares Sony</div>
+          </div>
+        </div>
+
+        <!-- Causa -->
+        <div class="bg-blue-50 p-6 rounded-xl shadow text-center">
+          <p class="text-xl font-semibold mb-2">💙 "Con tu tabla no solo puedes ganar, también ayudas a causas reales."</p>
+          <div class="flex items-center justify-center gap-3">
+            <img src="/assets/logo-ong.png" class="w-10 h-10 rounded-full" alt="ONG" />
+            <div>
+              <p class="font-semibold">Fundación Educa Más</p>
+              <p class="text-sm text-gray-500">Transformando vidas a través de la educación</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar de compra -->
+    <div class="lg:col-span-1">
+      <div class="sticky top-10 bg-white p-6 rounded-xl shadow-xl">
+        <h3 class="text-xl font-semibold mb-4">Comprar tablas</h3>
+
+        <!-- Aviso de pocas tablas -->
+        <div class="bg-yellow-100 text-yellow-800 p-3 rounded mb-6 text-sm">
+          ⚠️ Solo quedan 180 tablas disponibles
+        </div>
+
+        <!-- Selector -->
+        <div class="mb-6">
+          <p class="mb-2">Cantidad de tablas</p>
+          <div class="flex items-center justify-between">
+            <button class="w-10 h-10 bg-gray-200 text-lg font-bold rounded">-</button>
+            <span class="text-xl font-semibold">1</span>
+            <button class="w-10 h-10 bg-gray-200 text-lg font-bold rounded">+</button>
+          </div>
+          <p class="text-xs text-gray-500 mt-2 text-center">💡 Máximo 5 tablas por usuario</p>
+        </div>
+
+        <!-- Total -->
+        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+          <p class="text-sm text-gray-500">Total a pagar</p>
+          <p class="text-2xl font-bold">$25</p>
+          <p class="text-sm text-gray-500">1 tabla × $25</p>
+        </div>
+
+        <!-- Botón -->
+        <button class="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded mb-4">
+          Inicia sesión para comprar
+        </button>
+
+        <!-- Métodos de pago -->
+        <div class="text-center mb-4">
+          <p class="text-sm text-gray-500">Métodos de pago seguros</p>
+          <div class="flex justify-center gap-2 mt-2">
+            <div class="w-10 h-6 bg-gray-200 rounded flex items-center justify-center">💳</div>
+            <div class="w-10 h-6 bg-blue-100 rounded flex items-center justify-center">PP</div>
+            <div class="w-10 h-6 bg-green-100 rounded flex items-center justify-center">🏦</div>
+          </div>
+        </div>
+
+        <!-- Seguridad -->
+        <div class="text-xs text-center text-gray-500">
+          <div class="flex justify-center gap-1 items-center">
+            <span>🛡️</span> Compra 100% segura
+          </div>
+          <div class="flex justify-center gap-1 items-center">
+            <span>✅</span> Certificado SSL
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

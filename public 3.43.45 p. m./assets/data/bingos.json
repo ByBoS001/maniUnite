@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "Bingo por la Educación",
+    "organization": "Fundación Educa Más",
+    "description": "Ayúdanos a construir aulas digitales para 200 niños en comunidades rurales.",
+    "date": "2025-08-14",
+    "time": "19:00",
+    "price": "$25",
+    "prizes": 3,
+    "collected": 32450,
+    "goal": 50000,
+    "awards": ["iPhone 15", "Tablet Samsung", "Auriculares Sony"],
+    "remainingTables": 100,
+    "active": false
+  },
+  {
+    "id": 2,
+    "title": "Bingo Solidario Navideño",
+    "organization": "Hogar Infantil San José",
+    "description": "Regalemos una Navidad especial a 50 niños del hogar infantil.",
+    "date": "2025-08-09",
+    "time": "20:30",
+    "price": "$20",
+    "prizes": 3,
+    "collected": 28750,
+    "goal": 30000,
+    "awards": ["Smart TV 55\"", "Bicicleta eléctrica", "Vale de compras $500"],
+    "remainingTables": 45,
+    "active": true
+  }
+]

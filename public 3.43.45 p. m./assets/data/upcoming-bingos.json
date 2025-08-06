@@ -1,0 +1,38 @@
+[
+  {
+    "label": "Becas estudiantiles",
+    "title": "Bingo por la Educación",
+    "org": "Fundación Futuro",
+    "date": "15 Feb 2025 - 20:00",
+    "prizes": "$5,000 en premios",
+    "registered": "234 inscritos",
+    "image": "/assets/images/bingos/education.jpg"
+  },
+  {
+    "label": "Equipos médicos",
+    "title": "Bingo de la Salud",
+    "org": "Cruz Roja Local",
+    "date": "22 Feb 2025 - 19:30",
+    "prizes": "$3,500 en premios",
+    "registered": "156 inscritos",
+    "image": "/assets/images/bingos/health.jpg"
+  },
+  {
+    "label": "Alimentación infantil",
+    "title": "Bingo Familiar",
+    "org": "Hogar Esperanza",
+    "date": "28 Feb 2025 - 18:00",
+    "prizes": "$4,200 en premios",
+    "registered": "189 inscritos",
+    "image": "/assets/images/bingos/family.jpg"
+  },
+  {
+    "label": "Reforestación",
+    "title": "Bingo por el Ambiente",
+    "org": "Verde Planeta",
+    "date": "5 Mar 2025 - 19:00",
+    "prizes": "$6,000 en premios",
+    "registered": "298 inscritos",
+    "image": "/assets/images/bingos/environment.jpg"
+  }
+]

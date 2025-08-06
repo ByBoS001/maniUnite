@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@use "tailwindcss";
+
+@theme {
+  --color-primary: #3366CC;
+  --color-accent: #00BFA6;
+  --color-background: #F7F9FC;
+  --color-text: #1C1C1C;
+  --color-highlight: #FFCC00;
+  --color-warning: #FF6B6B;
+  --color-text-secondary: #6B7280;
+  --color-white: #FFFFFF;
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-overlay: rgba(51, 102, 204, 0.1);
+  --color-overlay-dark: rgba(28, 28, 28, 0.8);
+}

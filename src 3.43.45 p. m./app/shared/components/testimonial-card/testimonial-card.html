@@ -1,0 +1,31 @@
+<div
+  class="flex flex-col md:flex-row items-center justify-between bg-white rounded-xl shadow-md p-6 gap-6 max-w-4xl w-full transition-all duration-300"
+>
+  <!-- Texto -->
+  <div class="text-left flex-1">
+    <div class="text-cyan-300 text-4xl mb-2">❝</div>
+    <p class="text-lg text-black font-medium mb-4">
+      {{ quote }}
+    </p>
+
+    <div class="text-sm text-black font-semibold">{{ author }}</div>
+    <div class="text-xs bg-gray-100 px-3 py-1 inline-block rounded-full text-gray-600 mt-1">
+      {{ role }}
+    </div>
+  </div>
+
+  <!-- Imagen -->
+  <div class="relative">
+    <img
+      [src]="image"
+      alt="{{ author }}"
+      class="w-32 h-32 rounded-xl object-cover"
+    />
+    <div
+      class="absolute bottom-0 right-0 text-white text-xs font-bold p-1 rounded-full"
+      [ngClass]="color"
+    >
+      99
+    </div>
+  </div>
+</div>

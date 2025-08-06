@@ -1,0 +1,26 @@
+[
+  {
+    "number": 1,
+    "icon": "/assets/icons/buy-icon.png",
+    "title": "Compra tu tabla",
+    "description": "Elige tu bingo favorito y adquiere tus tablas de forma segura"
+  },
+  {
+    "number": 2,
+    "icon": "/assets/icons/connect-icon.png",
+    "title": "Conéctate al evento",
+    "description": "Únete al bingo en vivo desde tu dispositivo favorito"
+  },
+  {
+    "number": 3,
+    "icon": "/assets/icons/prize-icon.png",
+    "title": "Gana premios",
+    "description": "Disfruta del juego y compite por increíbles premios"
+  },
+  {
+    "number": 4,
+    "icon": "/assets/icons/heart-icon.png",
+    "title": "Apoya una causa real",
+    "description": "Tu participación financia proyectos sociales verificados"
+  }
+]

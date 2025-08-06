@@ -1,0 +1,109 @@
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10 mt-6">
+  <!-- Sección superior: Video + Chat -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2">
+      <app-video-stream />
+    </div>
+    <div class="lg:col-span-1">
+      <app-live-chat />
+    </div>
+  </div>
+</div>
+
+<div class="mx-50 my-10">
+  <app-bingo-cards />
+</div>
+<!-- Sección informativa: Cómo jugar / Gana premios / Ayuda a causas -->
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+  <div class="bg-white shadow-sm rounded-2xl p-6 sm:p-10">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+      <div>
+        <div class="text-3xl mb-2">🎯</div>
+        <h3 class="text-lg font-semibold mb-1">Cómo jugar</h3>
+        <p class="text-sm text-gray-500">
+          Escucha los números en el stream y marca las casillas correspondientes
+          en tu tabla
+        </p>
+      </div>
+      <div>
+        <div class="text-3xl mb-2">🏆</div>
+        <h3 class="text-lg font-semibold mb-1">Gana premios</h3>
+        <p class="text-sm text-gray-500">
+          Completa una línea, columna o diagonal para ganar. ¡Presiona el botón
+          BINGO!
+        </p>
+      </div>
+      <div>
+        <div class="text-3xl mb-2">❤️</div>
+        <h3 class="text-lg font-semibold mb-1">Ayuda a causas</h3>
+        <p class="text-sm text-gray-500">
+          Cada tabla que compres contribuye directamente a proyectos benéficos
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Sección: Últimos Ganadores -->
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mt-6 my-10">
+  <div class="bg-white shadow-sm rounded-2xl p-6 sm:p-8">
+    <h2 class="text-xl font-semibold mb-6 flex items-center gap-2">
+      🥇 Últimos Ganadores
+    </h2>
+
+    <div class="space-y-3">
+      <!-- Ganador 1 -->
+      <div
+        class="bg-gray-50 rounded-xl flex justify-between items-center px-5 py-4"
+      >
+        <div class="flex items-center gap-4">
+          <div
+            class="bg-teal-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"
+          >
+            M
+          </div>
+          <div>
+            <p class="font-medium text-gray-900">María González</p>
+            <p class="text-sm text-gray-500">19:42</p>
+          </div>
+        </div>
+        <div class="text-blue-700 font-bold text-lg">$150</div>
+      </div>
+
+      <!-- Ganador 2 -->
+      <div
+        class="bg-gray-50 rounded-xl flex justify-between items-center px-5 py-4"
+      >
+        <div class="flex items-center gap-4">
+          <div
+            class="bg-teal-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"
+          >
+            C
+          </div>
+          <div>
+            <p class="font-medium text-gray-900">Carlos Ruiz</p>
+            <p class="text-sm text-gray-500">19:38</p>
+          </div>
+        </div>
+        <div class="text-blue-700 font-bold text-lg">$100</div>
+      </div>
+
+      <!-- Ganador 3 -->
+      <div
+        class="bg-gray-50 rounded-xl flex justify-between items-center px-5 py-4"
+      >
+        <div class="flex items-center gap-4">
+          <div
+            class="bg-teal-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"
+          >
+            A
+          </div>
+          <div>
+            <p class="font-medium text-gray-900">Ana López</p>
+            <p class="text-sm text-gray-500">19:35</p>
+          </div>
+        </div>
+        <div class="text-blue-700 font-bold text-lg">$75</div>
+      </div>
+    </div>
+  </div>
+</div>

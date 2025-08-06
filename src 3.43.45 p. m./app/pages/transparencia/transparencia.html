@@ -1,0 +1,142 @@
+<!-- Hero + Métricas -->
+<section class="py-12 bg-gray-50 border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Hero -->
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4">Transparencia en Acción</h2>
+      <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+        Conoce cómo transformamos vidas con cada tabla vendida. Descubre el impacto real de tu participación en nuestros bingos benéficos.
+      </p>
+    </div>
+
+    <!-- Impact Metrics -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      <div class="bg-white p-6 rounded-xl border text-center shadow-sm">
+        <p class="text-2xl font-semibold text-emerald-500">$284,592</p>
+        <p class="text-sm text-gray-500 mt-1">Total transparente</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl border text-center shadow-sm">
+        <p class="text-2xl font-semibold text-blue-600">15</p>
+        <p class="text-sm text-gray-500 mt-1">Organizaciones apoyadas</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl border text-center shadow-sm">
+        <p class="text-2xl font-semibold text-yellow-500">1,247</p>
+        <p class="text-sm text-gray-500 mt-1">Personas beneficiadas</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl border text-center shadow-sm">
+        <p class="text-2xl font-semibold text-gray-900">100%</p>
+        <p class="text-sm text-gray-500 mt-1">Transparencia verificada</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Buscador + Filtros -->
+<section class="bg-white py-6 border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+      <!-- Search -->
+      <div class="relative flex-1 max-w-md">
+        <input
+          type="text"
+          placeholder="Buscar noticias..."
+          [(ngModel)]="searchTerm"
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">🔍</span>
+      </div>
+
+      <!-- Filters -->
+      <div class="flex flex-wrap gap-2">
+        <button
+          *ngFor="let category of categories"
+          (click)="selectedCategory = category"
+          class="px-4 py-1.5 text-sm font-medium rounded-full border transition"
+          [ngClass]="{
+            'bg-emerald-500 text-white border-transparent': selectedCategory === category,
+            'bg-white text-gray-600 border-gray-300': selectedCategory !== category
+          }"
+        >
+          {{ category }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Sub Info -->
+    <div class="mt-4 flex items-center justify-between text-sm text-gray-500">
+      <p>
+        {{ filteredArticles.length }} artículo{{ filteredArticles.length !== 1 ? 's' : '' }} encontrado{{ filteredArticles.length !== 1 ? 's' : '' }}
+      </p>
+      <div class="flex items-center gap-2">📈 Últimas actualizaciones</div>
+    </div>
+  </div>
+</section>
+
+<!-- Grid de artículos -->
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div *ngIf="filteredArticles.length > 0; else empty">
+      <div class="grid gap-8 lg:grid-cols-3">
+        <div
+          *ngFor="let article of filteredArticles"
+          (click)="handleArticleClick(article.slug)"
+          class="cursor-pointer rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md hover:-translate-y-1"
+        >
+          <!-- Imagen -->
+          <div class="relative">
+            <img
+              [src]="article.image"
+              [alt]="article.title"
+              class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            <div
+              class="absolute top-3 left-3 px-3 py-1 text-xs rounded-full text-white font-medium"
+              [style.backgroundColor]="getTagColor(article.tag)"
+            >
+              {{ article.tag }}
+            </div>
+          </div>
+
+          <!-- Contenido -->
+          <div class="p-6">
+            <div class="flex justify-between text-xs text-gray-400 mb-3">
+              <span>📅 {{ article.date }}</span>
+              <span>⏱️ {{ article.readTime }}</span>
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-800 mb-3 line-clamp-2 hover:underline">
+              {{ article.title }}
+            </h3>
+
+            <p class="text-sm text-gray-600 mb-4 line-clamp-3">
+              {{ article.excerpt }}
+            </p>
+
+            <div *ngIf="article.organization" class="text-xs text-gray-500 mb-4">
+              <strong>Organización:</strong> {{ article.organization }}
+            </div>
+
+            <button class="flex items-center gap-1 text-sm text-blue-600 font-medium hover:underline">
+              Leer más →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty -->
+    <ng-template #empty>
+      <div class="text-center py-16 text-gray-500">
+        <div class="text-4xl mb-4">🔍</div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">No se encontraron artículos</h3>
+        <p>Intenta ajustar los filtros o el término de búsqueda.</p>
+        <button
+          class="mt-4 px-4 py-2 border rounded text-sm text-gray-600 hover:bg-gray-100"
+          (click)="searchTerm = ''; selectedCategory = 'Todos'"
+        >
+          Limpiar filtros
+        </button>
+      </div>
+    </ng-template>
+  </div>
+</section>

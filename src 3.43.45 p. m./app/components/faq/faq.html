@@ -1,0 +1,23 @@
+<section class="bg-[#f9fafe] py-16 px-4 text-center">
+  <h2 class="text-2xl sm:text-3xl font-semibold mb-1">Preguntas Frecuentes</h2>
+  <p class="text-textSecondary mb-10">
+    Resolvemos tus dudas sobre nuestros bingos benéficos
+  </p>
+  <div class="max-w-2xl mx-auto space-y-4">
+    <div
+      *ngFor="let faq of faqs; let i = index"
+      class="bg-white rounded-lg shadow cursor-pointer text-left transition"
+      (click)="toggleFaq(i)"
+    >
+      <div class="p-4 font-medium text-text flex justify-between items-center">
+        {{ faq.question }}
+        <span [class.rotate-180]="faq.open" class="transition-transform"
+          >&#9660;</span
+        >
+      </div>
+      <div *ngIf="faq.open" class="px-4 pb-4 text-sm text-textSecondary">
+        {{ faq.answer }}
+      </div>
+    </div>
+  </div>
+</section>

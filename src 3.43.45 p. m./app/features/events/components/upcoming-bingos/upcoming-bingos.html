@@ -1,0 +1,41 @@
+<section class="py-16 bg-background text-center">
+  <h2 class="text-2xl sm:text-3xl font-semibold text-text mb-2">
+    Próximos Bingos
+  </h2>
+  <p class="text-textSecondary mb-10">
+    Únete a nuestros próximos eventos y ayuda a transformar vidas
+  </p>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div
+      *ngFor="let bingo of bingos"
+      class="bg-white rounded-xl shadow p-4 text-left"
+    >
+      <div class="relative h-40 overflow-hidden rounded-md mb-3">
+        <img
+          [src]="bingo.image"
+          [alt]="bingo.title"
+          class="w-full h-full object-cover"
+        />
+        <span
+          class="absolute top-2 left-2 text-xs bg-accent text-white px-2 py-1 rounded-full z-10"
+          >{{ bingo.label }}</span
+        >
+      </div>
+      <div class="mb-2 ml-2 text-left">
+        <h3 class="font-semibold text-lg mb-1">{{ bingo.title }}</h3>
+        <p class="text-sm text-textSecondary mb-2">
+          Organizado por {{ bingo.org }}
+        </p>
+        <p class="text-sm text-textSecondary ">📅 {{ bingo.date }}</p>
+        <p class="text-sm text-textSecondary ">💰 {{ bingo.prizes }}</p>
+        <p class="text-sm text-textSecondary ">👥 {{ bingo.registered }}</p>
+      </div>
+      <button
+        class="bg-primary text-white w-full py-2 rounded-full text-sm font-medium hover:bg-opacity-90 transition"
+      >
+        Comprar tabla
+      </button>
+    </div>
+  </div>
+</section>

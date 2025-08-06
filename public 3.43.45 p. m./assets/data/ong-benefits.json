@@ -1,0 +1,18 @@
+
+[
+  {
+    "title": "Ayuda médica",
+    "description": "Financiamos tratamientos, medicinas y equipos médicos para familias en situación vulnerable.",
+    "icon": "cruz-roja.png"
+  },
+  {
+    "title": "Educación comunitaria",
+    "description": "Apoyamos programas educativos, becas estudiantiles y construcción de aulas en comunidades rurales.",
+    "icon": "educacion.png"
+  },
+  {
+    "title": "Apoyo a familias",
+    "description": "Brindamos asistencia directa con alimentación, vivienda y capacitación laboral.",
+    "icon": "familia.png"
+  }
+]

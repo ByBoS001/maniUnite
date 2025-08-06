@@ -1,0 +1,76 @@
+<section class="bg-white border-b py-4">
+  <div class="max-w-4xl mx-auto px-4">
+    <button class="flex items-center text-sm text-gray-600 hover:text-black">
+      ← Volver a Transparencia
+    </button>
+  </div>
+</section>
+
+<section class="bg-white py-6">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="flex gap-3 mb-4 items-center text-sm">
+      <span class="bg-emerald-500 text-white px-3 py-1 rounded-full text-xs">{{ article.tag }}</span>
+      <span class="flex items-center gap-1 text-gray-500">📅 {{ article.date }}</span>
+      <span class="flex items-center gap-1 text-gray-500">⏱ {{ article.readTime }}</span>
+    </div>
+
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ article.title }}</h1>
+
+    <div class="flex justify-between items-center mb-8">
+      <div class="flex items-center gap-3">
+        <img [src]="article.organizationLogo" alt="org" class="w-12 h-12 rounded-full" />
+        <div>
+          <p class="font-medium text-gray-900">{{ article.author }}</p>
+          <p class="text-sm text-gray-500">{{ article.organization }}</p>
+        </div>
+      </div>
+      <button class="text-sm border px-4 py-2 rounded flex items-center gap-1 text-gray-600 hover:bg-gray-100">
+        📤 Compartir
+      </button>
+    </div>
+  </div>
+
+</section>
+
+<section>
+  <div class="max-w-6xl mx-auto px-4">
+    <img [src]="article.image" [alt]="article.title" class="w-full h-72 object-cover rounded-xl shadow" />
+  </div>
+</section>
+
+<section class="py-10">
+  <div class="max-w-4xl mx-auto px-4">
+    <div [innerHTML]="article.content" class="prose prose-lg text-gray-800 max-w-none"></div>
+    
+  </div>
+</section>
+
+<section class="py-12 bg-emerald-50">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="bg-white p-6 rounded-lg flex justify-between items-center shadow">
+      <div class="flex items-center gap-4">
+        <img [src]="article.organizationLogo" alt="org" class="w-16 h-16 rounded-full" />
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900">{{ article.organization }}</h3>
+          <p class="text-sm text-gray-600">
+            Este bingo fue posible gracias a esta organización. Participa en el próximo evento.
+          </p>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <button class="border px-3 py-2 rounded text-sm text-gray-700 hover:bg-gray-100">🔗 Ver perfil</button>
+        <button class="bg-emerald-600 text-white px-3 py-2 rounded text-sm">❤️ Participar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-6 bg-white border-t">
+  <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between gap-4">
+    <button class="border px-3 py-2 rounded text-sm text-gray-700 hover:bg-gray-100">← Volver a Transparencia</button>
+    <div class="flex gap-3">
+      <button class="border px-3 py-2 rounded text-sm text-gray-700 hover:bg-gray-100">📤 Compartir artículo</button>
+      <button class="bg-emerald-600 text-white px-3 py-2 rounded text-sm">👥 Ver más historias</button>
+    </div>
+  </div>
+</section>

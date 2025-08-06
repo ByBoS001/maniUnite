@@ -1,0 +1,103 @@
+<div class="bg-white rounded-xl shadow-lg overflow-hidden">
+  <!-- Player principal -->
+  <div class="relative bg-black aspect-video">
+    <!-- Indicador en vivo -->
+    <div class="absolute top-4 left-4 flex items-center bg-red-600 text-white px-3 py-1 rounded-full text-sm animate-pulse">
+      <div class="w-2 h-2 bg-white rounded-full mr-2 animate-ping"></div>
+      🔴 En vivo
+    </div>
+
+    <!-- Selector de calidad -->
+    <div class="absolute top-4 right-4">
+      <select
+        [value]="quality()"
+        (change)="setQuality($any($event.target).value)"
+        class="bg-black/50 text-white px-2 py-1 rounded text-sm border-none"
+      >
+        <option *ngFor="let q of qualities" [value]="q">{{ q }}</option>
+      </select>
+    </div>
+
+    <!-- Controles -->
+    <div class="absolute bottom-4 left-4 right-4 flex justify-between px-2">
+      <div class="flex gap-2">
+        <button (click)="toggleMute()" class="text-white">🔈</button>
+        <button class="text-white">⚙️</button>
+      </div>
+      <button (click)="toggleFullscreen()" class="text-white">⛶</button>
+    </div>
+
+    <!-- Contenido placeholder -->
+    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 text-white">
+      <div class="text-center">
+        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-red-600 flex items-center justify-center">
+          <div class="w-4 h-4 bg-white rounded-full animate-pulse"></div>
+        </div>
+        <p class="text-lg mb-2">Stream en vivo</p>
+        <p class="text-sm opacity-75">Transmitiendo desde el estudio...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Información del evento -->
+  <div class="p-6">
+    <div class="flex justify-between items-start mb-4">
+      <div>
+        <h2 class="text-xl mb-1 text-gray-900">Bingo Benéfico - Fundación Corazones Unidos</h2>
+        <p class="text-sm text-gray-600">Ayudemos a construir un nuevo hogar para niños en situación de vulnerabilidad</p>
+      </div>
+      <div class="text-right">
+        <div class="text-2xl font-bold text-blue-600">$8,450</div>
+        <div class="text-sm text-gray-500">recaudado hoy</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-4 gap-4 text-center">
+      <div class="p-3 bg-gray-100 rounded">
+        <div class="text-lg font-bold text-green-600">142</div>
+        <div class="text-sm text-gray-500">Jugadores</div>
+      </div>
+      <div class="p-3 bg-gray-100 rounded">
+        <div class="text-lg font-bold text-blue-600">$25</div>
+        <div class="text-sm text-gray-500">Precio tabla</div>
+      </div>
+      <div class="p-3 bg-gray-100 rounded">
+        <div class="text-lg font-bold text-yellow-600">18:30</div>
+        <div class="text-sm text-gray-500">Próximo número</div>
+      </div>
+      <div class="p-3 bg-gray-100 rounded">
+        <div class="text-lg font-bold text-gray-700">G-47</div>
+        <div class="text-sm text-gray-500">Último número</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mini player -->
+<div
+  class="fixed bottom-4 right-4 z-50 w-[300px] h-[200px] bg-white rounded-lg shadow-2xl overflow-hidden transition-all duration-300"
+  [class.translate-y-full]="!showMiniPlayer()"
+  [class.opacity-0]="!showMiniPlayer()"
+>
+  <div class="relative h-full bg-black">
+    <div class="absolute top-2 left-2 flex items-center bg-red-600 text-white px-2 py-1 rounded-full text-xs">
+      <div class="w-1.5 h-1.5 bg-white rounded-full mr-1 animate-pulse"></div>
+      En vivo
+    </div>
+
+    <div class="absolute top-2 right-2 flex gap-1">
+      <button (click)="expandMiniPlayer()" class="text-white text-xs">⛶</button>
+      <button (click)="closeMiniPlayer()" class="text-white text-xs">✕</button>
+    </div>
+
+    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 text-white text-xs text-center p-2">
+      <div>
+        <p class="mb-1">Bingo Benéfico - En vivo</p>
+        <div class="flex justify-between text-white/80">
+          <span>142 jugadores</span>
+          <span class="text-yellow-400">$8,450</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

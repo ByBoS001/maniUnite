@@ -1,0 +1,51 @@
+
+<div class="mt-6 p-4 bg-white rounded-xl shadow-lg">
+  <h2 class="text-xl font-semibold mb-1">Mis Tablas de Bingo</h2>
+  <p class="text-sm text-gray-500 mb-4">
+    Marca las casillas conforme escuches los números en el stream en vivo
+  </p>
+
+  <div class="bg-white rounded-lg border">
+    <div class="flex items-center justify-between p-4 border-b">
+      <div>
+        <p class="font-semibold">Tabla #0231</p>
+        <p class="text-xs text-gray-500">Marca las casillas conforme escuches los números</p>
+      </div>
+      <button class="bg-gray-300 text-gray-700 px-4 py-1 rounded text-sm">🔔 ¡BINGO!</button>
+    </div>
+
+    <div class="grid grid-cols-5 gap-1 p-4 text-center">
+      <div class="font-bold text-white bg-blue-600 py-2 rounded">B</div>
+      <div class="font-bold text-white bg-blue-600 py-2 rounded">I</div>
+      <div class="font-bold text-white bg-blue-600 py-2 rounded">N</div>
+      <div class="font-bold text-white bg-blue-600 py-2 rounded">G</div>
+      <div class="font-bold text-white bg-blue-600 py-2 rounded">O</div>
+
+      <ng-container *ngFor="let row of bingoGrid(); let i = index">
+        <ng-container *ngFor="let cell of row; let j = index">
+          <div
+            class="py-2 rounded border cursor-pointer text-sm"
+            [ngClass]="{
+              'bg-green-500 text-white': marked()[i][j],
+              'bg-blue-600 text-white font-bold': cell === 'FREE'
+            }"
+            (click)="markCell(i, j)"
+          >
+            {{ cell }}
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="flex justify-between items-center text-sm mt-4 text-gray-700">
+    <p>Marcadas: {{ totalMarked }}/25</p>
+    <p>Faltan: {{ getRemaining() }}</p>
+  </div>
+
+  <div class="flex justify-between mt-4 gap-2">
+    <button class="text-blue-600 text-sm" (click)="markAllColumn(0)">Marcar toda la fila B</button>
+    <button class="text-gray-600 text-sm" (click)="clearMarks()">Limpiar marcas</button>
+    <button class="ml-auto bg-emerald-500 text-white px-4 py-2 rounded text-sm">Comprar otra tabla</button>
+  </div>
+</div>

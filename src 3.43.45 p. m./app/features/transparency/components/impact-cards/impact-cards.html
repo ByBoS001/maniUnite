@@ -1,0 +1,38 @@
+<section class="py-16 text-center px-4">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-2xl sm:text-3xl font-semibold text-text mb-2">
+      Transparencia en Acción
+    </h2>
+    <p class="text-textSecondary mb-10">
+      Conoce cómo se usa lo recaudado y el impacto que tú haces posible
+    </p>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        *ngFor="let card of cards"
+        class="bg-white rounded-xl shadow text-left overflow-hidden"
+      >
+        <div class="relative h-40">
+          <img
+            [src]="card.image"
+            [alt]="card.title"
+            class="w-full h-full object-cover"
+          />
+          <span
+            class="absolute top-2 left-2 text-xs px-2 py-1 rounded-full text-white"
+            [ngStyle]="{ 'background-color': card.labelColor }"
+          >
+            {{ card.label }}
+          </span>
+        </div>
+        <div class="p-4">
+          <p class="text-sm text-textSecondary">{{ card.date }}</p>
+          <h3 class="font-semibold text-md mt-1 mb-1">
+            {{ card.title }}
+          </h3>
+          <p class="text-sm text-textSecondary">{{ card.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
