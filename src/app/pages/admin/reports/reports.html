@@ -1,0 +1,163 @@
+<section class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold text-gray-900">Reportes y Análisis</h1>
+    <div class="flex items-center gap-3">
+      <button class="inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-gray-700 hover:bg-gray-50">
+        🗓️ Filtrar por fecha
+      </button>
+      <button class="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600">
+        ⬇️ Exportar Reporte
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabs (sin Audiencia) -->
+  <div class="flex overflow-hidden rounded-full border bg-gray-100 p-1">
+    <button (click)="setTab('resumen')"
+            class="flex-1 rounded-full px-6 py-2 text-sm font-medium"
+            [class.bg-white]="tab==='resumen'" [class.shadow]="tab==='resumen'">Resumen General</button>
+    <button (click)="setTab('financiero')"
+            class="flex-1 rounded-full px-6 py-2 text-sm font-medium"
+            [class.bg-white]="tab==='financiero'" [class.shadow]="tab==='financiero'">Financiero</button>
+    <button (click)="setTab('eventos')"
+            class="flex-1 rounded-full px-6 py-2 text-sm font-medium"
+            [class.bg-white]="tab==='eventos'" [class.shadow]="tab==='eventos'">Eventos</button>
+  </div>
+
+  <!-- RESUMEN -->
+  <ng-container *ngIf="tab==='resumen'">
+    <!-- KPIs -->
+    <div class="grid gap-4 md:grid-cols-4">
+      <div class="rounded-2xl border bg-white p-5 shadow-sm">
+        <div class="text-3xl font-semibold">${{ format(kpis.ingresosMes) }}</div>
+        <div class="text-gray-600 mt-1">Ingresos este mes</div>
+      </div>
+      <div class="rounded-2xl border bg-white p-5 shadow-sm">
+        <div class="text-3xl font-semibold">{{ format(kpis.usuariosActivos) }}</div>
+        <div class="text-gray-600 mt-1">Usuarios activos</div>
+      </div>
+      <div class="rounded-2xl border bg-white p-5 shadow-sm">
+        <div class="text-3xl font-semibold">{{ kpis.bingos }}</div>
+        <div class="text-gray-600 mt-1">Bingos realizados</div>
+      </div>
+      <div class="rounded-2xl border bg-white p-5 shadow-sm">
+        <div class="text-3xl font-semibold">+{{ kpis.crecimiento }}%</div>
+        <div class="text-gray-600 mt-1">Crecimiento mensual</div>
+      </div>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-2">
+      <!-- Tendencia ingresos (placeholder) -->
+      <div class="rounded-2xl border bg-white p-5 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Tendencia de Ingresos</h3>
+        <div class="mt-4 h-72 rounded-xl bg-gray-100 grid place-items-center text-gray-500">
+          Gráfico de ingresos por semana
+        </div>
+      </div>
+
+      <!-- Top bingos -->
+      <div class="rounded-2xl border bg-white p-5 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Top Bingos Más Exitosos</h3>
+        <ul class="mt-4 space-y-3">
+          <li *ngFor="let b of topBingos"
+              class="flex items-center justify-between rounded-xl bg-gray-50 p-4">
+            <div>
+              <div class="font-medium text-gray-900">{{ b.nombre }}</div>
+              <div class="text-sm text-gray-600">{{ b.participantes }} participantes</div>
+            </div>
+            <div class="font-semibold text-emerald-600">${{ format(b.monto) }}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- FINANCIERO -->
+  <ng-container *ngIf="tab==='financiero'">
+    <div class="grid gap-6 lg:grid-cols-3">
+      <!-- Resumen -->
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Resumen Financiero</h3>
+        <div class="mt-6 space-y-5">
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600">Ingresos brutos:</span>
+            <span class="font-semibold">${{ format(financiero.brutos) }}</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600">Premios pagados:</span>
+            <span class="font-semibold">${{ format(financiero.premios) }}</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600">Comisiones ONG:</span>
+            <span class="font-semibold">${{ format(financiero.comisiones) }}</span>
+          </div>
+          <div class="border-t pt-4 flex items-center justify-between">
+            <span class="text-gray-900 font-medium">Ingresos netos:</span>
+            <span class="text-emerald-600 font-semibold">${{ format(financiero.netos) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Métodos de pago -->
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Métodos de Pago</h3>
+        <div class="mt-6 space-y-5">
+          <div *ngFor="let m of financiero.metodos">
+            <div class="flex items-center justify-between text-gray-700">
+              <span>{{ m.nombre }}</span><span class="font-medium">${{ format(m.monto) }}</span>
+            </div>
+            <div class="mt-2 h-2 w-full rounded-full bg-gray-200">
+              <div class="h-2 rounded-full bg-gray-900" [style.width.%]="m.fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Donaciones por ONG -->
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Donaciones por ONG</h3>
+        <div class="mt-6 space-y-5">
+          <div *ngFor="let o of financiero.ongs">
+            <div class="flex items-center justify-between text-gray-700">
+              <span>{{ o.nombre }}</span><span class="font-medium">${{ format(o.monto) }}</span>
+            </div>
+            <div class="mt-2 h-2 w-full rounded-full bg-gray-200">
+              <div class="h-2 rounded-full bg-gray-900" [style.width.%]="o.fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- EVENTOS -->
+  <ng-container *ngIf="tab==='eventos'">
+    <div class="rounded-2xl border bg-white p-5 shadow-sm">
+      <h3 class="text-lg font-semibold text-gray-900">Análisis de Eventos</h3>
+
+      <div class="mt-6 overflow-x-auto">
+        <table class="min-w-full text-left">
+          <thead class="text-sm text-gray-600">
+            <tr>
+              <th class="py-3 pr-4">Evento</th>
+              <th class="py-3 pr-4">Fecha</th>
+              <th class="py-3 pr-4">Participantes</th>
+              <th class="py-3 pr-4">Ingresos</th>
+              <th class="py-3">Rating</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <tr *ngFor="let e of eventos" class="text-gray-800">
+              <td class="py-3 pr-4">{{ e.evento }}</td>
+              <td class="py-3 pr-4">{{ e.fecha }}</td>
+              <td class="py-3 pr-4">{{ e.participantes }}</td>
+              <td class="py-3 pr-4 text-emerald-600 font-medium">${{ format(e.ingresos) }}</td>
+              <td class="py-3">⭐ {{ e.rating }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+</section>
