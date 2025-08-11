@@ -1,0 +1,196 @@
+<section class="space-y-6">
+  <!-- Header + actions -->
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold text-gray-900">Configuración del Sistema</h1>
+    <div class="flex items-center gap-3">
+      <button class="rounded-lg border px-4 py-2 hover:bg-gray-50">⟲ Restablecer</button>
+      <button class="rounded-lg bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600">💾 Guardar Cambios</button>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex overflow-hidden rounded-full border bg-gray-100 p-1">
+    <button (click)="setTab('general')"      class="flex-1 rounded-full px-6 py-2 text-sm font-medium" [class.bg-white]="tab==='general'"      [class.shadow]="tab==='general'">General</button>
+    <button (click)="setTab('plataforma')"   class="flex-1 rounded-full px-6 py-2 text-sm font-medium" [class.bg-white]="tab==='plataforma'"   [class.shadow]="tab==='plataforma'">Plataforma</button>
+    <button (click)="setTab('seguridad')"    class="flex-1 rounded-full px-6 py-2 text-sm font-medium" [class.bg-white]="tab==='seguridad'"    [class.shadow]="tab==='seguridad'">Seguridad</button>
+    <button (click)="setTab('notificaciones')" class="flex-1 rounded-full px-6 py-2 text-sm font-medium" [class.bg-white]="tab==='notificaciones'" [class.shadow]="tab==='notificaciones'">Notificaciones</button>
+    <button (click)="setTab('avanzado')"     class="flex-1 rounded-full px-6 py-2 text-sm font-medium" [class.bg-white]="tab==='avanzado'"     [class.shadow]="tab==='avanzado'">Avanzado</button>
+  </div>
+
+  <!-- GENERAL -->
+  <ng-container *ngIf="tab==='general'">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold">Información de la Plataforma</h3>
+        <div class="mt-5 space-y-4">
+          <div><label class="text-sm text-gray-600">Nombre de la Plataforma</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="general.nombre" /></div>
+          <div><label class="text-sm text-gray-600">Descripción</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="general.descripcion" /></div>
+          <div><label class="text-sm text-gray-600">Email de Contacto</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="general.email" /></div>
+          <div><label class="text-sm text-gray-600">Teléfono de Soporte</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="general.telefono" /></div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold">Configuración Regional</h3>
+        <div class="mt-5 space-y-4">
+          <div><label class="text-sm text-gray-600">Zona Horaria</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" placeholder="Seleccionar zona horaria" [(ngModel)]="general.zonaHoraria" /></div>
+          <div><label class="text-sm text-gray-600">Idioma Principal</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" placeholder="Seleccionar idioma" [(ngModel)]="general.idioma" /></div>
+          <div><label class="text-sm text-gray-600">Moneda</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" placeholder="Seleccionar moneda" [(ngModel)]="general.moneda" /></div>
+          <div><label class="text-sm text-gray-600">Formato de Fecha</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" placeholder="Seleccionar formato" [(ngModel)]="general.fecha" /></div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- PLATAFORMA -->
+  <ng-container *ngIf="tab==='plataforma'">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold">Configuración de Bingos</h3>
+        <div class="mt-5 space-y-4">
+          <div><label class="text-sm text-gray-600">Máximo de Participantes por Bingo</label><input type="number" class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="plataforma.maxParticipantes" /></div>
+          <div><label class="text-sm text-gray-600">Mínimo de Participantes para Iniciar</label><input type="number" class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="plataforma.minParaIniciar" /></div>
+          <div><label class="text-sm text-gray-600">Precio Base por Tabla</label><input type="number" class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="plataforma.precioBase" /></div>
+          <div><label class="text-sm text-gray-600">Comisión de la Plataforma (%)</label><input type="number" class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="plataforma.comision" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2">
+            <div>
+              <div class="text-sm font-medium">Inicio Automático de Bingos</div>
+              <div class="text-xs text-gray-500">Iniciar cuando se alcance el mínimo</div>
+            </div>
+            <input type="checkbox" [(ngModel)]="plataforma.inicioAuto" />
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold">Configuración del Stream</h3>
+        <div class="mt-5 space-y-4">
+          <div><label class="text-sm text-gray-600">Calidad de Stream por Defecto</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" placeholder="Seleccionar calidad" [(ngModel)]="plataforma.calidad" /></div>
+          <div><label class="text-sm text-gray-600">Máximo de Espectadores</label><input type="number" class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="plataforma.maxEspectadores" /></div>
+          <div><label class="text-sm text-gray-600">Delay del Stream (segundos)</label><input type="number" class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="plataforma.delay" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2">
+            <div><div class="text-sm font-medium">Moderación Automática del Chat</div><div class="text-xs text-gray-500">Filtrar palabras inapropiadas</div></div>
+            <input type="checkbox" [(ngModel)]="plataforma.moderacionAuto" />
+          </div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2">
+            <div><div class="text-sm font-medium">Guardar Grabaciones</div><div class="text-xs text-gray-500">Para análisis posterior</div></div>
+            <input type="checkbox" [(ngModel)]="plataforma.grabaciones" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- SEGURIDAD -->
+  <ng-container *ngIf="tab==='seguridad'">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold">Seguridad de Acceso</h3>
+        <div class="mt-5 space-y-4">
+          <div><label class="text-sm text-gray-600">Tiempo de Sesión (minutos)</label><input type="number" class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="seguridad.sesionMin" /></div>
+          <div><label class="text-sm text-gray-600">Máximos Intentos de Login</label><input type="number" class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="seguridad.intentosLogin" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2">
+            <div><div class="text-sm font-medium">Autenticación de Dos Factores</div><div class="text-xs text-gray-500">Requerida para administradores</div></div>
+            <input type="checkbox" [(ngModel)]="seguridad.dosFactores" />
+          </div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2">
+            <div><div class="text-sm font-medium">Política de Contraseñas Estricta</div><div class="text-xs text-gray-500">Mínimo 8 caracteres, mayús., nums.</div></div>
+            <input type="checkbox" [(ngModel)]="seguridad.passwordStrict" />
+          </div>
+          <div><label class="text-sm text-gray-600">Lista Blanca de IPs Administrativas</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="seguridad.ipWhitelist" /></div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold">Protección de Datos</h3>
+        <div class="mt-5 space-y-4">
+          <div><label class="text-sm text-gray-600">Retención de Datos (días)</label><input type="number" class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="seguridad.retentionDias" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2">
+            <div><div class="text-sm font-medium">Encriptación de Base de Datos</div><div class="text-xs text-gray-500">AES-256 para datos sensibles</div></div>
+            <input type="checkbox" [(ngModel)]="seguridad.encryptDb" />
+          </div>
+          <div><label class="text-sm text-gray-600">Frecuencia de Backups</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" placeholder="Seleccionar frecuencia" [(ngModel)]="seguridad.backupFreq" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2">
+            <div><div class="text-sm font-medium">Logs de Auditoría</div><div class="text-xs text-gray-500">Registrar todas las acciones admin</div></div>
+            <input type="checkbox" [(ngModel)]="seguridad.auditLogs" />
+          </div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2">
+            <div><div class="text-sm font-medium">Cumplimiento GDPR</div><div class="text-xs text-gray-500">Opciones de eliminación de datos</div></div>
+            <input type="checkbox" [(ngModel)]="seguridad.gdpr" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- NOTIFICACIONES -->
+  <ng-container *ngIf="tab==='notificaciones'">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold">Notificaciones de Usuario</h3>
+        <div class="mt-5 space-y-4">
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"><span>Notificaciones por Email</span><input type="checkbox" [(ngModel)]="notifs.emailUser" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"><span>Notificaciones por SMS</span><input type="checkbox" [(ngModel)]="notifs.smsUser" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"><span>Notificaciones Push</span><input type="checkbox" [(ngModel)]="notifs.pushUser" /></div>
+          <div><label class="text-sm text-gray-600">Frecuencia de Promociones</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" placeholder="Seleccionar frecuencia" [(ngModel)]="notifs.promoFreq" /></div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold">Notificaciones Administrativas</h3>
+        <div class="mt-5 space-y-4">
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"><span>Alertas del Sistema</span><input type="checkbox" [(ngModel)]="notifs.alertasSistema" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"><span>Reportes de Ingresos</span><input type="checkbox" [(ngModel)]="notifs.reportesIngresos" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"><span>Alertas de Actividad</span><input type="checkbox" [(ngModel)]="notifs.alertasActividad" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"><span>Alertas de Seguridad</span><input type="checkbox" [(ngModel)]="notifs.alertasSeguridad" /></div>
+          <div><label class="text-sm text-gray-600">Email para Alertas Admin</label><input class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="notifs.adminEmail" /></div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- AVANZADO -->
+  <ng-container *ngIf="tab==='avanzado'">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold">Configuración Técnica</h3>
+        <div class="mt-5 space-y-4">
+          <div><label class="text-sm text-gray-600">Límite de API (req/min)</label><input type="number" class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="avanzado.apiLimit" /></div>
+          <div><label class="text-sm text-gray-600">Duración de Cache (segundos)</label><input type="number" class="mt-1 w-full rounded-lg border bg-gray-50 px-3 py-2" [(ngModel)]="avanzado.cacheSeg" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"><span>Modo Debug</span><input type="checkbox" [(ngModel)]="avanzado.debug" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"><span>Tracking de Analytics</span><input type="checkbox" [(ngModel)]="avanzado.analytics" /></div>
+          <div class="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"><span>CDN Habilitado</span><input type="checkbox" [(ngModel)]="avanzado.cdn" /></div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold">Integraciones Externas</h3>
+        <div class="mt-5 space-y-4">
+          <input class="w-full rounded-lg border bg-gray-50 px-3 py-2" placeholder="Gateway de Pagos" [(ngModel)]="avanzado.gateway" />
+          <input class="w-full rounded-lg border bg-gray-50 px-3 py-2" placeholder="Servicio de Email" [(ngModel)]="avanzado.emailSrv" />
+          <input class="w-full rounded-lg border bg-gray-50 px-3 py-2" placeholder="Proveedor de SMS" [(ngModel)]="avanzado.smsProv" />
+          <input class="w-full rounded-lg border bg-gray-50 px-3 py-2" placeholder="Servicio de Almacenamiento" [(ngModel)]="avanzado.storageSrv" />
+          <button class="w-full rounded-lg border px-3 py-2 hover:bg-gray-50">⟳ Probar Conexiones</button>
+        </div>
+      </div>
+
+      <div class="lg:col-span-2 rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold">Información del Sistema</h3>
+        <div class="mt-4 grid grid-cols-3 gap-6 text-center">
+          <div>
+            <div class="text-xl font-semibold">{{ avanzado.version }}</div>
+            <div class="text-gray-500 text-sm">Versión de la Plataforma</div>
+          </div>
+          <div>
+            <div class="text-xl font-semibold">{{ avanzado.uptime }}</div>
+            <div class="text-gray-500 text-sm">Uptime Este Mes</div>
+          </div>
+          <div>
+            <div class="text-xl font-semibold">{{ avanzado.storageUse }}</div>
+            <div class="text-gray-500 text-sm">Uso de Almacenamiento</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</section>

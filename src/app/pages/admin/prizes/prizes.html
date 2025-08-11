@@ -1,0 +1,338 @@
+<section class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold text-gray-900">Gestión de Premios</h1>
+    <div class="flex items-center gap-3">
+      <button
+        class="inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-gray-700 hover:bg-gray-50"
+      >
+        ⚙️ Filtros
+      </button>
+      <button
+        (click)="openCreate()"
+        class="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600"
+      ></button>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex overflow-hidden rounded-full border bg-gray-100 p-1">
+    <button
+      (click)="setTab('activos')"
+      class="flex-1 rounded-full px-6 py-2 text-sm font-medium"
+      [class.bg-white]="tab === 'activos'"
+      [class.shadow]="tab === 'activos'"
+    >
+      Premios Activos
+    </button>
+    <button
+      (click)="setTab('otorgados')"
+      class="flex-1 rounded-full px-6 py-2 text-sm font-medium"
+      [class.bg-white]="tab === 'otorgados'"
+      [class.shadow]="tab === 'otorgados'"
+    >
+      Otorgados
+    </button>
+    <button
+      (click)="setTab('pendientes')"
+      class="flex-1 rounded-full px-6 py-2 text-sm font-medium"
+      [class.bg-white]="tab === 'pendientes'"
+      [class.shadow]="tab === 'pendientes'"
+    >
+      Pendientes
+    </button>
+    <button
+      (click)="setTab('config')"
+      class="flex-1 rounded-full px-6 py-2 text-sm font-medium"
+      [class.bg-white]="tab === 'config'"
+      [class.shadow]="tab === 'config'"
+    >
+      Configuración
+    </button>
+  </div>
+
+  <!-- ACTivos -->
+  <ng-container *ngIf="tab === 'activos'">
+    <!-- KPIs -->
+    <div class="grid gap-4 md:grid-cols-3">
+      <div
+        class="rounded-2xl border bg-white p-5 shadow-sm flex items-center gap-3"
+      >
+        <div
+          class="h-10 w-10 rounded-xl bg-emerald-100 text-emerald-600 grid place-items-center"
+        >
+          💰
+        </div>
+        <div>
+          <div class="text-xl font-semibold">{{ money(kpis.total) }}</div>
+          <div class="text-gray-600 text-sm">Total en premios activos</div>
+        </div>
+      </div>
+      <div
+        class="rounded-2xl border bg-white p-5 shadow-sm flex items-center gap-3"
+      >
+        <div
+          class="h-10 w-10 rounded-xl bg-indigo-100 text-indigo-600 grid place-items-center"
+        >
+          🏅
+        </div>
+        <div>
+          <div class="text-xl font-semibold">{{ kpis.disponibles }}</div>
+          <div class="text-gray-600 text-sm">Premios disponibles</div>
+        </div>
+      </div>
+      <div
+        class="rounded-2xl border bg-white p-5 shadow-sm flex items-center gap-3"
+      >
+        <div
+          class="h-10 w-10 rounded-xl bg-blue-100 text-blue-600 grid place-items-center"
+        >
+          🎯
+        </div>
+        <div>
+          <div class="text-xl font-semibold">{{ kpis.entregar }}</div>
+          <div class="text-gray-600 text-sm">Próximos a entregar</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid de premios -->
+    <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      <div
+        *ngFor="let p of activos; let i = index"
+        class="rounded-2xl border bg-white p-5 shadow-sm"
+      >
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="font-semibold text-gray-900">{{ p.cat }}</div>
+            <div class="text-sm text-gray-600">{{ p.tipo }}</div>
+          </div>
+          <span
+            class="rounded-full px-2.5 py-0.5 text-xs font-medium"
+            [ngClass]="{
+              'bg-emerald-100 text-emerald-700': p.estado === 'Activo',
+              'bg-rose-100 text-rose-700': p.estado === 'Limitado'
+            }"
+          >
+            {{ p.estado }}
+          </span>
+        </div>
+
+        <div class="mt-4 grid grid-cols-2 gap-4">
+          <div>
+            <div class="text-sm text-gray-500">Valor:</div>
+            <div class="font-medium text-gray-900">{{ money(p.valor) }}</div>
+          </div>
+          <div>
+            <div class="text-sm text-gray-500">En eventos:</div>
+            <div class="font-medium text-gray-900">{{ p.eventos }}</div>
+          </div>
+        </div>
+
+        <div class="mt-4 flex items-center justify-between text-sm">
+          <button
+            (click)="openEdit(i)"
+            class="inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-gray-700 hover:bg-gray-50"
+          >
+            ✎ Editar
+          </button>
+          <button
+            class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-800"
+          >
+            👁️ Ver
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- OTORGADOS -->
+  <ng-container *ngIf="tab === 'otorgados'">
+    <div class="rounded-2xl border bg-white p-5 shadow-sm">
+      <h3 class="text-lg font-semibold text-gray-900">
+        Premios Otorgados Recientemente
+      </h3>
+      <div class="mt-4 space-y-4">
+        <div
+          *ngFor="let r of otorgados"
+          class="flex items-center justify-between rounded-xl border bg-white px-4 py-3 shadow-sm"
+        >
+          <div class="flex items-center gap-3">
+            <div
+              class="h-10 w-10 rounded-xl bg-emerald-100 text-emerald-700 grid place-items-center"
+            >
+              👤
+            </div>
+            <div>
+              <div class="font-medium text-gray-900">{{ r.name }}</div>
+              <div class="text-gray-600 text-sm">
+                {{ r.premio }} · {{ r.evento }}
+              </div>
+              <div class="text-gray-400 text-xs">
+                {{ r.email }} · {{ r.fecha }}
+              </div>
+            </div>
+          </div>
+          <span
+            class="rounded-full px-3 py-1 text-sm"
+            [ngClass]="{
+              'bg-emerald-100 text-emerald-700': r.estado === 'Entregado',
+              'bg-yellow-100 text-yellow-700': r.estado === 'En proceso',
+              'bg-rose-100 text-rose-700': r.estado === 'Pendiente'
+            }"
+            >{{ r.estado }}</span
+          >
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- PENDIENTES -->
+  <ng-container *ngIf="tab === 'pendientes'">
+    <div class="rounded-2xl border bg-white p-5 shadow-sm">
+      <h3 class="text-lg font-semibold text-gray-900">
+        Premios Pendientes de Entrega
+      </h3>
+      <div class="mt-4 space-y-4">
+        <div
+          *ngFor="let p of pendientes"
+          class="rounded-xl border bg-rose-50/50 p-4"
+        >
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div class="font-semibold text-gray-900">{{ p.name }}</div>
+              <div class="text-gray-700">{{ p.premio }}</div>
+              <div class="text-gray-500 text-sm">Evento: {{ p.evento }}</div>
+              <div class="mt-2 flex items-center gap-4 text-gray-600 text-sm">
+                <span>📞 {{ p.tel }}</span>
+                <span>📍 {{ p.dir }}</span>
+              </div>
+            </div>
+            <span
+              class="rounded-full px-3 py-1 text-sm"
+              [ngClass]="{
+                'bg-rose-500 text-white': p.urg === 'Alta',
+                'bg-amber-500 text-white': p.urg === 'Media'
+              }"
+            >
+              Urgencia {{ p.urg }}
+            </span>
+          </div>
+
+          <div class="mt-3 flex flex-wrap gap-3">
+            <button
+              class="rounded-lg bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600"
+            >
+              ✔ Marcar como Entregado
+            </button>
+            <button
+              class="rounded-lg border px-4 py-2 text-gray-700 hover:bg-gray-50"
+            >
+              📞 Contactar
+            </button>
+            <button
+              class="rounded-lg border px-4 py-2 text-gray-700 hover:bg-gray-50"
+            >
+              ✉️ Enviar Email
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- CONFIG -->
+  <ng-container *ngIf="tab === 'config'">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">
+          Configuración de Premios
+        </h3>
+
+        <div class="mt-6 space-y-5">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-medium text-gray-900">Entrega Automática</div>
+              <div class="text-sm text-gray-500">
+                Para premios digitales y vales
+              </div>
+            </div>
+            <input
+              type="checkbox"
+              class="h-5 w-10"
+              [(ngModel)]="config.entregaAuto"
+            />
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-medium text-gray-900">Notificar Ganadores</div>
+              <div class="text-sm text-gray-500">Email automático al ganar</div>
+            </div>
+            <input
+              type="checkbox"
+              class="h-5 w-10"
+              [(ngModel)]="config.notificar"
+            />
+          </div>
+
+          <div>
+            <div class="text-gray-700">Valor Mínimo de Premio</div>
+            <input
+              type="number"
+              class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2"
+              [(ngModel)]="config.min"
+            />
+          </div>
+
+          <div>
+            <div class="text-gray-700">Valor Máximo de Premio</div>
+            <input
+              type="number"
+              class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2"
+              [(ngModel)]="config.max"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Plantillas de Email</h3>
+
+        <div class="mt-6 space-y-5">
+          <div>
+            <div class="text-gray-700">Email de Ganador</div>
+            <input
+              class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2"
+              placeholder="Seleccionar plantilla"
+              [(ngModel)]="config.plantillaGanador"
+            />
+          </div>
+          <div>
+            <div class="text-gray-700">Email de Entrega</div>
+            <input
+              class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2"
+              placeholder="Seleccionar plantilla"
+              [(ngModel)]="config.plantillaEntrega"
+            />
+          </div>
+
+          <button
+            class="mt-2 inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600"
+          >
+            ✏️ Editar Plantillas
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</section>
+
+<!-- Modal Crear/Editar Premio (standalone) -->
+<app-prize-editor
+  *ngIf="showModal"
+  [value]="form"
+  [editMode]="editMode"
+  (save)="savePrize($event)"
+  (close)="closeModal()"
+></app-prize-editor>

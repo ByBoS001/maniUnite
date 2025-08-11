@@ -1,0 +1,204 @@
+<section class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold text-gray-900">Gestión de Audiencia</h1>
+
+    <div class="flex items-center gap-3">
+      <div class="relative">
+        <input placeholder="Buscar Usuario" class="rounded-lg border px-10 py-2" />
+        <span class="pointer-events-none absolute left-3 top-2.5">🔎</span>
+      </div>
+      <button class="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600">
+        👥 Invitar Usuarios
+      </button>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="grid gap-4 md:grid-cols-4">
+    <div class="rounded-2xl border bg-white p-5 shadow-sm flex items-center gap-3">
+      <div class="h-10 w-10 rounded-xl bg-indigo-100 text-indigo-600 grid place-items-center">👤</div>
+      <div>
+        <div class="text-xl font-semibold">{{ kpis.registrados | number }}</div>
+        <div class="text-gray-600 text-sm">Usuarios registrados</div>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border bg-white p-5 shadow-sm flex items-center gap-3">
+      <div class="h-10 w-10 rounded-xl bg-emerald-100 text-emerald-600 grid place-items-center">📈</div>
+      <div>
+        <div class="text-xl font-semibold">{{ kpis.activos | number }}</div>
+        <div class="text-gray-600 text-sm">Usuarios activos</div>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border bg-white p-5 shadow-sm flex items-center gap-3">
+      <div class="h-10 w-10 rounded-xl bg-yellow-100 text-yellow-600 grid place-items-center">🟡</div>
+      <div>
+        <div class="text-xl font-semibold">{{ kpis.online | number }}</div>
+        <div class="text-gray-600 text-sm">Online ahora</div>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border bg-white p-5 shadow-sm flex items-center gap-3">
+      <div class="h-10 w-10 rounded-xl bg-rose-100 text-rose-600 grid place-items-center">📊</div>
+      <div>
+        <div class="text-xl font-semibold">+{{ kpis.growth }}%</div>
+        <div class="text-gray-600 text-sm">Crecimiento mensual</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex overflow-hidden rounded-full border bg-gray-100 p-1">
+    <button (click)="setTab('resumen')" class="flex-1 rounded-full px-6 py-2 text-sm font-medium" [class.bg-white]="tab==='resumen'" [class.shadow]="tab==='resumen'">Resumen</button>
+    <button (click)="setTab('activos')" class="flex-1 rounded-full px-6 py-2 text-sm font-medium" [class.bg-white]="tab==='activos'" [class.shadow]="tab==='activos'">Usuarios Activos</button>
+    <button (click)="setTab('engagement')" class="flex-1 rounded-full px-6 py-2 text-sm font-medium" [class.bg-white]="tab==='engagement'" [class.shadow]="tab==='engagement'">Engagement</button>
+    <button (click)="setTab('analisis')" class="flex-1 rounded-full px-6 py-2 text-sm font-medium" [class.bg-white]="tab==='analisis'" [class.shadow]="tab==='analisis'">Análisis</button>
+  </div>
+
+  <!-- RESUMEN -->
+  <ng-container *ngIf="tab==='resumen'">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <!-- Usuarios por Región -->
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Usuarios por Región</h3>
+        <div class="mt-6 space-y-4">
+          <div *ngFor="let r of regiones" class="space-y-2">
+            <div class="flex justify-between text-sm text-gray-700">
+              <span>{{ r.nombre }}</span>
+              <span>{{ r.valor }} usuarios</span>
+            </div>
+            <div class="h-2 rounded-full bg-gray-200">
+              <div class="h-2 rounded-full bg-neutral-900" [style.width.%]="(r.valor / 1240) * 100"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actividad por Horarios -->
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Actividad por Horarios</h3>
+        <div class="mt-6 h-64 grid place-items-center rounded-xl bg-gray-100 text-gray-500">
+          Gráfico de actividad por horarios del día
+        </div>
+      </div>
+
+      <!-- Top Usuarios -->
+      <div class="lg:col-span-2 rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Top Usuarios Más Activos</h3>
+        <div class="mt-4 rounded-xl border bg-white p-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="grid h-10 w-10 place-items-center rounded-xl bg-emerald-100 text-emerald-700">M</div>
+              <div>
+                <div class="font-medium">María González</div>
+                <div class="text-sm text-gray-500">maria.g@email.com</div>
+                <div class="text-xs text-gray-400">Última actividad: Hace 2 min</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-sm text-gray-500">24 bingos</div>
+              <div class="text-emerald-600 text-sm">$450 ganados</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ACTIVOS -->
+  <ng-container *ngIf="tab==='activos'">
+    <div class="rounded-2xl border bg-white p-6 shadow-sm">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-semibold text-gray-900">Usuarios Conectados Ahora</h3>
+        <span class="rounded-full bg-emerald-100 px-3 py-1 text-emerald-700 text-sm">{{ kpis.online }} online</span>
+      </div>
+      <div class="mt-4 space-y-3">
+        <div *ngFor="let u of conectados" class="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3">
+          <div class="flex items-center gap-3">
+            <span class="text-emerald-600">●</span>
+            <div>
+              <div class="font-medium text-gray-900">{{ u.nombre }}</div>
+              <div class="text-sm text-gray-600">{{ u.estado }}</div>
+            </div>
+          </div>
+          <div class="text-sm text-gray-500">Tiempo: {{ u.tiempo }}</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ENGAGEMENT -->
+  <ng-container *ngIf="tab==='engagement'">
+    <div class="grid gap-6 lg:grid-cols-3">
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Mensajes del Chat</h3>
+        <div class="mt-6 text-center">
+          <div class="text-4xl font-semibold">{{ chatHoy | number }}</div>
+          <div class="text-gray-500">Mensajes hoy</div>
+          <div class="mt-2 text-emerald-600 text-sm">+23%</div>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Reacciones</h3>
+        <ul class="mt-4 space-y-3">
+          <li class="flex items-center justify-between"><span>👍 Me gusta</span><span>{{ reacciones.likes | number }}</span></li>
+          <li class="flex items-center justify-between"><span>❤️ Corazones</span><span>{{ reacciones.hearts | number }}</span></li>
+          <li class="flex items-center justify-between"><span>💬 Comentarios</span><span>{{ reacciones.comments | number }}</span></li>
+        </ul>
+      </div>
+
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Compartidos</h3>
+        <div class="mt-6 text-center">
+          <div class="text-4xl font-semibold">542</div>
+          <div class="text-gray-500">Eventos compartidos</div>
+          <div class="mt-2 text-emerald-600 text-sm">+8% esta semana</div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-3 rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Participación por Evento</h3>
+        <div class="mt-4 divide-y">
+          <div *ngFor="let e of participacion" class="flex items-center justify-between py-4">
+            <div class="font-medium text-gray-900">{{ e.evento }}</div>
+            <div class="grid grid-cols-4 gap-8 text-right text-sm text-gray-700">
+              <div><div class="font-semibold">{{ e.mensajes }}</div><div class="text-gray-500">Mensajes</div></div>
+              <div><div class="font-semibold">{{ e.reacciones }}</div><div class="text-gray-500">Reacciones</div></div>
+              <div><div class="font-semibold">{{ e.compartidos }}</div><div class="text-gray-500">Compartidos</div></div>
+              <div class="text-amber-600">⭐ {{ e.rating }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ANÁLISIS -->
+  <ng-container *ngIf="tab==='analisis'">
+    <div class="grid gap-6 lg:grid-cols-2">
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Tiempo de Sesión Promedio</h3>
+        <div class="mt-6 h-64 grid place-items-center rounded-xl bg-gray-100 text-gray-500">
+          Gráfico de tiempo de sesión por día
+        </div>
+      </div>
+
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-900">Retención de Usuarios</h3>
+        <div class="mt-6 space-y-5">
+          <div *ngFor="let r of retencion">
+            <div class="mb-1 flex items-center justify-between text-sm text-gray-700">
+              <span>{{ r.label }}</span><span>{{ r.pct }}%</span>
+            </div>
+            <div class="h-2 rounded-full bg-gray-200">
+              <div class="h-2 rounded-full bg-neutral-900" [style.width.%]="r.pct"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</section>
