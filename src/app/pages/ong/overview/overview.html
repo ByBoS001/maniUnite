@@ -1,0 +1,91 @@
+<div class="p-6 space-y-6">
+  <!-- Título -->
+  <div>
+    <h1 class="text-2xl font-semibold text-gray-900">
+      Hola, Fundación Educa Más
+    </h1>
+    <p class="text-gray-600">
+      Bienvenida a tu panel de gestión. Aquí puedes ver el impacto de tus donaciones.
+    </p>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div
+      class="rounded-xl border bg-white p-5 flex items-center gap-4"
+      *ngFor="let s of stats()"
+    >
+      <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-emerald-50">
+        <span class="text-xl">{{ s.icon }}</span>
+      </div>
+      <div>
+        <div class="text-2xl font-semibold text-gray-900">{{ s.value }}</div>
+        <div class="text-gray-600">{{ s.label }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notificaciones -->
+  <section class="rounded-xl border bg-white">
+    <div class="px-5 py-4 border-b">
+      <h2 class="text-lg font-semibold text-gray-900">Notificaciones</h2>
+    </div>
+    <div class="p-5 space-y-3">
+      <div
+        *ngFor="let n of notices()"
+        class="rounded-lg px-4 py-3"
+        [ngClass]="{
+          'bg-emerald-50 text-emerald-900 border border-emerald-200': n.type==='success',
+          'bg-amber-50 text-amber-900 border border-amber-200': n.type==='warn',
+          'bg-emerald-50/40 text-emerald-900 border border-emerald-200/60': n.type==='info'
+        }"
+      >
+        <div class="font-medium">{{ n.title }}</div>
+        <div class="text-sm opacity-90">{{ n.detail }}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Eventos recientes -->
+  <section class="rounded-xl border bg-white">
+    <div class="px-5 py-4 flex items-center justify-between border-b">
+      <h2 class="text-lg font-semibold text-gray-900">Eventos recientes</h2>
+      <a
+        class="inline-flex items-center gap-2 text-sm px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200"
+        routerLink="/admin/reportes"
+      >
+        Ver todos los reportes
+      </a>
+    </div>
+
+    <div class="p-2 divide-y">
+      <div
+        *ngFor="let ev of events()"
+        class="flex items-center justify-between p-4"
+      >
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <div class="text-gray-900 font-medium truncate">
+              {{ ev.name }}
+            </div>
+            <span class="text-xs px-2 py-0.5 rounded-full border"
+              >{{ ev.status }}</span
+            >
+          </div>
+          <div class="text-sm text-gray-600 flex gap-4 mt-1">
+            <span>{{ ev.date }}</span>
+            <span>{{ ev.prizes }} premios</span>
+            <span>{{ ev.total }}</span>
+          </div>
+        </div>
+
+        <a
+          class="inline-flex items-center gap-2 text-sm px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200"
+          routerLink="/ong/reportes"
+        >
+          👁️ Ver detalles
+        </a>
+      </div>
+    </div>
+  </section>
+</div>

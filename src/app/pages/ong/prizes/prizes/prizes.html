@@ -1,0 +1,63 @@
+<div class="p-6 space-y-6">
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold text-gray-900 flex items-center gap-2">
+      <span>🎁</span> Premios Donados
+    </h1>
+
+    <button
+      (click)="addPrize()"
+      class="inline-flex items-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2"
+    >
+      <span class="text-lg leading-none">＋</span>
+      Agregar nuevo premio
+    </button>
+  </div>
+
+  <!-- Grid de premios -->
+  <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    @for (p of prizes(); track p.id) {
+      <article class="rounded-2xl border bg-white overflow-hidden shadow-sm">
+        <!-- Imagen -->
+        <div class="relative">
+          <img [src]="p.image" [alt]="p.title" class="w-full h-56 object-cover" />
+
+          <!-- Badge de estado -->
+          <span
+            class="absolute top-3 left-3 text-xs font-medium px-3 py-1 rounded-full text-white"
+            [class.bg-emerald-500]="p.status==='Activo'"
+            [class.bg-blue-600]="p.status==='Usado'"
+            [class.bg-gray-700]="p.status==='Entregado'"
+          >
+            {{ p.status }}
+          </span>
+        </div>
+
+        <!-- Contenido -->
+        <div class="p-5 space-y-3">
+          <h3 class="text-xl font-semibold text-gray-900">
+            {{ p.title }}
+          </h3>
+
+          <div class="flex items-center justify-between text-gray-600">
+            <div class="text-sm">
+              {{ p.type }} • ${{ p.price }}
+            </div>
+            <div class="text-sm">
+              Cant: {{ p.qty }}
+            </div>
+          </div>
+
+          @if (p.usedIn) {
+            <div class="text-sm rounded-lg bg-emerald-50 text-emerald-700 px-3 py-2">
+              Usado en: {{ p.usedIn }}
+            </div>
+          }
+
+          <div class="pt-2">
+          
+          </div>
+        </div>
+      </article>
+    }
+  </div>
+</div>
