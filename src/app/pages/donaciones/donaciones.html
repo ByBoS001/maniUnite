@@ -293,10 +293,10 @@
               <input type="file" multiple (change)="handleFileSelection($event)" class="hidden" />
             </label>
           </div>
-          <div *ngIf="selectedFiles.length > 0">
-            <p class="text-sm font-medium">Archivos seleccionados:</p>
+          <div *ngIf="selectedFiles().length > 0">
+            <p class="text-sm font-medium">Archivos seleccionados ({{ selectedFiles().length }}):</p>
             <ul>
-              <li *ngFor="let file of selectedFiles" class="text-xs">{{ file.name }}</li>
+              <li *ngFor="let file of selectedFiles()" class="text-xs">{{ file.name }}</li>
             </ul>
           </div>
           <button
