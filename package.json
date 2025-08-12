@@ -28,7 +28,11 @@
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
     "@tailwindcss/postcss": "^4.1.11",
+<<<<<<< HEAD
     "firebase": "^12.0.0",
+=======
+    "firebase": "^11.10.0",
+>>>>>>> 815756dda6ebd373c7086e8826c0d0673cef7633
     "postcss": "^8.5.6",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.1.11",

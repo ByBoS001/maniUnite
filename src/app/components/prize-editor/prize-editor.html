@@ -1,0 +1,49 @@
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
+    <h2 class="text-lg font-semibold mb-4">
+      {{ editMode ? 'Editar Premio' : 'Nuevo Premio' }}
+    </h2>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium">Nombre</label>
+        <input type="text" class="w-full border rounded p-2" [(ngModel)]="value.nombre" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Tipo</label>
+        <select class="w-full border rounded p-2" [(ngModel)]="value.tipo">
+          <option>Dinero</option>
+          <option>Producto</option>
+          <option>Vale</option>
+          <option>Experiencia</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Estado</label>
+        <select class="w-full border rounded p-2" [(ngModel)]="value.estado">
+          <option>Activo</option>
+          <option>Limitado</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Valor</label>
+        <input type="number" class="w-full border rounded p-2" [(ngModel)]="value.valor" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">En eventos</label>
+        <input type="text" class="w-full border rounded p-2" [(ngModel)]="value.eventos" />
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-6">
+      <button (click)="onClose()" class="px-4 py-2 bg-gray-200 rounded">Cancelar</button>
+      <button (click)="onSave()" class="px-4 py-2 bg-indigo-600 text-white rounded">
+        {{ editMode ? 'Actualizar' : 'Guardar' }}
+      </button>
+    </div>
+  </div>
+</div>

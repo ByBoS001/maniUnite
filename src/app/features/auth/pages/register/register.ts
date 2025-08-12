@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthStore } from '../../../../core/services/auth-store';
 import { UserProfileApi } from '../../../../core/services/user-profile-api';
-import { OngProfileApi } from '../../../../core/services/ong-profile-api';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +16,6 @@ export class Register {
   private authStore = inject(AuthStore);
   private router = inject(Router);
   private userProfileApi = inject(UserProfileApi);
-  private ongProfileApi = inject(OngProfileApi);
 
   accountType: 'user' | 'ong' = 'user';
 
@@ -75,7 +73,7 @@ export class Register {
           role: 'user' 
         });
       } else {
-        await this.ongProfileApi.createOngProfile(userId, { ...this.ong, document: null });
+        await this.userProfileApi.createUserProfile(userId, { ...this.ong, document: null, role: 'ong' });
       }
 
       this.router.navigate(['/']); // Redirect to home page after successful registration

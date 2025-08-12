@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, NgZone } from '@angular/core';
 import { Auth, user, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 @Injectable({
@@ -6,13 +6,14 @@ import { Auth, user, createUserWithEmailAndPassword, signInWithEmailAndPassword 
 })
 export class AuthStore {
   private auth: Auth = inject(Auth);
+  private ngZone: NgZone = inject(NgZone);
   readonly user$ = user(this.auth);
 
   createUser(email: string, password: string): Promise<any> {
-    return createUserWithEmailAndPassword(this.auth, email, password);
+    return this.ngZone.run(() => createUserWithEmailAndPassword(this.auth, email, password));
   }
 
   login(email: string, password: string): Promise<any> {
-    return signInWithEmailAndPassword(this.auth, email, password);
+    return this.ngZone.run(() => signInWithEmailAndPassword(this.auth, email, password));
   }
 }

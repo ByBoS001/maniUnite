@@ -1,0 +1,81 @@
+<!-- Overlay -->
+<div *ngIf="visible" class="fixed inset-0 z-[100]">
+  <div class="absolute inset-0 bg-black/50" (click)="onCancel()"></div>
+
+  <div
+    class="absolute left-1/2 top-1/2 w-[min(680px,92vw)] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-white shadow-xl"
+  >
+    <!-- Header -->
+    <div class="flex items-center justify-between p-5 border-b">
+      <h2 class="text-xl font-semibold">Reclamar Premio</h2>
+      <button
+        class="p-2 rounded-md hover:bg-gray-100"
+        (click)="onCancel()"
+        aria-label="Cerrar"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="p-6 space-y-6">
+      <div class="flex items-center gap-4">
+        <img
+          [src]="prize.image"
+          class="h-16 w-16 rounded-lg object-cover border"
+          alt="Premio"
+        />
+        <div>
+          <div class="text-lg font-semibold">{{ prize.title }}</div>
+          <div class="text-sm text-gray-500">
+            Donado por {{ prize.donatedBy }}
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium">Nombre completo</label>
+        <input
+          class="w-full rounded-xl border bg-gray-50 px-3 py-2"
+          [(ngModel)]="form.fullName"
+          placeholder="Tu nombre completo"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium">Dirección de envío</label>
+        <textarea
+          class="w-full min-h-[110px] rounded-xl border bg-gray-50 px-3 py-2"
+          [(ngModel)]="form.address"
+          placeholder="Ingresa tu dirección completa de envío..."
+        ></textarea>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium">Comentarios (opcional)</label>
+        <textarea
+          class="w-full min-h-[90px] rounded-xl border bg-gray-50 px-3 py-2"
+          [(ngModel)]="form.notes"
+          placeholder="Instrucciones especiales, horarios de entrega, etc."
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex items-center justify-end gap-3 p-5 border-t">
+      <button
+        class="px-4 py-2 rounded-xl hover:bg-gray-100"
+        (click)="onCancel()"
+      >
+        Cancelar
+      </button>
+      <button
+        class="px-5 py-2 rounded-xl bg-emerald-500 text-white hover:bg-emerald-600 disabled:opacity-60"
+        [disabled]="!form.fullName.trim() || !form.address.trim()"
+        (click)="onSubmit()"
+      >
+        Enviar solicitud
+      </button>
+    </div>
+  </div>
+</div>

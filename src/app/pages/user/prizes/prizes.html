@@ -1,0 +1,95 @@
+<div class="space-y-6">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-semibold">Premios Ganados</h2>
+    <div class="text-sm text-gray-500">{{ prizes.length }} premios</div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Card -->
+    <div
+      *ngFor="let p of prizes"
+      class="bg-white border rounded-2xl overflow-hidden"
+    >
+      <div class="relative">
+        <img [src]="p.image" class="h-56 w-full object-cover" />
+
+        <!-- Badges -->
+        <div class="absolute top-3 right-3">
+          <ng-container [ngSwitch]="p.status">
+            <span
+              *ngSwitchCase="'to-claim'"
+              class="inline-flex items-center px-3 py-1 text-sm rounded-full bg-amber-500 text-white shadow"
+            >
+              Por reclamar
+            </span>
+            <span
+              *ngSwitchCase="'shipped'"
+              class="inline-flex items-center px-3 py-1 text-sm rounded-full bg-blue-600 text-white shadow"
+            >
+              Enviado
+            </span>
+            <span
+              *ngSwitchCase="'delivered'"
+              class="inline-flex items-center px-3 py-1 text-sm rounded-full bg-emerald-600 text-white shadow"
+            >
+              Entregado
+            </span>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="p-5 space-y-3">
+        <div class="text-lg font-semibold">{{ p.title }}</div>
+        <div class="text-gray-600">Valor: {{ p.value }}</div>
+
+        <div class="space-y-2 text-sm text-gray-700">
+          <div class="flex items-center gap-2">
+            <span class="text-gray-400">🏷️</span>
+            <span>Donado por {{ p.donatedBy }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-gray-400">📅</span>
+            <span>Ganado el {{ p.wonAt }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-gray-400">🎟️</span>
+            <span>{{ p.bingoName }}</span>
+          </div>
+        </div>
+
+        <!-- CTA / mensajes según estado -->
+        <div *ngIf="p.status === 'to-claim'" class="pt-2">
+          <button
+            class="w-full px-4 py-3 rounded-xl bg-amber-500 text-white hover:bg-amber-600"
+            (click)="openClaim(p)"
+          >
+            Reclamar premio
+          </button>
+        </div>
+
+        <div
+          *ngIf="p.status === 'shipped'"
+          class="mt-2 rounded-xl bg-blue-50 text-blue-700 p-3 text-sm"
+        >
+          🚚 {{ p.trackingMsg }}
+        </div>
+
+        <div
+          *ngIf="p.status === 'delivered'"
+          class="mt-2 rounded-xl bg-emerald-50 text-emerald-700 p-3 text-sm"
+        >
+          {{ p.deliveredMsg }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-claim-prize
+  *ngIf="selectedPrize"
+  [visible]="claimModalOpen"
+  [prize]="selectedPrize"
+  [defaultName]="userFullName"
+  (cancel)="closeClaim()"
+  (submit)="submitClaim($event)"
+>
+</app-claim-prize>
