@@ -144,10 +144,37 @@ export const routes: Routes = [
     path: 'ong',
     component: PrivateLayout,
     children: [
+      { path: '', pathMatch: 'full', redirectTo: 'inicio' },
       {
-        path: 'asas',
+        path: 'inicio',
         loadComponent: () =>
-          import('./pages/user/profile/profile').then((m) => m.UserProfilePage),
+          import('./pages/ong/overview/overview').then(
+            (m) => m.OngOverviewPage
+          ),
+      },
+      {
+        path: 'perfil',
+        loadComponent: () =>
+          import('./pages/ong/profile/profile').then((m) => m.OngProfilePage),
+      },
+      {
+        path: 'reportes',
+        loadComponent: () =>
+          import('./pages/ong/reports/reports').then((m) => m.OngReportsPage),
+      },
+      {
+        path: 'premios',
+        loadComponent: () =>
+          import('./pages/ong/prizes/prizes/prizes').then(
+            (m) => m.OngPrizesPage
+          ),
+      },
+      {
+        path: 'configuracion',
+        loadComponent: () =>
+          import('./pages/ong/settings/settings').then(
+            (m) => m.OngSettingsPage
+          ),
       },
     ],
   },

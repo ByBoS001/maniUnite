@@ -20,13 +20,11 @@ const NAV_BY_ROLE: Record<Role, NavItem[]> = {
     { label: 'Configuración', link: '/admin/configuracion' },
   ],
   ong: [
-    { label: 'Inicio / Resumen', link: '/admin/resumen' },
-    { label: 'Mi perfil', link: '/admin/perfil' },
-    { label: 'Mis reportes', link: '/admin/reportes' },
-    { label: 'Premios donados', link: '/admin/premios-donados' },
-    { label: 'Impacto social', link: '/admin/impacto' },
-    { label: 'Agradecimientos', link: '/admin/agradecimientos' },
-    { label: 'Configuración', link: '/admin/config' },
+    { label: 'Inicio / Resumen', link: '/ong/inicio' },
+    { label: 'Mi perfil', link: '/ong/perfil' },
+    { label: 'Mis reportes', link: '/ong/reportes' },
+    { label: 'Premios donados', link: '/ong/premios' },
+    { label: 'Configuración', link: '/ong/configuracion' },
   ],
   user: [
     { label: 'Perfil', link: '/user' },
@@ -42,7 +40,7 @@ const NAV_BY_ROLE: Record<Role, NavItem[]> = {
   imports: [NgFor, RouterLink, RouterLinkActive],
   template: `
     <aside
-      class="w-64 bg-white shadow-lg border-r border-gray-200 h-screen flex flex-col"
+      class="w-64 bg-white shadow-lg border-r border-gray-200 h-screen sticky top-0 overflow-y-auto flex flex-col"
     >
       <div class="p-6 border-b border-gray-200">
         <div class="flex items-center gap-3">
@@ -65,7 +63,7 @@ const NAV_BY_ROLE: Record<Role, NavItem[]> = {
             </svg>
           </div>
           <div>
-            <h1 class="text-lg font-semibold text-gray-900">Admin Panel</h1>
+            <h1 class="text-lg font-semibold text-gray-900">Panel ONG</h1>
             <p class="text-sm text-gray-500">ONG Bingo</p>
           </div>
         </div>
