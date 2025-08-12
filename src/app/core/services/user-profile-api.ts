@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, NgZone } from '@angular/core';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 
 @Injectable({
@@ -6,9 +6,10 @@ import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 })
 export class UserProfileApi {
   private firestore: Firestore = inject(Firestore);
+  private ngZone: NgZone = inject(NgZone);
 
   createUserProfile(userId: string, data: any) {
     const userDocRef = doc(this.firestore, `users/${userId}`);
-    return setDoc(userDocRef, data);
+    return this.ngZone.run(() => setDoc(userDocRef, data));
   }
 }

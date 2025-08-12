@@ -37,18 +37,14 @@
         </p>
       </div>
 
-      <!-- Botón + input -->
+      <!-- Botón -->
       <div class="flex flex-col sm:flex-row gap-4">
         <button
+          (click)="scrollToDonationSection()"
           class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2"
         >
           💚 Quiero donar
         </button>
-        <input
-          type="text"
-          placeholder="Tu monto"
-          class="bg-white text-black px-4 py-3 rounded-lg text-sm w-full sm:w-40"
-        />
       </div>
 
       <!-- Stats -->
@@ -101,7 +97,7 @@
   </div>
 </div>
 <!-- Nueva sección: Cómo donar -->
-<section class="bg-gray-50 text-gray-900 py-16 px-4 sm:px-8">
+<section id="donation-section" class="bg-gray-50 text-gray-900 py-16 px-4 sm:px-8">
   <div class="max-w-6xl mx-auto">
     <h2 class="text-2xl sm:text-3xl font-semibold text-center mb-2">
       ¿Cómo donar?
@@ -210,12 +206,32 @@
         <p class="text-sm text-gray-600 mb-6">
           Necesitas una cuenta para procesar tu donación de forma segura
         </p>
-        <button
-          class="bg-emerald-500 text-white w-full py-2 rounded-lg text-sm font-medium"
+        <form (ngSubmit)="submitMoneyDonation()" class="space-y-4">
+          <input
+            type="number"
+            [(ngModel)]="moneyDonationAmount"
+            name="moneyDonationAmount"
+            placeholder="Monto a donar"
+            class="w-full border rounded-lg px-4 py-2 text-sm"
+            required
+          />
+          <button
+            type="submit"
+            class="bg-emerald-500 text-white w-full py-2 rounded-lg text-sm font-medium"
+          >
+            Donar dinero
+          </button>
+        </form>
+        <button 
+          routerLink="/registro"
+          class="bg-emerald-500 text-white w-full py-2 rounded-lg text-sm font-medium mt-2"
         >
           Crear cuenta gratis
         </button>
-        <button class="w-full mt-2 py-2 rounded-lg text-sm border">
+        <button 
+          routerLink="/iniciosesion"
+          class="w-full mt-2 py-2 rounded-lg text-sm border"
+        >
           Ya tengo cuenta
         </button>
       </div>
@@ -253,29 +269,43 @@
       <!-- Formulario de donación de premios -->
       <div class="bg-white rounded-xl shadow p-8">
         <h4 class="text-lg font-semibold mb-4">Describe tu donación</h4>
-        <div class="space-y-4">
+        <form (ngSubmit)="submitDonation()" class="space-y-4">
           <input
             type="text"
+            [(ngModel)]="donation.type"
+            name="donationType"
             placeholder="Tipo de premio (Ej: Smartphone, Cena para dos...)"
             class="w-full border rounded-lg px-4 py-2 text-sm"
           />
           <textarea
+            [(ngModel)]="donation.description"
+            name="donationDescription"
             placeholder="Descripción detallada del premio"
             class="w-full border rounded-lg px-4 py-2 text-sm h-28"
           ></textarea>
           <div
             class="border-dashed border-2 rounded-lg p-4 text-center text-sm text-gray-500"
           >
-            <div class="text-2xl mb-1">⬆️</div>
-            Arrastra fotos aquí o haz clic para seleccionar<br />
-            <span class="text-xs text-gray-400">Máximo 5 fotos, JPG o PNG</span>
+            <label class="cursor-pointer">
+              <div class="text-2xl mb-1">⬆️</div>
+              Arrastra fotos aquí o haz clic para seleccionar<br />
+              <span class="text-xs text-gray-400">Máximo 5 fotos, JPG o PNG</span>
+              <input type="file" multiple (change)="handleFileSelection($event)" class="hidden" />
+            </label>
+          </div>
+          <div *ngIf="selectedFiles.length > 0">
+            <p class="text-sm font-medium">Archivos seleccionados:</p>
+            <ul>
+              <li *ngFor="let file of selectedFiles" class="text-xs">{{ file.name }}</li>
+            </ul>
           </div>
           <button
+            type="submit"
             class="bg-emerald-500 text-white w-full py-2 rounded-lg text-sm font-medium"
           >
             Enviar donación de premio
           </button>
-        </div>
+        </form>
       </div>
     </div>
   </div>
