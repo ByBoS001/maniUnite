@@ -8,11 +8,10 @@
         *ngFor="let partner of partners"
         class="flex flex-col items-center bg-background rounded-lg p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 ease-in-out"
       >
-        <div *ngIf="partner.name === 'Cruz Roja'" class="text-3xl mb-3"></div>
         <img
           [src]="partner.logo"
           [alt]="partner.name"
-          class="h-10 mb-2"
+          class="h-16 mb-2"
         />
         <span class="text-sm text-textSecondary">{{ partner.name }}</span>
       </div>
