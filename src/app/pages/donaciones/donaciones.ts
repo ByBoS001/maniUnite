@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -27,7 +27,13 @@ export class Donaciones {
     images: [] as string[],
   };
 
-  selectedFiles: File[] = [];
+
+  uploading = signal(false);
+  errorMsg = signal<string | null>(null);
+  successMsg = signal<string | null>(null);
+
+  selectedFiles = signal<File[]>([]);
+  selectedCount = computed(() => this.selectedFiles().length);
 
   setTipo(valor: 'dinero' | 'premios') {
     this.tipo.set(valor);
@@ -35,36 +41,82 @@ export class Donaciones {
 
   handleFileSelection(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (input.files) {
-      this.selectedFiles = Array.from(input.files);
+    if (!input.files) return;
+
+    const files = Array.from(input.files);
+    const MAX_FILES = 5;
+    const MAX_SIZE_MB = 10;
+    const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+
+    const picked: File[] = [];
+    for (const f of files) {
+      if (!allowed.includes(f.type)) {
+        this.errorMsg.set(`Formato no permitido: ${f.name} (${f.type}). Usa JPG/PNG/WEBP.`);
+        continue;
+      }
+      if (f.size > MAX_SIZE_MB * 1024 * 1024) {
+        this.errorMsg.set(`Archivo muy grande: ${f.name} (máx ${MAX_SIZE_MB}MB).`);
+        continue;
+      }
+      picked.push(f);
+    }
+
+    const combined = [...this.selectedFiles(), ...picked].slice(0, MAX_FILES);
+    this.selectedFiles.set(combined);
+    if (combined.length === 0) {
+      this.successMsg.set(null);
     }
   }
 
   async submitDonation() {
-    this.donation.type = 'prize';
-    if (this.selectedFiles.length > 0) {
-      const uploadPromises = this.selectedFiles.map(file => this.fileUploadApi.uploadFile(file));
-      this.donation.images = await Promise.all(uploadPromises);
-    }
+    this.errorMsg.set(null);
+    this.successMsg.set(null);
+    this.uploading.set(true);
 
-    await this.donationsApi.createDonation(this.donation);
-    // Reset form
-    this.donation = {
-      type: '',
-      description: '',
-      images: [],
-    };
-    this.selectedFiles = [];
+    try {
+      // Forzamos el tipo en backend como 'prize' (manteniendo tu API actual)
+      this.donation.type = 'prize';
+
+      if (this.selectedFiles().length > 0) {
+        const uploadPromises = this.selectedFiles().map(file => this.fileUploadApi.uploadFile(file));
+        this.donation.images = await Promise.all(uploadPromises);
+        console.log('[Cloudinary] URLs:', this.donation.images);
+      }
+
+      await this.donationsApi.createDonation(this.donation);
+
+      // Reset del formulario
+      this.donation = { type: '', description: '', images: [] };
+      this.selectedFiles.set([]);
+      this.successMsg.set('¡Donación enviada correctamente! 🎉');
+    } catch (err: unknown) {
+      const msg = (err instanceof Error ? err.message : 'Error desconocido');
+      console.error('[Donaciones] submitDonation error:', err);
+      this.errorMsg.set(`No se pudo enviar la donación: ${msg}`);
+    } finally {
+      this.uploading.set(false);
+    }
   }
 
   async submitMoneyDonation() {
-    if (this.moneyDonationAmount !== null) {
+    this.errorMsg.set(null);
+    this.successMsg.set(null);
+    if (this.moneyDonationAmount === null || this.moneyDonationAmount <= 0) {
+      this.errorMsg.set('Ingresa un monto válido.');
+      return;
+    }
+    try {
       await this.donationsApi.createDonation({
         type: 'money',
         amount: this.moneyDonationAmount,
         timestamp: new Date()
       });
-      this.moneyDonationAmount = null; // Reset form
+      this.moneyDonationAmount = null;
+      this.successMsg.set('¡Gracias por tu donación monetaria! 💚');
+    } catch (err: unknown) {
+      const msg = (err instanceof Error ? err.message : 'Error desconocido');
+      console.error('[Donaciones] submitMoneyDonation error:', err);
+      this.errorMsg.set(`No se pudo procesar tu donación: ${msg}`);
     }
   }
 

@@ -19,3 +19,11 @@ export const firebaseProviders = [
   provideFirestore(() => getFirestore()),
   provideStorage(() => getStorage())
 ];
+
+export const environment = {
+  production: false,
+  cloudinary: {
+    cloudName: 'dj5jb14fu',
+    uploadPreset: 'ManiUnite'
+  }
+};
