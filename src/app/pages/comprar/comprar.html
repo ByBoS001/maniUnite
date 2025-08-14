@@ -12,7 +12,7 @@
   >
     <div
       *ngFor="let stat of stats"
-      class="bg-white shadow-md rounded-xl py-6 px-4 border border-gray-100"
+      class="bg-white shadow-md rounded-xl py-6 px-4 border border-gray-100 hover:shadow-xl transition-shadow duration-300 ease-in-out"
     >
       <div class="text-3xl font-bold" [ngClass]="stat.color">
         {{ stat.value }}

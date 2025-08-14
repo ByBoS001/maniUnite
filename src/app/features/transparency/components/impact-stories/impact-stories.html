@@ -7,7 +7,7 @@
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
         *ngFor="let story of stories"
-        class="bg-white rounded-xl shadow p-6 text-left"
+        class="bg-white rounded-xl shadow p-6 text-left hover:shadow-xl transition-shadow duration-300 ease-in-out"
       >
         <span class="text-xl text-primary">❝</span>
         <p class="text-text mb-4">{{ story.quote }}</p>

@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 
 interface Partner {
   name: string;
@@ -15,15 +14,12 @@ interface Partner {
   styleUrl: './partners-logos.scss',
 })
 export class PartnersLogos {
-  private http = inject(HttpClient);
-  partners: Partner[] = [];
-
-  ngOnInit() {
-    this.http
-      .get<Partner[]>('/assets/data/partners.json')
-      .subscribe({
-        next: (data) => (this.partners = data),
-        error: (err) => console.error('❌ Error al cargar los aliados:', err),
-      });
-  }
+  partners: Partner[] = [
+    { name: 'Banco de Alimentos', logo: '/assets/image/banco de alimentos.webp' },
+    { name: 'Cruz Roja', logo: '/assets/image/cruz roja.webp' },
+    { name: 'Fundación Educación', logo: '/assets/image/fundacion educacion.webp' },
+    { name: 'Hogar de Niños', logo: '/assets/image/hogar.webp' },
+    { name: 'Médicos Sin Fronteras', logo: '/assets/image/medicos.webp' },
+    { name: 'UNICEF', logo: '/assets/image/unicef.webp' },
+  ];
 }
