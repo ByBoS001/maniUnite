@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AuthStore } from '../../core/services/auth-store';
 
 @Component({
   selector: 'app-private-header',
-  imports: [],
+  standalone: true, // <- Hay que agregar standalone: true
+  imports: [CommonModule], // <- E importar CommonModule para usar *ngIf y el pipe async
   template: `
     <header
       class="bg-white border-b border-gray-200 sticky top-0 z-10 px-6 py-4 shadow-sm"
     >
       <div class="flex items-center justify-between">
         <h2 class="text-xl font-semibold text-gray-800">Panel</h2>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4" *ngIf="authStore.user$ | async as user">
           <!-- Buscador -->
           <div class="relative">
             <input
@@ -55,21 +58,31 @@ import { Component } from '@angular/core';
             </span>
           </button>
 
-          <!-- Avatar -->
-          <div class="flex items-center gap-2">
+          <!-- Avatar y Logout -->
+          <div class="flex items-center gap-3">
+            <div class="text-sm text-right">
+              <p class="text-gray-800 font-medium">{{ user.displayName || 'Usuario' }}</p>
+              <p class="text-gray-500 text-xs">{{ user.email }}</p>
+            </div>
             <div
-              class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm"
+              class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center text-lg font-semibold"
             >
-              A
+              {{ user.email ? user.email[0].toUpperCase() : 'U' }}
             </div>
-            <div class="text-sm">
-              <p class="text-gray-800">Admin</p>
-              <p class="text-gray-500 text-xs">admin@ongbingo.com</p>
-            </div>
+            <button (click)="logout()" title="Cerrar Sesión" class="p-2 rounded-full hover:bg-gray-100">
+              <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+            </button>
           </div>
+
         </div>
       </div>
     </header>
   `,
 })
-export class PrivateHeader {}
+export class PrivateHeader {
+  authStore = inject(AuthStore);
+
+  logout() {
+    this.authStore.logout();
+  }
+}

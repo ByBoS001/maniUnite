@@ -67,13 +67,24 @@ export class Register {
 
       if (this.accountType === 'user') {
         await this.userProfileApi.createUserProfile(userId, { 
-          fullName: this.user.fullName, 
+          name: this.user.fullName, 
           email: this.user.email, 
           phone: this.user.phone, 
-          role: 'user' 
+          role: 'individual',
+          createdAt: new Date()
         });
       } else {
-        await this.userProfileApi.createUserProfile(userId, { ...this.ong, document: null, role: 'ong' });
+        await this.userProfileApi.createUserProfile(userId, { 
+          name: this.ong.organizationName,
+          legalRepresentative: this.ong.legalRepresentative,
+          email: this.ong.email,
+          phone: this.ong.phone,
+          city: this.ong.city,
+          country: this.ong.country,
+          description: this.ong.description,
+          role: 'ong',
+          createdAt: new Date()
+        });
       }
 
       this.router.navigate(['/']); // Redirect to home page after successful registration

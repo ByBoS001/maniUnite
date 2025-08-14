@@ -1,13 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { PrivateHeader } from '../../components/private-header/private-header';
 import { PrivateSidebar } from '../../components/private-sidebar/private-sidebar';
+import { AuthStore } from '../../core/services/auth-store';
+import { Observable, map, filter } from 'rxjs';
+
+type Role = 'admin' | 'ong' | 'user';
+
 @Component({
   selector: 'app-private-layout',
-  imports: [PrivateHeader, PrivateSidebar,RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, PrivateHeader, PrivateSidebar, RouterOutlet],
   template: `
-    <div class="h-screen flex">
+    <div class="h-screen flex" *ngIf="userRole$ | async as role; else loading">
+      <!-- Pasamos el rol al sidebar -->
       <app-private-sidebar [role]="role"></app-private-sidebar>
+      
       <div class="flex-1 flex flex-col h-screen overflow-hidden">
         <app-private-header></app-private-header>
         <main class="p-6 flex-1 overflow-auto">
@@ -15,9 +24,27 @@ import { PrivateSidebar } from '../../components/private-sidebar/private-sidebar
         </main>
       </div>
     </div>
+    <ng-template #loading>
+      <div class="h-screen w-screen flex items-center justify-center">
+        Cargando perfil...
+      </div>
+    </ng-template>
   `,
 })
 export class PrivateLayout {
-  // TODO: set this from your auth store/session
-  role: 'admin' | 'ong' | 'user' = 'ong';
+  private authStore = inject(AuthStore);
+
+  userRole$: Observable<Role> = this.authStore.userProfile$.pipe(
+    filter(userProfile => userProfile !== null), // Wait until userProfile is not null
+    map(userProfile => {
+      if (userProfile!.role === 'individual') {
+        return 'user';
+      } else if (userProfile!.role === 'ong') {
+        return 'ong';
+      } else {
+        return 'admin'; // Assuming any other role is admin for now
+      }
+    })
+  );
 }
+

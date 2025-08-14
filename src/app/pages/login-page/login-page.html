@@ -110,6 +110,11 @@
         >
           Iniciar sesión
         </button>
+
+        <!-- Mensaje de Error -->
+        <div *ngIf="loginError" class="py-2 text-center text-red-500 font-semibold">
+          {{ loginError }}
+        </div>
       </form>
 
       <!-- Divider -->

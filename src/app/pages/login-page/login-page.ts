@@ -19,14 +19,31 @@ export class LoginPage {
   password = '';
   remember = false;
   showPassword = false;
+  loginError: string | null = null;
 
   async login() {
+    this.loginError = null; // Reset error message on new attempt
     try {
-      await this.authStore.login(this.email, this.password);
-      this.router.navigate(['/']); // Redirect to home page after successful login
+      const userProfile = await this.authStore.login(this.email, this.password);
+
+      if (userProfile) {
+        // Redirección basada en el rol del usuario
+        if (userProfile.role === 'ong') {
+          this.router.navigate(['/ong']);
+        } else if (userProfile.role === 'admin') {
+          this.router.navigate(['/admin']);
+        } else {
+          // Para cualquier otro caso (incluido 'individual'), redirigir a /user
+          this.router.navigate(['/user']);
+        }
+      } else {
+        // El login falló o el perfil no existe
+        this.loginError = 'El correo o la contraseña son incorrectos.';
+        console.error('Login failed or user profile not found.');
+      }
     } catch (error) {
+      this.loginError = 'El correo o la contraseña son incorrectos.';
       console.error('Error logging in:', error);
-      // Handle error (e.g., show an error message to the user)
     }
   }
 
