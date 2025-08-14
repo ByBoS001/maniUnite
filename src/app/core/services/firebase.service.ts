@@ -16,7 +16,7 @@ export interface UserProfile {
   uid: string;
   email: string;
   name: string;
-  role: 'individual' | 'ong';
+  role: 'individual' | 'ong' | 'admin';
   createdAt: Date;
 }
 

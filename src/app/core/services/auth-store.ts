@@ -19,7 +19,7 @@ export class AuthStore {
   private userProfileSubject = new BehaviorSubject<UserProfile | null>(null);
   userProfile$ = this.userProfileSubject.asObservable();
 
-  get userRole(): 'individual' | 'ong' | null {
+  get userRole(): 'individual' | 'ong' | 'admin' | null {
     return this.userProfileSubject.value?.role || null;
   }
 
