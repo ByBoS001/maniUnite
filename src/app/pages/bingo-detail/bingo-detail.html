@@ -1,8 +1,18 @@
 <section class="py-10 px-4 lg:py-16 max-w-7xl mx-auto">
   <!-- Volver -->
   <button class="mb-6 flex items-center text-sm text-blue-600 hover:underline">
-    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    <svg
+      class="w-4 h-4 mr-2"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M15 19l-7-7 7-7"
+      />
     </svg>
     Volver a bingos disponibles
   </button>
@@ -12,9 +22,16 @@
     <div class="lg:col-span-2 space-y-8">
       <!-- Imagen y estado -->
       <div class="relative">
-        <img src="/assets/bingo-cover.jpg" class="w-full h-72 object-cover rounded-xl" alt="Bingo" />
+        <img
+          src="/assets/bingo-cover.jpg"
+          class="w-full h-72 object-cover rounded-xl"
+          alt="Bingo"
+        />
         <div class="absolute top-4 left-4">
-          <span class="bg-red-600 text-white px-3 py-1 text-xs rounded-full animate-pulse">🔴 En vivo</span>
+          <span
+            class="bg-red-600 text-white px-3 py-1 text-xs rounded-full animate-pulse"
+            >🔴 En vivo</span
+          >
         </div>
       </div>
 
@@ -22,13 +39,22 @@
       <div>
         <h1 class="text-3xl font-bold mb-2">Bingo por la Educación</h1>
         <div class="flex items-center gap-3 mb-4">
-          <img src="/assets/logo-ong.png" alt="ONG" class="w-8 h-8 rounded-full" />
+          <img
+            src="/assets/logo-ong.png"
+            alt="ONG"
+            class="w-8 h-8 rounded-full"
+          />
           <div>
             <p class="font-medium">Fundación Educa Más</p>
-            <a href="#" class="text-sm text-blue-600 hover:underline">Ver perfil de la ONG</a>
+            <a href="#" class="text-sm text-blue-600 hover:underline"
+              >Ver perfil de la ONG</a
+            >
           </div>
         </div>
-        <p class="text-gray-600 mb-6">Ayúdanos a construir aulas digitales para 200 niños en comunidades rurales.</p>
+        <p class="text-gray-600 mb-6">
+          Ayúdanos a construir aulas digitales para 200 niños en comunidades
+          rurales.
+        </p>
 
         <!-- Fechas -->
         <div class="grid md:grid-cols-2 gap-4">
@@ -81,12 +107,21 @@
 
         <!-- Causa -->
         <div class="bg-blue-50 p-6 rounded-xl shadow text-center">
-          <p class="text-xl font-semibold mb-2">💙 "Con tu tabla no solo puedes ganar, también ayudas a causas reales."</p>
+          <p class="text-xl font-semibold mb-2">
+            💙 "Con tu tabla no solo puedes ganar, también ayudas a causas
+            reales."
+          </p>
           <div class="flex items-center justify-center gap-3">
-            <img src="/assets/logo-ong.png" class="w-10 h-10 rounded-full" alt="ONG" />
+            <img
+              src="/assets/logo-ong.png"
+              class="w-10 h-10 rounded-full"
+              alt="ONG"
+            />
             <div>
               <p class="font-semibold">Fundación Educa Más</p>
-              <p class="text-sm text-gray-500">Transformando vidas a través de la educación</p>
+              <p class="text-sm text-gray-500">
+                Transformando vidas a través de la educación
+              </p>
             </div>
           </div>
         </div>
@@ -107,32 +142,62 @@
         <div class="mb-6">
           <p class="mb-2">Cantidad de tablas</p>
           <div class="flex items-center justify-between">
-            <button class="w-10 h-10 bg-gray-200 text-lg font-bold rounded">-</button>
-            <span class="text-xl font-semibold">1</span>
-            <button class="w-10 h-10 bg-gray-200 text-lg font-bold rounded">+</button>
+            <button
+              (click)="decrement()"
+              class="w-10 h-10 bg-gray-200 text-lg font-bold rounded"
+            >
+              -
+            </button>
+            <span class="text-xl font-semibold">{{ selectedTables() }}</span>
+            <button
+              (click)="increment()"
+              class="w-10 h-10 bg-gray-200 text-lg font-bold rounded"
+            >
+              +
+            </button>
           </div>
-          <p class="text-xs text-gray-500 mt-2 text-center">💡 Máximo 5 tablas por usuario</p>
+          <p class="text-xs text-gray-500 mt-2 text-center">
+            💡 Máximo 5 tablas por usuario
+          </p>
         </div>
 
         <!-- Total -->
         <div class="bg-gray-50 p-4 rounded-lg mb-4">
           <p class="text-sm text-gray-500">Total a pagar</p>
-          <p class="text-2xl font-bold">$25</p>
-          <p class="text-sm text-gray-500">1 tabla × $25</p>
+          <p class="text-2xl font-bold">${{ 25 * selectedTables() }}</p>
+          <p class="text-sm text-gray-500">
+            {{ selectedTables() }} tabla{{ selectedTables() > 1 ? "s" : "" }} ×
+            $25
+          </p>
         </div>
 
         <!-- Botón -->
-        <button class="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded mb-4">
-          Inicia sesión para comprar
+        <button
+          class="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded mb-4"
+          (click)="openPurchase()"
+        >
+          Comprar tablas
         </button>
 
         <!-- Métodos de pago -->
         <div class="text-center mb-4">
           <p class="text-sm text-gray-500">Métodos de pago seguros</p>
           <div class="flex justify-center gap-2 mt-2">
-            <div class="w-10 h-6 bg-gray-200 rounded flex items-center justify-center">💳</div>
-            <div class="w-10 h-6 bg-blue-100 rounded flex items-center justify-center">PP</div>
-            <div class="w-10 h-6 bg-green-100 rounded flex items-center justify-center">🏦</div>
+            <div
+              class="w-10 h-6 bg-gray-200 rounded flex items-center justify-center"
+            >
+              💳
+            </div>
+            <div
+              class="w-10 h-6 bg-blue-100 rounded flex items-center justify-center"
+            >
+              PP
+            </div>
+            <div
+              class="w-10 h-6 bg-green-100 rounded flex items-center justify-center"
+            >
+              🏦
+            </div>
           </div>
         </div>
 
@@ -149,3 +214,12 @@
     </div>
   </div>
 </section>
+
+<!-- Modal -->
+<app-purchase-modal
+  [open]="showPurchase()"
+  [selectedTables]="selectedTables()"
+  (close)="showPurchase.set(false)"
+  (completed)="onPurchaseCompleted($event)"
+>
+</app-purchase-modal>

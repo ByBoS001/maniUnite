@@ -1,11 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthStore } from '../../../core/services/auth-store';
+import { Subscription } from 'rxjs';
 
 type OrgProfile = {
   name: string;
   legalRep: string;
-  email: string;         // no editable (ejemplo)
+  email: string;
   phone: string;
   website: string;
   city: string;
@@ -20,36 +22,45 @@ type OrgProfile = {
   imports: [CommonModule, FormsModule],
   templateUrl: './profile.html'
 })
-export class OngProfilePage {
-  // modo edición
-  editing = signal(false);
+export class OngProfilePage implements OnInit, OnDestroy {
+  private authStore = inject(AuthStore);
+  private subscription: Subscription | undefined;
 
-  // Perfil (mock por ahora)
-  profile = signal<OrgProfile>({
-    name: 'Fundación Educa Más',
-    legalRep: 'María Isabel Rodríguez',
-    email: 'ong@gmail.com',
-    phone: '+593 99 876 5432',
-    website: 'https://educamas.org',
-    city: 'Quito',
-    country: 'Ecuador',
-    description:
-      'Dedicada a la educación de niños en situación vulnerable, ...',
-    verified: true
-  });
+  editing = signal(false);
+  profile = signal<Partial<OrgProfile>>({});
+
+  ngOnInit() {
+    this.subscription = this.authStore.userProfile$.subscribe(userProfile => {
+      console.log('OngProfilePage received userProfile:', userProfile);
+      if (userProfile) {
+        this.profile.set({
+          name: userProfile.name,
+          email: userProfile.email,
+          legalRep: 'María Isabel Rodríguez',
+          phone: '+593 99 876 5432',
+          website: 'https://educamas.org',
+          city: 'Quito',
+          country: 'Ecuador',
+          description: 'Dedicada a la educación de niños en situación vulnerable, ...',
+          verified: true
+        });
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
 
   toggleEdit() {
     this.editing.update(v => !v);
   }
 
-  // Simula guardado
   save() {
-    // Aquí llamarías a tu API (service) y al terminar apagas edición.
     this.editing.set(false);
   }
 
   cancel() {
-    // Si tuvieras un store/API, volverías a pedir el perfil original.
     this.editing.set(false);
   }
 }

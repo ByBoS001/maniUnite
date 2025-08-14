@@ -1,17 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-type UserProfile = {
-  email: string;
-  nombre: string;
-  telefono: string;
-  ciudad: string;
-  pais: string;
-  ultimoAcceso: string;
-  miembroDesde: string;
-  avatar?: string;
-};
+import { AuthStore } from '../../../core/services/auth-store';
+import { UserProfile } from '../../../core/services/firebase.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -19,22 +11,45 @@ type UserProfile = {
   imports: [CommonModule, FormsModule],
   templateUrl: './profile.html'
 })
-export class UserProfilePage {
+export class UserProfilePage implements OnInit, OnDestroy {
   edit = false;
+  private authStore = inject(AuthStore);
+  private subscription: Subscription | undefined;
 
-  // demo data — luego lo puedes hidratar desde tu store/api
-  model: UserProfile = {
-    email: 'usuario@gmail.com',
-    nombre: 'María González',
-    telefono: '+593 99 123 4567',
-    ciudad: 'Quito',
-    pais: 'Ecuador',
-    ultimoAcceso: 'hace 2 días',
-    miembroDesde: '2024',
-  };
+  model: Partial<UserProfile> & { 
+    telefono?: string;
+    ciudad?: string;
+    pais?: string;
+    ultimoAcceso?: string;
+    miembroDesde?: string;
+  } = {};
 
-  // copia para edición
-  draft: UserProfile = structuredClone(this.model);
+  draft: Partial<typeof this.model> = {};
+
+  ngOnInit() {
+    this.subscription = this.authStore.userProfile$.subscribe(userProfile => {
+      console.log('UserProfilePage received userProfile:', userProfile);
+      if (userProfile) {
+        this.model = {
+          ...userProfile,
+          miembroDesde: userProfile.createdAt 
+            ? new Date(userProfile.createdAt).toLocaleDateString() 
+            : 'Fecha no disponible',
+          telefono: '+593 99 123 4567',
+          ciudad: 'Quito',
+          pais: 'Ecuador',
+          ultimoAcceso: 'hace 2 días',
+        };
+        this.draft = structuredClone(this.model);
+      } else {
+        // This can happen on logout, so we don't log an error anymore.
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
 
   startEdit() {
     this.draft = structuredClone(this.model);
@@ -46,7 +61,6 @@ export class UserProfilePage {
   }
 
   save() {
-    // aquí podrías llamar a tu API/store
     this.model = structuredClone(this.draft);
     this.edit = false;
   }

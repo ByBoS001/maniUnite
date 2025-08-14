@@ -1,6 +1,9 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthStore } from '../../core/services/auth-store';
+import { FirebaseService, Bingo } from '../../core/services/firebase.service';
+import { FileUploadApi } from '../../core/services/file-upload-api';
 
 @Component({
   selector: 'app-create-bingo',
@@ -12,7 +15,13 @@ import { FormsModule } from '@angular/forms';
 export class CreateBingo {
 @Output() close = new EventEmitter<void>();
 
+private authStore = inject(AuthStore);
+private firebaseService = inject(FirebaseService);
+private fileUploadApi = inject(FileUploadApi);
+
 showPreview = false;
+selectedImageFile: File | null = null;
+imagePreview: string | ArrayBuffer | null = null;
 
 bingo = {
   titulo: '',
@@ -23,6 +32,18 @@ bingo = {
   limite: 2,
   max: 500,
 };
+
+onFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files[0]) {
+    this.selectedImageFile = input.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result;
+    };
+    reader.readAsDataURL(this.selectedImageFile);
+  }
+}
 
 prizes = [
   {
@@ -77,6 +98,64 @@ togglePrize(id: string) {
   const p = this.prizes.find(x => x.id === id);
   if (p) p.selected = !p.selected;
 }
+
+async saveAndPublish() {
+  if (!this.selectedImageFile) {
+    alert('Por favor, selecciona una imagen para el bingo.');
+    return;
+  }
+
+  if (this.selectedPrizes.length === 0) {
+    alert('Por favor, selecciona al menos un premio para el bingo.');
+    return;
+  }
+
+  // Upload image to Cloudinary
+  let imageUrl: string | null = null;
+  try {
+    imageUrl = await this.fileUploadApi.uploadFile(this.selectedImageFile);
+  } catch (error) {
+    console.error('Error al subir la imagen:', error);
+    alert('Error al subir la imagen. Por favor, inténtalo de nuevo.');
+    return;
+  }
+
+  // Get admin user UID
+  const adminUser = this.authStore.userProfileSubject.value;
+  if (!adminUser || adminUser.role !== 'admin') {
+    alert('Solo los administradores pueden crear bingos.');
+    return;
+  }
+
+  // Construct Bingo object
+  const newBingo: Bingo = {
+    name: this.bingo.titulo,
+    date: new Date(`${this.bingo.fecha}T${this.bingo.hora}`),
+    streamUrl: '', // Assuming this will be set later or is not required for creation
+    status: 'upcoming', // Default status
+    ongId: adminUser.uid, // Assuming admin user is also an ONG or we need to get ONG ID from admin profile
+    imageUrl: imageUrl,
+    price: this.bingo.precio,
+    userLimit: this.bingo.limite,
+    maxTables: this.bingo.max,
+  };
+
+  try {
+    const bingoId = await this.firebaseService.createBingo(newBingo, this.selectedPrizes.map(p => ({
+      id: p.id,
+      name: p.title,
+      description: p.type,
+      value: p.value,
+      donorId: p.donor.id,
+    })));
+    alert('Bingo creado y publicado con éxito. ID: ' + bingoId);
+    this.cerrar(); // Close the modal
+  } catch (error) {
+    console.error('Error al guardar el bingo:', error);
+    alert('Error al guardar el bingo. Por favor, inténtalo de nuevo.');
+  }
+}
+
 
 togglePreview() {
   this.showPreview = !this.showPreview;

@@ -1,6 +1,8 @@
 {
   "hosting": {
     "public": "dist/maniunite/browser",
+
+    "public": "dist/maniunite",
     "ignore": [
       "firebase.json",
       "**/.*",

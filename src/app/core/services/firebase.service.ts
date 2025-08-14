@@ -27,6 +27,10 @@ export interface Bingo {
   streamUrl: string;
   status: 'upcoming' | 'live' | 'finished';
   ongId: string;
+  imageUrl: string;
+  price: number;
+  userLimit: number;
+  maxTables: number;
 }
 
 export interface Prize {
@@ -35,6 +39,8 @@ export interface Prize {
   description: string;
   winnerId?: string;
   wonAt?: Date;
+  value: number;
+  donorId: string;
 }
 
 export interface BingoCard {
