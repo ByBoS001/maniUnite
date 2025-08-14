@@ -1,0 +1,214 @@
+@if (open) {
+<div class="fixed inset-0 z-50 flex items-center justify-center">
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-black/50" (click)="close.emit()"></div>
+
+  <!-- Modal -->
+  <div class="relative z-10 w-full max-w-xl rounded-xl bg-white shadow-xl p-6">
+    <div class="flex items-start justify-between">
+      <h3 class="text-xl font-semibold">Compra de tablas</h3>
+      <button class="text-gray-500 hover:text-gray-700" (click)="close.emit()">
+        &times;
+      </button>
+    </div>
+
+    @if (!isLoggedIn()) {
+    <div
+      class="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-4 text-amber-800"
+    >
+      <p class="text-sm">
+        No estás logeado. Por ahora puedes continuar como invitado.
+      </p>
+      <button
+        class="mt-3 rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+        (click)="continueAsGuest()"
+      >
+        Continuar como invitado
+      </button>
+    </div>
+    } @if (isLoggedIn()) {
+    <form
+      class="mt-5 space-y-5"
+      [formGroup]="paymentForm"
+      (ngSubmit)="submit()"
+    >
+      <!-- Resumen -->
+      <div class="rounded-lg bg-gray-50 p-4 border">
+        <div class="flex items-center gap-4">
+          <div>
+            <p class="text-sm text-gray-600">Tablas seleccionadas</p>
+            <input
+              type="number"
+              min="1"
+              formControlName="tables"
+              class="mt-1 w-28 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+            />
+          </div>
+          <div class="ml-auto text-right">
+            <p class="text-sm text-gray-600">Precio unitario</p>
+            <p class="font-semibold">$25.00</p>
+            <p class="text-sm text-gray-600 mt-1">Total</p>
+            <p class="font-bold text-lg">
+              ${{
+                paymentForm.value.tables
+                  ? +paymentForm.value.tables * 25
+                  : (0 | number : "1.0-2")
+              }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Métodos -->
+      <div class="grid grid-cols-2 gap-3">
+        <button
+          type="button"
+          class="rounded-md border px-4 py-2 text-sm font-medium transition"
+          [class.border-blue-600]="activeMethod() === 'transfer'"
+          [class.bg-blue-50]="activeMethod() === 'transfer'"
+          (click)="setMethod('transfer')"
+        >
+          Transferencia
+        </button>
+        <button
+          type="button"
+          class="rounded-md border px-4 py-2 text-sm font-medium transition"
+          [class.border-blue-600]="activeMethod() === 'card'"
+          [class.bg-blue-50]="activeMethod() === 'card'"
+          (click)="setMethod('card')"
+        >
+          Tarjeta
+        </button>
+      </div>
+
+      <!-- Transferencia -->
+      @if (activeMethod() === 'transfer') {
+      <div class="space-y-3 rounded-lg border p-4">
+        <p class="text-sm text-gray-600">
+          Datos para transferencia (Banco de Guayaquil)
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+          <div>
+            <p><span class="font-medium">Banco:</span> Banco de Guayaquil</p>
+            <p><span class="font-medium">Tipo:</span> Cuenta de ahorros</p>
+          </div>
+          <div>
+            <p><span class="font-medium">Titular:</span> Nova Solutions</p>
+            <p><span class="font-medium">N° cuenta:</span> 0123456789</p>
+          </div>
+        </div>
+
+        <label class="block text-sm mt-2">Número de comprobante</label>
+        <input
+          type="text"
+          formControlName="transferNumber"
+          placeholder="Ej: 2025-ABCD-1234"
+          class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+        />
+        @if (paymentForm.get('transferNumber')?.touched &&
+        paymentForm.get('transferNumber')?.invalid) {
+        <p class="text-xs text-red-600 mt-1">
+          Ingresa un número de comprobante válido.
+        </p>
+        }
+
+        <label class="block text-sm mt-3">Comprobante (opcional)</label>
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          class="mt-1 block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-white hover:file:bg-blue-700"
+        />
+      </div>
+      }
+
+      <!-- Tarjeta -->
+      @if (activeMethod() === 'card') {
+      <div class="space-y-3 rounded-lg border p-4">
+        <div>
+          <label class="block text-sm">Nombre en la tarjeta</label>
+          <input
+            type="text"
+            formControlName="cardName"
+            class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label class="block text-sm">Número de tarjeta</label>
+          <input
+            type="text"
+            inputmode="numeric"
+            maxlength="19"
+            formControlName="cardNumber"
+            placeholder="4111 1111 1111 1111"
+            class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          />
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-sm">Mes</label>
+            <input
+              type="text"
+              inputmode="numeric"
+              maxlength="2"
+              formControlName="expMonth"
+              placeholder="MM"
+              class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label class="block text-sm">Año</label>
+            <input
+              type="text"
+              inputmode="numeric"
+              maxlength="4"
+              formControlName="expYear"
+              placeholder="AA o AAAA"
+              class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label class="block text-sm">CVV</label>
+            <input
+              type="password"
+              inputmode="numeric"
+              maxlength="4"
+              formControlName="cvv"
+              class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+        @if (paymentForm.invalid && (paymentForm.touched || submitted())) {
+        <p class="text-xs text-red-600">Revisa los datos de la tarjeta.</p>
+        }
+      </div>
+      }
+
+      <div class="flex items-center justify-end gap-3">
+        <button
+          type="button"
+          class="rounded-md border px-4 py-2"
+          (click)="close.emit()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="rounded-md bg-blue-600 px-5 py-2 text-white hover:bg-blue-700"
+        >
+          Enviar
+        </button>
+      </div>
+    </form>
+
+    @if (submitted()) {
+    <div
+      class="mt-5 rounded-lg border border-emerald-300 bg-emerald-50 p-4 text-emerald-800"
+    >
+      <p class="text-sm">
+        ¡Gracias! En cuanto verifiquemos tu compra, se habilitarán tus tablas.
+      </p>
+    </div>
+    } }
+  </div>
+</div>
+}
