@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -13,11 +13,12 @@ import { DonationsApi } from '../../core/services/donations-api';
   templateUrl: './donaciones.html',
   styleUrl: './donaciones.scss',
 })
-export class Donaciones {
+export class Donaciones implements OnInit {
   private fileUploadApi = inject(FileUploadApi);
   private donationsApi = inject(DonationsApi);
 
   tipo = signal<'dinero' | 'premios'>('dinero');
+  donations = signal<any[]>([]);
 
   moneyDonationAmount: number | null = null;
 
@@ -34,6 +35,17 @@ export class Donaciones {
 
   selectedFiles = signal<File[]>([]);
   selectedCount = computed(() => this.selectedFiles().length);
+
+  ngOnInit() {
+    this.loadDonations();
+  }
+
+  loadDonations() {
+    this.donationsApi.getDonations().subscribe({
+      next: (data) => this.donations.set(data),
+      error: (err) => console.error('Error fetching donations:', err)
+    });
+  }
 
   setTipo(valor: 'dinero' | 'premios') {
     this.tipo.set(valor);

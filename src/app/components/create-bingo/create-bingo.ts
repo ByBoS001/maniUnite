@@ -1,5 +1,5 @@
 import { firstValueFrom } from 'rxjs';
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthStore } from '../../core/services/auth-store';
@@ -13,7 +13,8 @@ import { FileUploadApi } from '../../core/services/file-upload-api';
   templateUrl: './create-bingo.html',
   styleUrls: ['./create-bingo.scss'],
 })
-export class CreateBingo {
+export class CreateBingo implements OnChanges {
+  @Input() donations: any[] = [];
   @Output() close = new EventEmitter<void>();
 
   private authStore = inject(AuthStore);
@@ -34,6 +35,29 @@ export class CreateBingo {
     max: 500,
   };
 
+  prizes: any[] = [];
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['donations']) {
+      console.log('Donations received in create-bingo:', this.donations);
+      this.prizes = this.donations
+        .filter(d => d.type === 'prize')
+        .map(d => ({
+          id: d.id,
+          title: d.description, // Assuming description is the title
+          value: 0, // Donations don't have a value, so we default to 0
+          type: d.type,
+          donor: { // Assuming no donor info from donations table
+            id: 'unknown',
+            name: 'Donante anónimo',
+            desc: ''
+          },
+          selected: false,
+        }));
+      console.log('Prizes mapped:', this.prizes);
+    }
+  }
+
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -45,57 +69,6 @@ export class CreateBingo {
       reader.readAsDataURL(this.selectedImageFile);
     }
   }
-
-  prizes = [
-    {
-      id: 'p1',
-      title: 'Tablet Samsung Galaxy',
-      value: 300,
-      type: 'Producto',
-      donor: {
-        id: 'o1',
-        name: 'Fundación Educa Más',
-        desc: 'Educación y oportunidades',
-      },
-      selected: false,
-    },
-    {
-      id: 'p2',
-      title: 'Bono de Compras $150',
-      value: 150,
-      type: 'Voucher',
-      donor: {
-        id: 'o2',
-        name: 'Hospital San Juan',
-        desc: 'Atención médica gratuita para familias de bajos recursos',
-      },
-      selected: false,
-    },
-    {
-      id: 'p3',
-      title: 'Cesta de Productos',
-      value: 80,
-      type: 'Canasta',
-      donor: {
-        id: 'o3',
-        name: 'Comedores Unidos',
-        desc: 'Alimentación solidaria para comunidades necesitadas',
-      },
-      selected: false,
-    },
-    {
-      id: 'p4',
-      title: 'Auriculares Bluetooth',
-      value: 120,
-      type: 'Producto',
-      donor: {
-        id: 'o1',
-        name: 'Fundación Educa Más',
-        desc: 'Educación y oportunidades',
-      },
-      selected: false,
-    },
-  ];
 
   get selectedPrizes() {
     return this.prizes.filter((p) => p.selected);

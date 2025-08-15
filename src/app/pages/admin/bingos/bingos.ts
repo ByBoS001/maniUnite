@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreateBingo } from '../../../components/create-bingo/create-bingo';
+import { DonationsApi } from '../../../core/services/donations-api';
 
 @Component({
   standalone: true,
@@ -8,28 +9,25 @@ import { CreateBingo } from '../../../components/create-bingo/create-bingo';
   imports: [CommonModule, CreateBingo],
   templateUrl: './bingos.html',
 })
-export class Bingos {
+export class Bingos implements OnInit {
+  private donationsApi = inject(DonationsApi);
+  donations = signal<any[]>([]);
+
   showCreate = false;
 
-  // demo data
-  items = [
-    {
-      id: '1247',
-      title: 'Bingo Benéfico - Hospital San Juan',
-      participants: 150,
-      prize: 500,
-      progress: 82,
-      status: 'En curso' as const,
-    },
-    {
-      id: '1248',
-      title: 'Super Bingo Nocturno',
-      participants: 89,
-      prize: 300,
-      progress: 12,
-      status: 'Esperando' as const,
-    },
-  ];
+  ngOnInit() {
+    this.loadDonations();
+  }
+
+  loadDonations() {
+    this.donationsApi.getDonations().subscribe({
+      next: (data) => {
+        console.log('Donations loaded in bingos component:', data);
+        this.donations.set(data);
+      },
+      error: (err) => console.error('Error fetching donations:', err)
+    });
+  }
 
   openCreate()  { this.showCreate = true; }
   closeCreate() { this.showCreate = false; }
