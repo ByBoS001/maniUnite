@@ -129,6 +129,10 @@ export const routes: Routes = [
           import('./pages/user/profile/profile').then((m) => m.UserProfilePage),
       },
       {
+        path: 'bingo',
+        loadComponent: () => import('./pages/bingo/bingo').then((m) => m.Bingo),
+      },
+      {
         path: 'historial',
         loadComponent: () =>
           import('./pages/user/history/history').then((m) => m.UserHistoryPage),

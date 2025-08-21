@@ -28,6 +28,7 @@ const NAV_BY_ROLE: Record<Role, NavItem[]> = {
   ],
   user: [
     { label: 'Perfil', link: '/user' },
+    { label: 'Bingos Stream', link: '/user/bingo' },
     { label: 'Historial de Bingos', link: '/user/historial' },
     { label: 'Premios Ganados', link: '/user/premios' },
     
