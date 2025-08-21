@@ -23,7 +23,7 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "outputPath": "dist/maniUnite",
+            "outputPath": "dist/maniUnite/browser",
             "assets": [
               {
                 "glob": "**/*",

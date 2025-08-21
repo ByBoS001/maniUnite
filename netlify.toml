@@ -2,13 +2,13 @@
   command = "npm ci && npm run build"
   publish = "dist/maniUnite/browser"
 
+[[plugins]]
+  package = "@netlify/angular-runtime"
+
 [build.environment]
   NODE_VERSION = "20"
   NPM_FLAGS = "--no-audit --no-fund"
 
-# Plugin oficial para Angular en Netlify
-[[plugins]]
-  package = "@netlify/angular-runtime"
 
 # SPA: redirige todas las rutas a index.html
 [[redirects]]
