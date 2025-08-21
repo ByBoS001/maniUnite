@@ -16,7 +16,7 @@ export class DonationsApi {
 
   getDonations(): Observable<any[]> {
     const donationsCollection = collection(this.firestore, 'donations');
-    const q = query(donationsCollection, orderBy('timestamp', 'desc'));
+    const q = query(donationsCollection);
     return from(this.ngZone.run(() => getDocs(q).then(snapshot => snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })))));
   }
 }

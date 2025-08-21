@@ -73,7 +73,10 @@ export class AuthStore {
     const userSnap = await getDoc(userRef);
 
     if (userSnap.exists()) {
-      const userProfile = userSnap.data() as UserProfile;
+      const userProfile: UserProfile = {
+        uid: uid,
+        ...(userSnap.data() as Omit<UserProfile, 'uid'>)
+      };
       this.userProfileSubject.next(userProfile);
       return userProfile;
     } else {

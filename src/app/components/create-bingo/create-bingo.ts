@@ -1,10 +1,11 @@
 import { firstValueFrom } from 'rxjs';
-import { Component, EventEmitter, Output, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Output, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthStore } from '../../core/services/auth-store';
 import { FirebaseService, Bingo } from '../../core/services/firebase.service';
 import { FileUploadApi } from '../../core/services/file-upload-api';
+import { DonationsApi } from '../../core/services/donations-api';
 
 @Component({
   selector: 'app-create-bingo',
@@ -13,13 +14,32 @@ import { FileUploadApi } from '../../core/services/file-upload-api';
   templateUrl: './create-bingo.html',
   styleUrls: ['./create-bingo.scss'],
 })
-export class CreateBingo implements OnChanges {
-  @Input() donations: any[] = [];
+export class CreateBingo {
+  @Input() set donations(donations: any[]) {
+    console.log('Donations received in create-bingo component:', donations);
+    this.prizes = (donations || [])
+      .filter(d => d.type === 'prize')
+      .map(d => ({
+        id: d.id,
+        title: d.description,
+        value: d.amount,
+        type: d.type,
+        image: d.images && d.images.length > 0 ? d.images[0] : null,
+        donor: {
+          id: d.userId,
+          name: d.userName,
+          desc: ''
+        },
+        selected: false,
+      }));
+    console.log('Prizes processed in create-bingo component:', this.prizes);
+  }
   @Output() close = new EventEmitter<void>();
 
   private authStore = inject(AuthStore);
   private firebaseService = inject(FirebaseService);
   private fileUploadApi = inject(FileUploadApi);
+  private donationsApi = inject(DonationsApi);
 
   showPreview = false;
   selectedImageFile: File | null = null;
@@ -36,27 +56,6 @@ export class CreateBingo implements OnChanges {
   };
 
   prizes: any[] = [];
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['donations']) {
-      console.log('Donations received in create-bingo:', this.donations);
-      this.prizes = this.donations
-        .filter(d => d.type === 'prize')
-        .map(d => ({
-          id: d.id,
-          title: d.description, // Assuming description is the title
-          value: 0, // Donations don't have a value, so we default to 0
-          type: d.type,
-          donor: { // Assuming no donor info from donations table
-            id: 'unknown',
-            name: 'Donante anónimo',
-            desc: ''
-          },
-          selected: false,
-        }));
-      console.log('Prizes mapped:', this.prizes);
-    }
-  }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -94,34 +93,41 @@ export class CreateBingo implements OnChanges {
   }
 
   async saveAndPublish() {
+    console.log('Starting saveAndPublish...');
+
     if (!this.selectedImageFile) {
       alert('Por favor, selecciona una imagen para el bingo.');
+      console.log('Validation failed: No image selected.');
       return;
     }
 
     if (this.selectedPrizes.length === 0) {
       alert('Por favor, selecciona al menos un premio para el bingo.');
+      console.log('Validation failed: No prizes selected.');
       return;
     }
+    console.log('Validation passed.');
 
-    // Upload image to Cloudinary
     let imageUrl: string | null = null;
     try {
+      console.log('Uploading image...');
       imageUrl = await this.fileUploadApi.uploadFile(this.selectedImageFile);
+      console.log('Image uploaded successfully:', imageUrl);
     } catch (error) {
       console.error('Error al subir la imagen:', error);
       alert('Error al subir la imagen. Por favor, inténtalo de nuevo.');
       return;
     }
 
-    // Get admin user UID
+    console.log('Fetching admin user...');
     const adminUser = await firstValueFrom(this.authStore.userProfile$);
     if (!adminUser || adminUser.role !== 'admin') {
       alert('Solo los administradores pueden crear bingos.');
+      console.log('Auth failed: User is not an admin or not logged in.', adminUser);
       return;
     }
+    console.log('Admin user found:', adminUser);
 
-    // Construct Bingo object
     const newBingo: Bingo = {
       name: this.bingo.titulo,
       date: new Date(`${this.bingo.fecha}T${this.bingo.hora}`),
@@ -133,18 +139,21 @@ export class CreateBingo implements OnChanges {
       userLimit: this.bingo.limite,
       maxTables: this.bingo.max,
     };
+    console.log('Constructed Bingo object:', newBingo);
+
+    const prizesToSave = this.selectedPrizes.map((p) => ({
+      id: p.id,
+      name: p.title,
+      description: p.type,
+      value: p.value,
+      donorId: p.donor.id,
+    }));
+    console.log('Prizes to save:', prizesToSave);
 
     try {
-      const bingoId = await this.firebaseService.createBingo(
-        newBingo,
-        this.selectedPrizes.map((p) => ({
-          id: p.id,
-          name: p.title,
-          description: p.type,
-          value: p.value,
-          donorId: p.donor.id,
-        }))
-      );
+      console.log('Calling firebaseService.createBingo...');
+      const bingoId = await this.firebaseService.createBingo(newBingo, prizesToSave);
+      console.log('Bingo created successfully with ID:', bingoId);
       alert('Bingo creado y publicado con éxito. ID: ' + bingoId);
       this.cerrar(); // Close the modal
     } catch (error) {
