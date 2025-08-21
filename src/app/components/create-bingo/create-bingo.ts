@@ -53,6 +53,7 @@ export class CreateBingo {
     precio: 45,
     limite: 2,
     max: 500,
+    streamUrl: '',
   };
 
   prizes: any[] = [];
@@ -131,7 +132,7 @@ export class CreateBingo {
     const newBingo: Bingo = {
       name: this.bingo.titulo,
       date: new Date(`${this.bingo.fecha}T${this.bingo.hora}`),
-      streamUrl: '', // Assuming this will be set later or is not required for creation
+      streamUrl: this.bingo.streamUrl,
       status: 'upcoming', // Default status
       ongId: adminUser.uid, // Assuming admin user is also an ONG or we need to get ONG ID from admin profile
       imageUrl: imageUrl,

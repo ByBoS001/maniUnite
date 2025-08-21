@@ -104,6 +104,16 @@
               </div>
             </div>
             <div>
+              <label class="text-sm text-gray-600">URL del stream (opcional)</label>
+              <input
+                type="url"
+                class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-300"
+                placeholder="https://youtube.com/… o https://twitch.tv/…"
+                [(ngModel)]="bingo.streamUrl"
+                name="streamUrl"
+              />
+            </div>
+            <div>
               <label class="text-sm text-gray-600"
                 >Imagen destacada del bingo</label
               >
@@ -299,6 +309,12 @@
               Precio por tabla:
               <span class="font-semibold">${{ bingo.precio }}</span>
             </div>
+            @if (bingo.streamUrl) {
+              <div class="mt-3 rounded-lg bg-blue-50 px-3 py-2 text-sm text-blue-700">
+                Transmisión: 
+                <a [href]="bingo.streamUrl" target="_blank" rel="noopener" class="underline break-all">{{ bingo.streamUrl }}</a>
+              </div>
+            }
             <div class="mt-3">
               <h5 class="mb-2 text-sm font-semibold text-gray-600">
                 Premios disponibles:
