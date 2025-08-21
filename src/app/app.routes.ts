@@ -16,7 +16,7 @@ export const routes: Routes = [
       },
       {
         path: 'donaciones',
-        loadComponent: () =>
+                loadComponent: () =>
           import('./pages/donaciones/donaciones').then((m) => m.Donaciones),
       },
       {

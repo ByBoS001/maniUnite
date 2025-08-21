@@ -107,139 +107,12 @@
       mejor se adapte a tu forma de ayudar.
     </p>
 
-    <!-- Toggle de opciones -->
-    <div class="flex justify-center gap-2 mb-10">
-      <button
-        (click)="setTipo('dinero')"
-        [class.bg-white]="tipo() === 'dinero'"
-        [class.bg-gray-100]="tipo() !== 'dinero'"
-        class="flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium"
-      >
-        💵 Donar dinero
-      </button>
-      <button
-        (click)="setTipo('premios')"
-        [class.bg-white]="tipo() === 'premios'"
-        [class.bg-gray-100]="tipo() !== 'premios'"
-        class="flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium"
-      >
-        🎁 Donar premios
-      </button>
-    </div>
+    
 
-    <!-- Sección DONAR DINERO -->
-    <div
-      *ngIf="tipo() === 'dinero'"
-      class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start"
-    >
-      <!-- Paso a paso -->
-      <div class="space-y-6">
-        <h3 class="text-xl font-bold">Proceso paso a paso</h3>
-
-        <div class="flex items-start gap-4">
-          <div
-            class="bg-blue-600 text-white rounded-full w-9 h-9 flex items-center justify-center"
-          >
-            👤
-          </div>
-          <div>
-            <p class="font-semibold">Regístrate</p>
-            <p class="text-sm text-gray-600">
-              Crea tu cuenta o inicia sesión para continuar
-            </p>
-          </div>
-        </div>
-
-        <div class="flex items-start gap-4">
-          <div
-            class="bg-blue-600 text-white rounded-full w-9 h-9 flex items-center justify-center"
-          >
-            🎯
-          </div>
-          <div>
-            <p class="font-semibold">Elige una causa</p>
-            <p class="text-sm text-gray-600">
-              Selecciona el bingo o causa que quieres apoyar
-            </p>
-          </div>
-        </div>
-
-        <div class="flex items-start gap-4">
-          <div
-            class="bg-blue-600 text-white rounded-full w-9 h-9 flex items-center justify-center"
-          >
-            ✍️
-          </div>
-          <div>
-            <p class="font-semibold">Escribe el monto</p>
-            <p class="text-sm text-gray-600">
-              Decide cuánto quieres donar, cualquier cantidad ayuda
-            </p>
-          </div>
-        </div>
-
-        <div class="flex items-start gap-4">
-          <div
-            class="bg-blue-600 text-white rounded-full w-9 h-9 flex items-center justify-center"
-          >
-            💳
-          </div>
-          <div>
-            <p class="font-semibold">Paga seguro</p>
-            <p class="text-sm text-gray-600">
-              Usa tarjeta de crédito o transferencia bancaria
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tarjeta de inicio de sesión -->
-      <div class="bg-white rounded-xl shadow p-8 text-center">
-        <div class="flex justify-center mb-4">
-          <div
-            class="bg-teal-500 text-white rounded-full w-14 h-14 flex items-center justify-center text-2xl"
-          >
-            👥
-          </div>
-        </div>
-        <h4 class="text-lg font-semibold mb-2">Inicia sesión para donar</h4>
-        <p class="text-sm text-gray-600 mb-6">
-          Necesitas una cuenta para procesar tu donación de forma segura
-        </p>
-        <form (ngSubmit)="submitMoneyDonation()" class="space-y-4">
-          <input
-            type="number"
-            [(ngModel)]="moneyDonationAmount"
-            name="moneyDonationAmount"
-            placeholder="Monto a donar"
-            class="w-full border rounded-lg px-4 py-2 text-sm"
-            required
-          />
-          <button
-            type="submit"
-            class="bg-emerald-500 text-white w-full py-2 rounded-lg text-sm font-medium"
-          >
-            Donar dinero
-          </button>
-        </form>
-        <button 
-          routerLink="/registro"
-          class="bg-emerald-500 text-white w-full py-2 rounded-lg text-sm font-medium mt-2"
-        >
-          Crear cuenta gratis
-        </button>
-        <button 
-          routerLink="/iniciosesion"
-          class="w-full mt-2 py-2 rounded-lg text-sm border"
-        >
-          Ya tengo cuenta
-        </button>
-      </div>
-    </div>
+    
 
     <!-- Sección DONAR PREMIOS -->
     <div
-      *ngIf="tipo() === 'premios'"
       class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start"
     >
       <!-- Descripción -->
@@ -330,18 +203,10 @@
           @for (donation of donations(); track donation.id) {
             <tr>
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                @if (donation.type === 'money') {
-                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Dinero</span>
-                } @else {
-                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Premio</span>
-                }
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Premio</span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                @if (donation.type === 'money') {
-                  <span>{{ donation.amount | currency }}</span>
-                } @else {
                   <span>{{ donation.description }}</span>
-                }
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {{ donation.timestamp.toDate() | date:'medium' }}
@@ -381,13 +246,7 @@
         <thead>
           <tr class="text-left text-gray-600 border-b">
             <th class="p-4 font-medium text-sm">Característica</th>
-            <th class="p-4 font-semibold text-center">
-              <div class="flex flex-col items-center">
-                <div class="text-teal-600 text-2xl">$</div>
-                <span class="text-black font-bold">Donación Monetaria</span>
-                <span class="text-sm text-gray-500">Dinero directo</span>
-              </div>
-            </th>
+            
             <th class="p-4 font-semibold text-center">
               <div class="flex flex-col items-center">
                 <div class="text-yellow-500 text-2xl">🎁</div>
@@ -401,26 +260,17 @@
           <tr class="border-t">
             <td class="p-4">Agradecimiento público</td>
             <td class="text-center">✅</td>
-            <td class="text-center">✅</td>
           </tr>
           <tr class="border-t">
             <td class="p-4">Aparece en transparencia</td>
-            <td class="text-center">✅</td>
             <td class="text-center">✅</td>
           </tr>
           <tr class="border-t">
             <td class="p-4">Selección de bingo específico</td>
             <td class="text-center">✅</td>
-            <td class="text-center">✅</td>
           </tr>
           <tr class="border-t">
             <td class="p-4">Tiempo de aprobación</td>
-            <td class="text-center">
-              <span
-                class="bg-teal-100 text-teal-700 text-xs px-2 py-1 rounded-full"
-                >Instantáneo</span
-              >
-            </td>
             <td class="text-center">
               <span
                 class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full"
@@ -430,17 +280,14 @@
           </tr>
           <tr class="border-t">
             <td class="p-4">Certificado fiscal</td>
-            <td class="text-center">✅</td>
             <td class="text-center">❌</td>
           </tr>
           <tr class="border-t">
             <td class="p-4">Impacto inmediato</td>
-            <td class="text-center">✅</td>
             <td class="text-center">❌</td>
           </tr>
           <tr class="border-t">
             <td class="p-4">Visibilidad en bingo</td>
-            <td class="text-center">❌</td>
             <td class="text-center">✅</td>
           </tr>
         </tbody>
@@ -451,17 +298,7 @@
     <div
       class="flex flex-col md:flex-row justify-around items-center gap-4 mt-8"
     >
-      <div class="text-center">
-        <p class="font-medium mb-2">¿Prefieres donar dinero?</p>
-        <button
-          class="bg-teal-500 text-white font-semibold px-6 py-2 rounded hover:bg-teal-600"
-        >
-          💲 Donar dinero
-        </button>
-        <p class="text-sm text-gray-500 mt-1">
-          Impacto inmediato y certificado fiscal
-        </p>
-      </div>
+      
       <div class="text-center">
         <p class="font-medium mb-2">¿Quieres donar un premio?</p>
         <button

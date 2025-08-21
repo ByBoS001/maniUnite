@@ -2,6 +2,7 @@ import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthStore } from '../../../core/services/auth-store';
+import { UserProfileApi } from '../../../core/services/user-profile-api';
 import { UserProfile } from '../../../core/services/firebase.service';
 import { Subscription } from 'rxjs';
 
@@ -14,6 +15,7 @@ import { Subscription } from 'rxjs';
 export class UserProfilePage implements OnInit, OnDestroy {
   edit = false;
   private authStore = inject(AuthStore);
+  private userProfileApi = inject(UserProfileApi);
   private subscription: Subscription | undefined;
 
   model: Partial<UserProfile> & { 
@@ -60,8 +62,17 @@ export class UserProfilePage implements OnInit, OnDestroy {
     this.edit = false;
   }
 
-  save() {
-    this.model = structuredClone(this.draft);
-    this.edit = false;
+  async save() {
+    if (!this.model.uid) {
+      console.error('User ID is missing, cannot save profile');
+      return;
+    }
+    try {
+      await this.userProfileApi.updateUserProfile(this.model.uid, this.draft);
+      this.model = structuredClone(this.draft);
+      this.edit = false;
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
   }
 }

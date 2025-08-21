@@ -11,6 +11,7 @@ interface NavItem {
 
 const NAV_BY_ROLE: Record<Role, NavItem[]> = {
   admin: [
+    { label: 'Ir a Inicio', link: '/' },
     { label: 'Dashboard', link: '/admin/dashboard' },
     { label: 'Stream', link: '/admin/stream' },
     { label: 'Bingos', link: '/admin/bingos' },
@@ -20,6 +21,7 @@ const NAV_BY_ROLE: Record<Role, NavItem[]> = {
     { label: 'Configuración', link: '/admin/configuracion' },
   ],
   ong: [
+    { label: 'Ir a Inicio', link: '/' },
     { label: 'Inicio / Resumen', link: '/ong/inicio' },
     { label: 'Mi perfil', link: '/ong/perfil' },
     { label: 'Mis reportes', link: '/ong/reportes' },
@@ -27,6 +29,7 @@ const NAV_BY_ROLE: Record<Role, NavItem[]> = {
     { label: 'Configuración', link: '/ong/configuracion' },
   ],
   user: [
+    { label: 'Ir a Inicio', link: '/' },
     { label: 'Perfil', link: '/user' },
     { label: 'Bingos Stream', link: '/user/bingo' },
     { label: 'Historial de Bingos', link: '/user/historial' },

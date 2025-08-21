@@ -1,10 +1,12 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TestimonialCard } from '../../shared/components/testimonial-card/testimonial-card';
 import { FileUploadApi } from '../../core/services/file-upload-api';
 import { DonationsApi } from '../../core/services/donations-api';
+import { AuthStore } from '../../core/services/auth-store';
 
 @Component({
   selector: 'app-donaciones',
@@ -16,11 +18,13 @@ import { DonationsApi } from '../../core/services/donations-api';
 export class Donaciones implements OnInit {
   private fileUploadApi = inject(FileUploadApi);
   private donationsApi = inject(DonationsApi);
+  private authStore = inject(AuthStore);
+  private router = inject(Router);
 
-  tipo = signal<'dinero' | 'premios'>('dinero');
+  
   donations = signal<any[]>([]);
 
-  moneyDonationAmount: number | null = null;
+  
 
   donation = {
     type: '',
@@ -47,9 +51,7 @@ export class Donaciones implements OnInit {
     });
   }
 
-  setTipo(valor: 'dinero' | 'premios') {
-    this.tipo.set(valor);
-  }
+  
 
   handleFileSelection(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -83,24 +85,39 @@ export class Donaciones implements OnInit {
   async submitDonation() {
     this.errorMsg.set(null);
     this.successMsg.set(null);
+
+    const user = await firstValueFrom(this.authStore.userProfile$);
+    if (!user) {
+      this.router.navigate(['/iniciosesion']);
+      return;
+    }
+
     this.uploading.set(true);
 
     try {
-      // Forzamos el tipo en backend como 'prize' (manteniendo tu API actual)
-      this.donation.type = 'prize';
+      const donationData: any = {
+        type: this.donation.type, // FIX: Use the value from the form
+        description: this.donation.description,
+        images: [],
+        timestamp: new Date(),
+        userId: user.uid,
+        userName: user.name,
+        userEmail: user.email,
+      };
 
       if (this.selectedFiles().length > 0) {
         const uploadPromises = this.selectedFiles().map(file => this.fileUploadApi.uploadFile(file));
-        this.donation.images = await Promise.all(uploadPromises);
-        console.log('[Cloudinary] URLs:', this.donation.images);
+        donationData.images = await Promise.all(uploadPromises);
+        console.log('[Cloudinary] URLs:', donationData.images);
       }
 
-      await this.donationsApi.createDonation(this.donation);
+      await this.donationsApi.createDonation(donationData);
 
       // Reset del formulario
       this.donation = { type: '', description: '', images: [] };
       this.selectedFiles.set([]);
       this.successMsg.set('¡Donación enviada correctamente! 🎉');
+      window.alert(this.successMsg());
     } catch (err: unknown) {
       const msg = (err instanceof Error ? err.message : 'Error desconocido');
       console.error('[Donaciones] submitDonation error:', err);
@@ -110,27 +127,7 @@ export class Donaciones implements OnInit {
     }
   }
 
-  async submitMoneyDonation() {
-    this.errorMsg.set(null);
-    this.successMsg.set(null);
-    if (this.moneyDonationAmount === null || this.moneyDonationAmount <= 0) {
-      this.errorMsg.set('Ingresa un monto válido.');
-      return;
-    }
-    try {
-      await this.donationsApi.createDonation({
-        type: 'money',
-        amount: this.moneyDonationAmount,
-        timestamp: new Date()
-      });
-      this.moneyDonationAmount = null;
-      this.successMsg.set('¡Gracias por tu donación monetaria! 💚');
-    } catch (err: unknown) {
-      const msg = (err instanceof Error ? err.message : 'Error desconocido');
-      console.error('[Donaciones] submitMoneyDonation error:', err);
-      this.errorMsg.set(`No se pudo procesar tu donación: ${msg}`);
-    }
-  }
+  
 
   currentSlide = 0;
 
