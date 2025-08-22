@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 interface Article {
   id: string;
@@ -29,7 +30,7 @@ export class Transparencia {
     {
       id: '1',
       title: 'Proyecto educativo en zonas rurales',
-      image: '/assets/img/articulo1.jpg',
+      image: 'assets/image/zonas.webp',
       tag: 'Educación',
       date: '2025-08-01',
       readTime: '4 min',
@@ -41,7 +42,7 @@ export class Transparencia {
     {
       id: '2',
       title: 'Jornada médica gratuita',
-      image: '/assets/img/articulo2.jpg',
+      image: 'assets/image/jornada gratuita.webp',
       tag: 'Salud',
       date: '2025-07-20',
       readTime: '3 min',
@@ -51,6 +52,8 @@ export class Transparencia {
     },
     // Puedes agregar más artículos
   ];
+
+  private router = inject(Router);
 
   get filteredArticles(): Article[] {
     const term = this.searchTerm.toLowerCase();
@@ -66,8 +69,7 @@ export class Transparencia {
   }
 
   handleArticleClick(slug: string) {
-    // Navegación a detalle de artículo
-    console.log('Artículo seleccionado:', slug);
+    this.router.navigate(['/transparencia', slug]);
   }
 
   getTagColor(tag: string): string {

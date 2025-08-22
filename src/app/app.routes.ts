@@ -39,7 +39,7 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'transparenciaInfo',
+        path: 'transparencia/:slug',
         loadComponent: () =>
           import('./pages/transparencia-info/transparencia-info').then(
             (m) => m.TransparenciaInfo
