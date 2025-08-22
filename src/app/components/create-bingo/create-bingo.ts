@@ -16,9 +16,12 @@ import { DonationsApi } from '../../core/services/donations-api';
 })
 export class CreateBingo {
   @Input() set donations(donations: any[]) {
-    console.log('Donations received in create-bingo component:', donations);
+    console.log('[CreateBingo] Donations received:', donations);
     this.prizes = (donations || [])
-      .filter(d => d.type === 'prize')
+      .filter(d => {
+        console.log('[CreateBingo] Filtering donation:', d, 'isPrizeDonation:', d.isPrizeDonation);
+        return d.isPrizeDonation === true;
+      })
       .map(d => ({
         id: d.id,
         title: d.description,
@@ -32,7 +35,7 @@ export class CreateBingo {
         },
         selected: false,
       }));
-    console.log('Prizes processed in create-bingo component:', this.prizes);
+    console.log('[CreateBingo] Prizes after processing:', this.prizes);
   }
   @Output() close = new EventEmitter<void>();
 
@@ -143,11 +146,11 @@ export class CreateBingo {
     console.log('Constructed Bingo object:', newBingo);
 
     const prizesToSave = this.selectedPrizes.map((p) => ({
-      id: p.id,
-      name: p.title,
-      description: p.type,
-      value: p.value,
-      donorId: p.donor.id,
+      id: p.id || '',
+      name: p.title || '',
+      description: p.type || '',
+      value: p.value || 0,
+      donorId: p.donor.id || '',
     }));
     console.log('Prizes to save:', prizesToSave);
 

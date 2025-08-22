@@ -21,24 +21,26 @@
     </div>
   </div>
 
-  <ng-container *ngIf="isLoggedIn(); else loginPrompt">
-    <form (submit)="sendMessage($event)" class="flex gap-2">
-      <input
-        name="message"
-        class="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
-        placeholder="Escribe tu mensaje..."
-        required
-      />
-      <button type="submit" class="bg-blue-600 text-white px-3 py-2 rounded text-sm">Enviar</button>
-    </form>
-  </ng-container>
+    <div>
+    <ng-container *ngIf="isLoggedIn$ | async; else loginPrompt">
+      <form (submit)="sendMessage($event)" class="flex gap-2">
+        <input
+          name="message"
+          class="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
+          placeholder="Escribe tu mensaje..."
+          required
+        />
+        <button type="submit" class="bg-blue-600 text-white px-3 py-2 rounded text-sm">Enviar</button>
+      </form>
+    </ng-container>
 
-  <ng-template #loginPrompt>
-    <div class="text-center">
-      <p class="mb-2 text-sm text-gray-700">Únete al chat para interactuar con otros jugadores</p>
-      <button (click)="login()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded text-sm">
-        Iniciar sesión
-      </button>
-    </div>
-  </ng-template>
+    <ng-template #loginPrompt>
+      <div class="text-center">
+        <p class="mb-2 text-sm text-gray-700">Únete al chat para interactuar con otros jugadores</p>
+        <button routerLink="/iniciosesion" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded text-sm">
+          Iniciar sesión
+        </button>
+      </div>
+    </ng-template>
+  </div>
 </div>

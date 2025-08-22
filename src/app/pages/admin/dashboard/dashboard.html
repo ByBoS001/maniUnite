@@ -12,6 +12,7 @@
     <app-create-bingo
       *ngIf="showCreateBingo"
       (close)="showCreateBingo = false"
+      [donations]="donations()"
     ></app-create-bingo>
   </div>
 

@@ -8,8 +8,11 @@ import {
   updateDoc,
   collectionData,
   docData,
+  query,
+  orderBy,
+  getDocs,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, map, tap } from 'rxjs'; // Added map and tap
 
 // Define interfaces for our data structures for type safety
 export interface UserProfile {
@@ -80,6 +83,7 @@ export class FirebaseService {
 
   // --- User Operations ---
   // This would typically be handled by Firebase Authentication,
+
   // but here is how you'd create the user profile document in Firestore.
   async createUserProfile(user: UserProfile) {
     const userRef = doc(this.firestore, `users/${user.uid}`);
@@ -98,6 +102,29 @@ export class FirebaseService {
       await addDoc(prizesCollection, prize);
     }
     return bingoRef.id;
+  }
+
+  getBingosOrderedByDate(): Observable<Bingo[]> {
+    const bingosCollection = collection(this.firestore, 'bingos');
+    const q = query(bingosCollection); // Removed orderBy
+    return collectionData(q, { idField: 'id' }).pipe(
+      map((docs: any[]) => docs.map((doc: any) => {
+        const bingo: Bingo = {
+          id: doc.id,
+          name: doc.name || '',
+          date: doc.date ? doc.date.toDate() : new Date(), // Convert Timestamp to Date
+          streamUrl: doc.streamUrl || '',
+          status: doc.status || 'upcoming',
+          ongId: doc.ongId || '',
+          imageUrl: doc.imageUrl || '',
+          price: doc.price || 0,
+          userLimit: doc.userLimit || 0,
+          maxTables: doc.maxTables || 0,
+        };
+        return bingo;
+      })),
+      tap((bingos: Bingo[]) => console.log('[FirebaseService] Fetched bingos:', bingos))
+    ) as Observable<Bingo[]>;
   }
 
   // --- Bingo Card Operations ---

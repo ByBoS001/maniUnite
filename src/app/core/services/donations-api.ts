@@ -17,6 +17,13 @@ export class DonationsApi {
   getDonations(): Observable<any[]> {
     const donationsCollection = collection(this.firestore, 'donations');
     const q = query(donationsCollection);
-    return from(this.ngZone.run(() => getDocs(q).then(snapshot => snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })))));
+    return from(this.ngZone.run(() => getDocs(q).then(snapshot => snapshot.docs.map(doc => {
+      const data = doc.data();
+      if (data['description']) {
+        return { id: doc.id, ...data, isPrizeDonation: true };
+      } else {
+        return { id: doc.id, ...data };
+      }
+    }))));
   }
 }

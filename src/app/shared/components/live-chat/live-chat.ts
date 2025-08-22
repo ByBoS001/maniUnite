@@ -1,5 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthStore } from '../../../core/services/auth-store';
+import { Router, RouterModule } from '@angular/router';
+import { Observable, map } from 'rxjs';
 
 interface Message {
   user: string;
@@ -10,11 +13,14 @@ interface Message {
 @Component({
   selector: 'app-live-chat',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './live-chat.html',
   styleUrl: './live-chat.scss',
 })
 export class LiveChat {
+  private authStore = inject(AuthStore);
+  private router = inject(Router);
+
   messages = signal<Message[]>([
     {
       user: 'Moderador',
@@ -33,11 +39,7 @@ export class LiveChat {
     },
   ]);
 
-  isLoggedIn = signal(false);
-
-  login() {
-    this.isLoggedIn.set(true);
-  }
+  isLoggedIn$: Observable<boolean> = this.authStore.userProfile$.pipe(map(user => !!user));
 
   sendMessage(event: Event) {
     event.preventDefault();

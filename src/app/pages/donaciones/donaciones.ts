@@ -103,6 +103,7 @@ export class Donaciones implements OnInit {
         userId: user.uid,
         userName: user.name,
         userEmail: user.email,
+        isPrizeDonation: true, // Add this flag
       };
 
       if (this.selectedFiles().length > 0) {

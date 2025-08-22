@@ -1,10 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import {
-  BingoCard,
-  Bingo,
-} from '../../features/bingos/components/bingo-card/bingo-card'; // Asegúrate de exportar Bingo también
+import { BingoCard } from '../../features/bingos/components/bingo-card/bingo-card';
+import { FirebaseService, Bingo } from '../../core/services/firebase.service';
 
 @Component({
   selector: 'app-comprar',
@@ -13,18 +10,15 @@ import {
   templateUrl: './comprar.html',
   styleUrl: './comprar.scss',
 })
-export class Comprar {
-  private http = inject(HttpClient);
+export class Comprar implements OnInit {
+  private firebaseService = inject(FirebaseService);
+  
   bingos: Bingo[] = [];
 
   ngOnInit() {
-    this.http.get<Bingo[]>('/assets/data/bingos.json').subscribe({
-      next: (data) => {
-        this.bingos = data;
-      },
-      error: (err) => {
-        console.error('❌ Error al cargar JSON de bingos:', err);
-      },
+    this.firebaseService.getBingosOrderedByDate().subscribe((bingos: Bingo[]) => {
+      this.bingos = bingos;
+      console.log('[Comprar] Bingos received and assigned:', this.bingos);
     });
   }
 
