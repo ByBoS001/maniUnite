@@ -167,3 +167,11 @@
   (completed)="onPurchaseCompleted($event)"
 >
 </app-purchase-modal>
+
+<!-- Alert Modal -->
+<app-alert-modal
+  [open]="showAlert()"
+  [message]="alertMessage()"
+  (close)="showAlert.set(false)"
+>
+</app-alert-modal>

@@ -5,18 +5,21 @@ import { ActivatedRoute } from '@angular/router';
 import { FirebaseService, Bingo } from '../../core/services/firebase.service';
 import { Observable, firstValueFrom } from 'rxjs';
 import { AuthStore } from '../../core/services/auth-store';
+import { AlertModalComponent } from '../../shared/components/alert-modal/alert-modal';
 
 type PaymentMethod = 'transfer' | 'card';
 
 @Component({
   selector: 'app-bingo-detail',
-  imports: [CommonModule, PurchaseModalComponent],
+  imports: [CommonModule, PurchaseModalComponent, AlertModalComponent],
   templateUrl: './bingo-detail.html',
   styleUrl: './bingo-detail.scss',
 })
 export class BingoDetail implements OnInit {
   selectedTables = signal(1);
   showPurchase = signal(false);
+  showAlert = signal(false);
+  alertMessage = signal('');
 
   bingo: Bingo | undefined;
 
@@ -49,7 +52,8 @@ export class BingoDetail implements OnInit {
   async openPurchase() {
     const user = await firstValueFrom(this.authStore.userProfile$);
     if (!user || !user.uid) {
-      alert('Debes iniciar sesión para comprar una tabla.');
+      this.alertMessage.set('Debes iniciar sesión para comprar una tabla.');
+      this.showAlert.set(true);
       return;
     }
     this.showPurchase.set(true);
@@ -60,6 +64,7 @@ export class BingoDetail implements OnInit {
     console.log('Purchase completed event:', event);
     // You can add more sophisticated logic here based on the event.method and event.payload
     // For now, we'll assume success if the event is emitted.
-    alert('¡Compra realizada con éxito!');
+    this.alertMessage.set('¡Compra realizada con éxito!');
+    this.showAlert.set(true);
   }
 }
