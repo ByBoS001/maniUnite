@@ -22,8 +22,8 @@
   
 
   <div class="flex gap-2">
-    <button class="border rounded w-full py-2">Ver más</button>
-    <button class="bg-teal-500 text-white px-4 py-2 rounded w-full">
+    <button routerLink="/informacion/{{ bingo.id }}" class="border rounded w-full py-2">Ver más</button>
+    <button (click)="buyCard()" class="bg-teal-500 text-white px-4 py-2 rounded w-full">
       Comprar tabla
     </button>
   </div>
@@ -39,3 +39,12 @@
     🔴 En vivo
   </div>
 </div>
+
+<!-- Modal -->
+<app-purchase-modal
+  [open]="showPurchase()"
+  [selectedTables]="1"
+  (close)="showPurchase.set(false)"
+  (completed)="onPurchaseCompleted($event)"
+>
+</app-purchase-modal>

@@ -127,6 +127,28 @@ export class FirebaseService {
     ) as Observable<Bingo[]>;
   }
 
+  getBingoById(id: string): Observable<Bingo | undefined> {
+    const bingoRef = doc(this.firestore, 'bingos', id);
+    return docData(bingoRef, { idField: 'id' }).pipe(
+      map((doc: any) => {
+        if (!doc) return undefined;
+        const bingo: Bingo = {
+          id: doc.id,
+          name: doc.name || '',
+          date: doc.date ? doc.date.toDate() : new Date(),
+          streamUrl: doc.streamUrl || '',
+          status: doc.status || 'upcoming',
+          ongId: doc.ongId || '',
+          imageUrl: doc.imageUrl || '',
+          price: doc.price || 0,
+          userLimit: doc.userLimit || 0,
+          maxTables: doc.maxTables || 0,
+        };
+        return bingo;
+      })
+    );
+  }
+
   // --- Bingo Card Operations ---
   async createUserBingoCards(userId: string, bingoId: string, numberOfCards: number) {
       const cardCollection = collection(this.firestore, 'bingoCards');

@@ -17,18 +17,19 @@
     Volver a bingos disponibles
   </button>
 
-  <div class="grid lg:grid-cols-3 gap-8">
+  <div *ngIf="bingo" class="grid lg:grid-cols-3 gap-8">
     <!-- Info principal -->
     <div class="lg:col-span-2 space-y-8">
       <!-- Imagen y estado -->
       <div class="relative">
         <img
-          src="/assets/bingo-cover.jpg"
+          [src]="bingo.imageUrl"
           class="w-full h-72 object-cover rounded-xl"
           alt="Bingo"
         />
         <div class="absolute top-4 left-4">
           <span
+            *ngIf="bingo.status === 'live'"
             class="bg-red-600 text-white px-3 py-1 text-xs rounded-full animate-pulse"
             >🔴 En vivo</span
           >
@@ -37,94 +38,37 @@
 
       <!-- Descripción -->
       <div>
-        <h1 class="text-3xl font-bold mb-2">Bingo por la Educación</h1>
+        <h1 class="text-3xl font-bold mb-2">{{ bingo.name }}</h1>
         <div class="flex items-center gap-3 mb-4">
-          <img
-            src="/assets/logo-ong.png"
-            alt="ONG"
-            class="w-8 h-8 rounded-full"
-          />
-          <div>
-            <p class="font-medium">Fundación Educa Más</p>
-            <a href="#" class="text-sm text-blue-600 hover:underline"
-              >Ver perfil de la ONG</a
-            >
-          </div>
+          <!-- ONG logo and name will need to be fetched separately if desired -->
+          <!-- For now, just a placeholder -->
+          
+          
         </div>
-        <p class="text-gray-600 mb-6">
-          Ayúdanos a construir aulas digitales para 200 niños en comunidades
-          rurales.
-        </p>
+        <!-- Description is not directly available in Firebase Bingo, remove or add placeholder -->
+        <!-- <p class="text-gray-600 mb-6">{{ bingo.description }}</p> -->
 
         <!-- Fechas -->
         <div class="grid md:grid-cols-2 gap-4">
           <div class="p-4 bg-white rounded-lg shadow">
             <p class="text-gray-500 text-sm mb-1">📅 Fecha</p>
-            <p>jueves, 14 de agosto de 2025</p>
+            <p>{{ bingo.date | date:'fullDate' }}</p>
           </div>
           <div class="p-4 bg-white rounded-lg shadow">
             <p class="text-gray-500 text-sm mb-1">⏰ Hora</p>
-            <p>19:00</p>
+            <p>{{ bingo.date | date:'shortTime' }}</p>
           </div>
           <div class="p-4 bg-white rounded-lg shadow">
             <p class="text-gray-500 text-sm mb-1">🎟️ Precio por tabla</p>
-            <p class="text-xl font-semibold">$25</p>
+            <p class="text-xl font-semibold">{{ bingo.price | currency }}</p>
           </div>
           <div class="p-4 bg-white rounded-lg shadow">
             <p class="text-gray-500 text-sm mb-1">👥 Tablas disponibles</p>
-            <p>180 de 500</p>
+            <p>{{ bingo.maxTables - (bingo.userLimit || 0) }} de {{ bingo.maxTables }}</p>
           </div>
         </div>
 
-        <!-- Meta de recaudación -->
-        <div class="bg-white p-6 rounded-xl shadow">
-          <div class="flex items-center mb-4 gap-2">
-            <span>🎯</span>
-            <h3 class="text-lg font-semibold">Meta de recaudación</h3>
-          </div>
-          <div class="mb-2 flex justify-between text-sm text-gray-500">
-            <span>Progreso</span>
-            <span>$32,450 / $50,000</span>
-          </div>
-          <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
-            <div class="h-3 bg-green-500 w-[65%]"></div>
-          </div>
-          <p class="text-sm mt-2 text-gray-500">65% completado</p>
-        </div>
-
-        <!-- Premios destacados -->
-        <div class="bg-white p-6 rounded-xl shadow">
-          <div class="flex items-center mb-4 gap-2">
-            <span>🎁</span>
-            <h3 class="text-lg font-semibold">Premios destacados</h3>
-          </div>
-          <div class="grid md:grid-cols-3 gap-4 text-center">
-            <div class="border p-4 rounded-xl">🎁 iPhone 15</div>
-            <div class="border p-4 rounded-xl">🎁 Tablet Samsung</div>
-            <div class="border p-4 rounded-xl">🎁 Auriculares Sony</div>
-          </div>
-        </div>
-
-        <!-- Causa -->
-        <div class="bg-blue-50 p-6 rounded-xl shadow text-center">
-          <p class="text-xl font-semibold mb-2">
-            💙 "Con tu tabla no solo puedes ganar, también ayudas a causas
-            reales."
-          </p>
-          <div class="flex items-center justify-center gap-3">
-            <img
-              src="/assets/logo-ong.png"
-              class="w-10 h-10 rounded-full"
-              alt="ONG"
-            />
-            <div>
-              <p class="font-semibold">Fundación Educa Más</p>
-              <p class="text-sm text-gray-500">
-                Transformando vidas a través de la educación
-              </p>
-            </div>
-          </div>
-        </div>
+        
       </div>
     </div>
 
@@ -134,8 +78,8 @@
         <h3 class="text-xl font-semibold mb-4">Comprar tablas</h3>
 
         <!-- Aviso de pocas tablas -->
-        <div class="bg-yellow-100 text-yellow-800 p-3 rounded mb-6 text-sm">
-          ⚠️ Solo quedan 180 tablas disponibles
+        <div *ngIf="bingo.maxTables - (bingo.userLimit || 0) < 50" class="bg-yellow-100 text-yellow-800 p-3 rounded mb-6 text-sm">
+          ⚠️ Solo quedan {{ bingo.maxTables - (bingo.userLimit || 0) }} tablas disponibles
         </div>
 
         <!-- Selector -->
@@ -157,17 +101,17 @@
             </button>
           </div>
           <p class="text-xs text-gray-500 mt-2 text-center">
-            💡 Máximo 5 tablas por usuario
+            💡 Máximo {{ bingo.userLimit }} tablas por usuario
           </p>
         </div>
 
         <!-- Total -->
         <div class="bg-gray-50 p-4 rounded-lg mb-4">
           <p class="text-sm text-gray-500">Total a pagar</p>
-          <p class="text-2xl font-bold">${{ 25 * selectedTables() }}</p>
+          <p class="text-2xl font-bold">{{ bingo.price * selectedTables() | currency }}</p>
           <p class="text-sm text-gray-500">
             {{ selectedTables() }} tabla{{ selectedTables() > 1 ? "s" : "" }} ×
-            $25
+            {{ bingo.price | currency }}
           </p>
         </div>
 
@@ -194,7 +138,7 @@
               PP
             </div>
             <div
-              class="w-10 h-6 bg-green-100 rounded flex items-center justify-center"
+              class="w-10 h-6 bg-green-100 rounded flex flex-col items-center justify-center"
             >
               🏦
             </div>

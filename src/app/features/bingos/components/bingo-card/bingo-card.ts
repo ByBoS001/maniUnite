@@ -1,6 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Bingo as FirebaseBingo } from '../../../../core/services/firebase.service';
+import { RouterModule } from '@angular/router';
+import { Bingo as FirebaseBingo, FirebaseService } from '../../../../core/services/firebase.service';
+import { AuthStore } from '../../../../core/services/auth-store';
+import { firstValueFrom } from 'rxjs';
+import { PurchaseModalComponent } from '../../../../components/purchase-modal/purchase-modal';
 
 export interface Bingo extends FirebaseBingo {
   // Add any additional properties needed by the BingoCard component
@@ -14,10 +18,12 @@ export interface Bingo extends FirebaseBingo {
   // active: boolean;
 }
 
+type PaymentMethod = 'transfer' | 'card'; // Define PaymentMethod here
+
 @Component({
   selector: 'app-bingo-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule, PurchaseModalComponent],
   templateUrl: './bingo-card.html',
   styleUrl: './bingo-card.scss',
 })
@@ -25,21 +31,40 @@ export class BingoCard {
   @Input() bingo!: Bingo;
   @Input() maxTables: number = 5;
 
-  // Assuming 'name' from FirebaseBingo maps to 'title'
-  // Assuming 'price' from FirebaseBingo is the price
-  // Assuming 'maxTables' from FirebaseBingo is the total tables
+  showPurchase = signal(false); // Added showPurchase signal
 
-  // These properties need to be derived or added to FirebaseBingo if they are truly needed
-  // For now, I will make them optional or provide dummy values.
+  private authStore = inject(AuthStore);
+  private firebaseService = inject(FirebaseService);
+
   get progressPercent(): number {
-    // This needs 'collected' and 'goal' which are not in FirebaseBingo
-    // For now, return a dummy value or handle gracefully.
-    return 0; // Placeholder
+    return 0;
   }
 
   get isActive(): boolean {
-    // This needs 'active' property which is not in FirebaseBingo
-    // For now, return a dummy value or handle gracefully.
-    return this.bingo.status === 'live'; // Assuming 'status' can determine activeness
+    return this.bingo.status === 'live';
+  }
+
+  async buyCard() {
+    const user = await firstValueFrom(this.authStore.userProfile$);
+    if (!user || !user.uid) {
+      alert('Debes iniciar sesión para comprar una tabla.');
+      return;
+    }
+
+    if (!this.bingo.id) {
+      alert('Error: ID del bingo no disponible.');
+      return;
+    }
+
+    this.showPurchase.set(true); // Open the purchase modal
+  }
+
+  onPurchaseCompleted(event: { method: PaymentMethod, payload: any }) {
+    this.showPurchase.set(false); // Close the modal
+    console.log('Purchase completed event:', event);
+    // Here you would typically integrate with your backend to process the payment
+    // For now, we'll just show an alert
+    alert('¡Tabla comprada con éxito!');
+    // You might want to update the bingo data or user's purchased cards here
   }
 }

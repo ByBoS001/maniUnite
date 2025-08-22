@@ -16,7 +16,7 @@ export class PurchaseModalComponent {
   @Output() close = new EventEmitter<void>();
   @Output() completed = new EventEmitter<{ method: PaymentMethod, payload: any }>();
 
-  isLoggedIn = signal(false);     // pseudo-login: continuar como invitado
+  
   submitted = signal(false);
   activeMethod = signal<PaymentMethod>('transfer');
 
@@ -85,12 +85,9 @@ export class PurchaseModalComponent {
     this.paymentForm.get('proofFile')?.setValue(file);
   }
 
-  continueAsGuest() {
-    this.isLoggedIn.set(true);
-  }
+  
 
   submit() {
-    if (!this.isLoggedIn()) return;
     const method = this.activeMethod();
     if (method === 'transfer') {
       this.paymentForm.get('transferNumber')?.markAsTouched();
